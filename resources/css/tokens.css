@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Design Tokens — International Projects Web Portal (ESI)
+   Source: Figma — "STAGE internationalPortal UI UX", Color Palette frame
+   ========================================================================== */
+
+:root {
+  /* Brand palette (named exactly as in the Figma "color palet" frame) */
+  --color-ink-black: #00171F;      /* primary text */
+  --color-deep-space-blue: #003459; /* footer bg, primary buttons/borders */
+  --color-cerulean: #007EA7;       /* secondary accent */
+  --color-fresh-sky: #00A8E8;      /* active/highlight accent (e.g. active language) */
+  --color-white: #FFFFFF;
+
+  /* Footer-specific tones (sampled from the Footer component) */
+  --color-footer-border: #20496F;
+  --color-footer-text: #CEE6F2;
+  --color-footer-divider: #3A6188;
+
+  /* Semantic aliases */
+  --color-text-primary: var(--color-ink-black);
+  --color-text-inverse: var(--color-white);
+  --color-surface: var(--color-white);
+  --color-surface-inverse: var(--color-deep-space-blue);
+  --color-accent: var(--color-fresh-sky);
+  --color-border: var(--color-deep-space-blue);
+
+  /* Typography */
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+  --fs-nav: 17px;
+  --fs-small: 14px;
+  --fs-button: 15px;
+  --fs-brand: 20px;
+
+  /* Layout */
+  --container-max: 1416px;
+  --header-height: 80px;
+  --radius-pill: 15px;
+  --radius-sm: 3px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 14px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Admin / back-office neutrals */
+  --color-neutral-50: #F7F9FA;
+  --color-neutral-100: #EEF2F5;
+  --color-neutral-300: #D8E1E8;
+  --color-neutral-500: #6B7C88;
+  --color-neutral-700: #37474F;
+  --color-danger: #E63946;
+
+  --sidebar-width: 240px;
+  --admin-header-height: 64px;
+}

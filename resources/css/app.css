@@ -1,9 +1,4 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
+/* Intentionally minimal.
+   All design-system styles (tokens, base, header, footer, admin-*) are
+   imported from resources/js/app.js so Vite bundles them together.
+   Keep page-specific / one-off CSS here if you don't want a whole new file per page. */

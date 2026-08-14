@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Admin Layout — arranges admin-header (top) + admin-sidebar (left) + content
+   ========================================================================== */
+
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.admin-layout__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.admin-layout__content {
+  flex: 1;
+  padding: 32px;
+  background: var(--color-neutral-50);
+}
+
+@media (max-width: 900px) {
+  .admin-layout__body {
+    flex-direction: column;
+  }
+}

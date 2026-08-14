@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Admin Header — back-office top bar
+   Source: user-provided screenshot, 2026-08-13
+   ========================================================================== */
+
+.admin-header {
+  width: 100%;
+  height: var(--admin-header-height);
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-neutral-300);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 24px;
+  position: relative;
+}
+/* thin brand accent under the logo, per screenshot */
+.admin-header::after {
+  content: "";
+  position: absolute;
+  left: 24px;
+  bottom: -1px;
+  width: 40px;
+  height: 3px;
+  background: var(--color-fresh-sky);
+}
+
+.admin-header__logo {
+  height: 30px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+/* Search ------------------------------------------------------------ */
+.admin-header__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 420px;
+  max-width: 420px;
+  background: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 8px 14px;
+}
+.admin-header__search svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-neutral-500);
+  flex-shrink: 0;
+}
+.admin-header__search input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  width: 100%;
+}
+.admin-header__search input::placeholder {
+  color: var(--color-neutral-500);
+}
+
+/* Right side ------------------------------------------------------------ */
+.admin-header__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-header__icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.admin-header__icon-btn:hover,
+.admin-header__icon-btn:focus-visible {
+  background: var(--color-neutral-100);
+}
+.admin-header__icon-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-ink-black);
+}
+.admin-header__badge {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: 1.5px solid var(--color-white);
+}
+
+.admin-header__profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+.admin-header__profile:hover,
+.admin-header__profile:focus-visible {
+  background: var(--color-neutral-100);
+}
+.admin-header__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.admin-header__profile-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.admin-header__profile-name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+}
+.admin-header__profile-role {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+.admin-header__profile > svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-neutral-500);
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .admin-header__search {
+    display: none;
+  }
+}
