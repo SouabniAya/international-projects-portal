@@ -1,0 +1,16 @@
+@import 'pages/projects.css';
+@import 'pages/admin-opportunities.css';
+@import 'pages/admin-users.css';
+@import 'pages/admin-requests-documents.css';
+@import 'pages/admin-project-details.css';
+@import 'pages/admin-partners.css';
+@import 'pages/admin-documents.css';
+@import 'pages/admin-projects.css';
+@import './pages/admin-calls.css';
+@import './pages/admin-partner-management.css';
+@import './pages/admin-funding-programmes.css';
+@import './pages/admin-requests.css';
+@import './pages/admin-mobility-details.css';
+@import './pages/admin-agreements.css';
+@import 'pages/call-details.css';
+@import './pages/admin-notifications.css';

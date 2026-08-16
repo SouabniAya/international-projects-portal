@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Notifications page
+   ========================================================================== */
+
+.notif-page {
+  padding: 32px;
+}
+
+/* Back link ------------------------------------------------------------ */
+.notif-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-cerulean);
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+.notif-page__back svg {
+  width: 16px;
+  height: 16px;
+}
+.notif-page__back:hover { text-decoration: underline; }
+
+/* Head ------------------------------------------------------------ */
+.notif-page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.notif-page__head h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  color: var(--color-text-primary);
+  margin: 0 0 6px;
+}
+.notif-page__head p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+.notif-page__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.notif-page__btn svg {
+  width: 16px;
+  height: 16px;
+}
+.notif-page__btn:hover { opacity: 0.92; }
+
+/* Table ------------------------------------------------------------ */
+.notif-table-wrap {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.notif-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.notif-table th {
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  white-space: nowrap;
+}
+.notif-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  vertical-align: top;
+}
+.notif-table tbody tr:last-child td { border-bottom: 0; }
+
+.notif-table__title {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 380px;
+}
+.notif-table__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-white);
+}
+.notif-table__icon svg {
+  width: 18px;
+  height: 18px;
+}
+.notif-table__icon--purple { background: #7C4FE0; }
+.notif-table__icon--orange { background: #F0A94E; }
+.notif-table__icon--green { background: #2FAE6B; }
+.notif-table__icon--blue { background: var(--color-cerulean); }
+.notif-table__icon--gray { background: var(--color-neutral-500); }
+.notif-table__icon--pink { background: #E0568F; }
+
+.notif-table__title strong {
+  display: block;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+.notif-table__title span {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-neutral-500);
+}
+
+.notif-table__tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.notif-table__tag--call-for-proposals { background: #E8F1FB; color: var(--color-cerulean); }
+.notif-table__tag--mobility { background: #E6F4EA; color: #1E7E34; }
+.notif-table__tag--event { background: #F1E9FB; color: #6C3FB8; }
+.notif-table__tag--information { background: var(--color-neutral-100, #EEE); color: var(--color-neutral-500); }
+.notif-table__tag--reminder { background: #FBE7F1; color: #C23477; }
+
+.notif-table__priority {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.notif-table__priority--high { background: #FBE7E7; color: #C23434; }
+.notif-table__priority--medium { background: #FDEFE0; color: #B4691E; }
+.notif-table__priority--low { background: #E6F4EA; color: #1E7E34; }
+
+.notif-table__status {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.notif-table__status--sent { background: #E6F4EA; color: #1E7E34; }
+.notif-table__status--scheduled { background: #E8F1FB; color: var(--color-cerulean); }
+.notif-table__status--draft { background: var(--color-neutral-100, #EEE); color: var(--color-neutral-500); }
+
+.notif-table__datetime {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+}
+.notif-table__datetime span:first-child {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.notif-table__datetime span:last-child {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+.notif-table__dash {
+  color: var(--color-neutral-500);
+}
+
+.notif-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.notif-table__actions a,
+.notif-table__actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+}
+.notif-table__actions a { color: var(--color-cerulean); }
+.notif-table__actions svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Pagination ------------------------------------------------------------ */
+.notif-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+.notif-pagination span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+}
+.notif-pagination__buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.notif-pagination__buttons button {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 6px;
+  background: var(--color-white);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.notif-pagination__buttons button.is-active {
+  background: var(--color-deep-space-blue);
+  color: var(--color-white);
+  border-color: var(--color-deep-space-blue);
+}
+.notif-pagination__buttons span {
+  padding: 0 4px;
+}

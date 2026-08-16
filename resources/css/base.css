@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Base / Global styles
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Montserrat:wght@700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+/* RTL support — flip on <html dir="rtl"> for Arabic (FR-11.1 / NFR-4.1) */
+[dir="rtl"] .site-header__inner,
+[dir="rtl"] .site-header__nav,
+[dir="rtl"] .site-header__staff,
+[dir="rtl"] .site-header__lang,
+[dir="rtl"] .site-footer__top,
+[dir="rtl"] .site-footer__links {
+  direction: rtl;
+}
+
+[dir="rtl"] .admin-layout__body {
+  flex-direction: row-reverse;
+}
+.page-placeholder {
+  max-width: 1416px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  min-height: 40vh;
+  color: var(--color-cerulean);
+  font-family: var(--font-body);
+}

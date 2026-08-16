@@ -1,0 +1,570 @@
+/* ==========================================================================
+   Admin — Call for Proposals Management (cfp-*)
+   ========================================================================== */
+
+.cfp-page {
+    padding: 32px 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Back link
+   ========================================================================== */
+
+.cfp-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2563eb;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.cfp-page__back svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cfp-page__back:hover {
+    text-decoration: underline;
+}
+
+/* Header
+   ========================================================================== */
+
+.cfp-page__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.cfp-page__head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 6px;
+}
+
+.cfp-page__head p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.cfp-page__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    background: #2563eb;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+
+.cfp-page__btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cfp-page__btn:hover {
+    background: #1d4ed8;
+}
+
+/* Filters panel
+   ========================================================================== */
+
+.cfp-filters {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.cfp-filters__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.cfp-filters__search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.cfp-filters__search svg {
+    width: 18px;
+    height: 18px;
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.cfp-filters__search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: #111827;
+    width: 100%;
+}
+
+.cfp-filters__search input::placeholder {
+    color: #9ca3af;
+}
+
+.cfp-filters__reset,
+.cfp-filters__export {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.cfp-filters__reset svg,
+.cfp-filters__export svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cfp-filters__reset:hover,
+.cfp-filters__export:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.cfp-filters__row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.cfp-filters__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cfp-filters__field span {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.cfp-filters__select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    color: #111827;
+    cursor: pointer;
+}
+
+.cfp-filters__select svg {
+    width: 16px;
+    height: 16px;
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+/* Toolbar
+   ========================================================================== */
+
+.cfp-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.cfp-toolbar__count {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.cfp-toolbar__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.cfp-toolbar__sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cfp-toolbar__sort span {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.cfp-toolbar__select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 14px;
+    color: #111827;
+    cursor: pointer;
+}
+
+.cfp-toolbar__select svg {
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+}
+
+.cfp-toolbar__view {
+    display: flex;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.cfp-toolbar__view button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cfp-toolbar__view button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.cfp-toolbar__view button.is-active {
+    background: #fff;
+    color: #111827;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Table
+   ========================================================================== */
+
+.cfp-table-wrap {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cfp-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cfp-table thead th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 14px 20px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+.cfp-table tbody td {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #374151;
+    border-bottom: 1px solid #f1f2f4;
+    vertical-align: middle;
+}
+
+.cfp-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cfp-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.cfp-table__call {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cfp-table__flag {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f3f4f6;
+}
+
+.cfp-table__call strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.35;
+}
+
+.cfp-table__call span {
+    display: block;
+    font-size: 12.5px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.cfp-table__tag {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #3730a3;
+    background: #eef2ff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.cfp-table__deadline {
+    font-weight: 600;
+    color: #dc2626;
+}
+
+.cfp-table__status {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.cfp-table__status--open {
+    color: #15803d;
+    background: #dcfce7;
+}
+
+.cfp-table__status--open-soon {
+    color: #b45309;
+    background: #fef3c7;
+}
+
+.cfp-table__status--upcoming {
+    color: #1d4ed8;
+    background: #dbeafe;
+}
+
+.cfp-table__status--closed {
+    color: #b91c1c;
+    background: #fee2e2;
+}
+
+.cfp-table__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.cfp-table__actions a,
+.cfp-table__actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.cfp-table__actions a svg,
+.cfp-table__actions button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.cfp-table__actions a:hover,
+.cfp-table__actions button:hover {
+    color: #111827;
+}
+
+/* Pagination
+   ========================================================================== */
+
+.cfp-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.cfp-pagination span {
+    font-size: 13.5px;
+    color: #6b7280;
+}
+
+.cfp-pagination__buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cfp-pagination__buttons button {
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #374151;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.cfp-pagination__buttons button:hover {
+    background: #f9fafb;
+}
+
+.cfp-pagination__buttons button.is-active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.cfp-pagination__buttons span {
+    padding: 0 4px;
+    color: #9ca3af;
+}
+
+/* Responsive
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .cfp-filters__row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cfp-page {
+        padding: 24px 16px 40px;
+    }
+
+    .cfp-page__head {
+        flex-direction: column;
+    }
+
+    .cfp-filters__row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cfp-table-wrap {
+        overflow-x: auto;
+    }
+
+    .cfp-table {
+        min-width: 820px;
+    }
+}
+
+/* ==========================================================================
+   RTL support (Arabic)
+   Assumes <html dir="rtl"> is set when locale is Arabic.
+   ========================================================================== */
+
+[dir="rtl"] .cfp-page__back svg {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .cfp-filters__field span,
+[dir="rtl"] .cfp-filters__select span,
+[dir="rtl"] .cfp-toolbar__sort span,
+[dir="rtl"] .cfp-toolbar__select span {
+    text-align: right;
+}
+
+[dir="rtl"] .cfp-filters__search {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cfp-filters__search input {
+    text-align: right;
+}
+
+[dir="rtl"] .cfp-filters__reset,
+[dir="rtl"] .cfp-filters__export {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cfp-table th,
+[dir="rtl"] .cfp-table td {
+    text-align: right;
+}
+
+[dir="rtl"] .cfp-table__call {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cfp-table__actions {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cfp-pagination__buttons {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cfp-pagination__buttons button[aria-label] svg {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .cfp-toolbar__view button svg {
+    transform: none;
+}

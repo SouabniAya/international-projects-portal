@@ -1,0 +1,193 @@
+/* ==========================================================================
+   Admin Requests & Documents Management page
+   ========================================================================== */
+
+.reqdocs-page {
+  padding: 32px 40px;
+}
+.reqdocs-page__head {
+  margin-bottom: 24px;
+}
+.reqdocs-page__head h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  color: var(--color-text-primary);
+  margin: 0 0 6px;
+}
+.reqdocs-page__head p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+/* Panels ------------------------------------------------------------ */
+.reqdocs-panel {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.reqdocs-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+.reqdocs-panel__head h2 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.reqdocs-panel__view-all {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-cerulean);
+  border: 1px solid var(--color-cerulean);
+  border-radius: var(--radius-pill);
+  padding: 6px 16px;
+  text-decoration: none;
+}
+.reqdocs-panel__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 9px 16px;
+  cursor: pointer;
+}
+.reqdocs-panel__add svg { width: 15px; height: 15px; }
+
+/* Table ------------------------------------------------------------ */
+.reqdocs-table-wrap {
+  overflow-x: auto;
+}
+.reqdocs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.reqdocs-table th {
+  text-align: left;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-text-primary);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  white-space: nowrap;
+}
+.reqdocs-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-neutral-100, #F1F1F1);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+.reqdocs-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.reqdocs-table__center {
+  text-align: center;
+}
+
+.reqdocs-table__requester {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reqdocs-table__dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-cerulean);
+  flex-shrink: 0;
+}
+.reqdocs-table__requester div {
+  display: flex;
+  flex-direction: column;
+}
+.reqdocs-table__requester strong {
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.reqdocs-table__requester span {
+  font-size: 12.5px;
+  color: var(--color-neutral-500);
+}
+
+.reqdocs-table__flag {
+  width: 26px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.reqdocs-table__status {
+  font-weight: 600;
+}
+.reqdocs-table__status--new { color: var(--color-cerulean); }
+.reqdocs-table__status--pending { color: #B4691E; }
+
+.reqdocs-table__unassigned {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.reqdocs-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reqdocs-table__actions button {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  background: var(--color-white);
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+.reqdocs-table__actions button svg { width: 16px; height: 16px; }
+.reqdocs-table__actions button:hover { background: var(--color-neutral-100, #F5F5F5); }
+
+.reqdocs-table__icon-btn--approve {
+  color: #1E7E34;
+  border-color: #BFE5C9;
+}
+.reqdocs-table__icon-btn--reject {
+  color: var(--color-danger);
+  border-color: #F3C6C6;
+}
+
+.reqdocs-table__doc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reqdocs-table__doc-icon { width: 22px; height: 22px; color: var(--color-danger); flex-shrink: 0; }
+.reqdocs-table__filelink {
+  color: var(--color-cerulean);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .reqdocs-page { padding: 24px 16px; }
+  .reqdocs-table th, .reqdocs-table td { padding: 12px; }
+}

@@ -1,0 +1,504 @@
+/* ==========================================================================
+   Admin — Mobility Opportunity Details (mob-*)
+   ========================================================================== */
+
+.mob-page {
+    padding: 32px 40px 60px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* Back link
+   ========================================================================== */
+
+.mob-page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2563eb;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.mob-page__back svg {
+    width: 16px;
+    height: 16px;
+}
+
+.mob-page__back:hover {
+    text-decoration: underline;
+}
+
+/* Header
+   ========================================================================== */
+
+.mob-page__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.mob-page__head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 12px;
+}
+
+.mob-page__badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mob-badge {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.mob-badge--outgoing { color: #1d4ed8; background: #dbeafe; }
+.mob-badge--incoming { color: #7c3aed; background: #ede9fe; }
+.mob-badge--open { color: #15803d; background: #dcfce7; }
+.mob-badge--closed { color: #b91c1c; background: #fee2e2; }
+.mob-badge--upcoming { color: #b45309; background: #fef3c7; }
+
+.mob-page__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.mob-page__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 11px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.mob-page__btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.mob-page__btn--primary {
+    background: #2563eb;
+    color: #fff;
+    border: 1px solid #2563eb;
+}
+
+.mob-page__btn--primary:hover {
+    background: #1d4ed8;
+}
+
+.mob-page__btn--secondary {
+    background: #fff;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.mob-page__btn--secondary:hover {
+    background: #f9fafb;
+}
+
+/* Two-column layout
+   ========================================================================== */
+
+.mob-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    align-items: start;
+}
+
+.mob-main {
+    min-width: 0;
+}
+
+.mob-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.mob-card--intro {
+    padding: 28px;
+}
+
+/* Intro block
+   ========================================================================== */
+
+.mob-intro {
+    display: flex;
+    gap: 18px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f2f4;
+}
+
+.mob-intro__logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #f3f4f6;
+    border: 1px solid #f1f2f4;
+}
+
+.mob-intro__institution {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.mob-intro h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px;
+}
+
+.mob-intro__subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 10px;
+}
+
+.mob-intro__meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.mob-intro__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mob-intro__meta svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.mob-intro__divider {
+    color: #d1d5db;
+}
+
+.mob-intro__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.mob-tag {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #3730a3;
+    background: #eef2ff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* Sections
+   ========================================================================== */
+
+.mob-section {
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid #f1f2f4;
+}
+
+.mob-card--intro .mob-section:first-of-type {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: none;
+}
+
+.mob-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 12px;
+}
+
+.mob-section p {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #4b5563;
+    margin: 0;
+}
+
+.mob-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
+    margin-top: 12px;
+}
+
+.mob-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+.mob-link:hover {
+    text-decoration: underline;
+}
+
+/* Key information grid
+   ========================================================================== */
+
+.mob-keyinfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+}
+
+.mob-keyinfo__col {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mob-keyinfo__col li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f6f7f8;
+}
+
+.mob-keyinfo__col li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.mob-keyinfo__label {
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.mob-keyinfo__value {
+    color: #111827;
+    font-weight: 600;
+    text-align: right;
+}
+
+.mob-keyinfo__value--highlight {
+    color: #dc2626;
+}
+
+.mob-keyinfo__value--link {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.mob-keyinfo__value--link:hover {
+    text-decoration: underline;
+}
+
+/* Sidebar
+   ========================================================================== */
+
+.mob-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mob-side .mob-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 14px;
+}
+
+/* Date list */
+
+.mob-datelist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mob-datelist li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13.5px;
+}
+
+.mob-datelist__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+}
+
+.mob-datelist__label svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: #9ca3af;
+}
+
+.mob-datelist__value {
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+}
+
+.mob-datelist__value--highlight {
+    color: #dc2626;
+}
+
+/* Document list */
+
+.mob-doclist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mob-doclist li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #374151;
+}
+
+.mob-doclist li svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: #9ca3af;
+}
+
+/* Share buttons */
+
+.mob-share {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mob-share__btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+    transition: opacity 0.15s ease;
+}
+
+.mob-share__btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mob-share__btn:hover {
+    opacity: 0.85;
+}
+
+.mob-share__btn--linkedin { background: #0a66c2; }
+.mob-share__btn--facebook { background: #1877f2; }
+.mob-share__btn--x { background: #000; }
+.mob-share__btn--email {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Responsive
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+    .mob-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .mob-side {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .mob-side .mob-card {
+        flex: 1 1 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mob-page {
+        padding: 24px 16px 40px;
+    }
+
+    .mob-page__head {
+        flex-direction: column;
+    }
+
+    .mob-page__actions {
+        width: 100%;
+    }
+
+    .mob-page__btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .mob-intro {
+        flex-direction: column;
+    }
+
+    .mob-keyinfo {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .mob-side {
+        flex-direction: column;
+    }
+}

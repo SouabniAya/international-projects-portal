@@ -1,0 +1,130 @@
+/* ==========================================================================
+   Public Footer — shared site component (replaces the earlier simple footer)
+   Source: user-provided screenshot, 2026-08-13
+   ========================================================================== */
+
+.footer-public {
+  width: 100%;
+  background: var(--color-deep-space-blue);
+  border-top: 3px solid var(--color-ink-black);
+}
+
+.footer-public__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 40px 48px 28px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.2fr 1fr;
+  gap: 32px;
+}
+
+/* Brand column ---------------------------------------------------------- */
+.footer-public__brand-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.footer-public__brand-top img {
+  height: 34px;
+  width: auto;
+}
+.footer-public__brand-top strong {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  color: var(--color-white);
+}
+.footer-public__office {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-white);
+  margin: 0 0 12px;
+}
+.footer-public__desc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-footer-text);
+  margin: 0 0 16px;
+  max-width: 32ch;
+}
+.footer-public__socials {
+  display: flex;
+  gap: 10px;
+}
+.footer-public__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-white);
+}
+.footer-public__socials svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Link columns ------------------------------------------------------------ */
+.footer-public__col h4 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-fresh-sky);
+  margin: 0 0 16px;
+}
+.footer-public__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.footer-public__col a {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-white);
+  text-decoration: none;
+}
+.footer-public__col a:hover,
+.footer-public__col a:focus-visible {
+  color: var(--color-fresh-sky);
+  text-decoration: underline;
+}
+
+.footer-public__contact p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-white);
+  margin: 0 0 4px;
+}
+
+/* Bottom bar ---------------------------------------------------------- */
+.footer-public__bottom {
+  border-top: 1px solid var(--color-footer-divider);
+  padding: 16px 48px;
+  text-align: center;
+}
+.footer-public__bottom p {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-footer-text);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .footer-public__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .footer-public__inner {
+    grid-template-columns: 1fr;
+  }
+}
