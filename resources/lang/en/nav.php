@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'home' => 'Home',
+    'partnerships' => 'Partnerships',
+    'about' => 'About ESI',
+    'projects' => 'Projects',
+    'calls' => 'Calls',
+    'mobility' => 'Mobility',
+    'documents' => 'Documents',
+    'faq' => 'FAQ',
+    'contact' => 'Contact',
+    'staff_portal' => 'Staff Portal',
+    'sign_in' => 'Sign In',
+    'quick_links' => 'Quick Links',
+    'resources' => 'Resources',
+    'contact_heading' => 'Contact',
+    'testimonials' => 'Testimonials',
+    'research_funding_programmes' => 'Research Funding Programmes',
+    'partner_institutions' => 'Partner Institutions',
+    'faqs' => 'FAQs',
+    'school_name' => 'Higher School of Computer Science',
+    'office_name' => 'International Cooperation & Projects Office',
+    'tagline' => 'Building bridges through international collaboration, research and academic excellence.',
+    'copyright' => '© :year École Supérieure d\'Informatique. All rights reserved.',
+];

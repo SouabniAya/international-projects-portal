@@ -1,8 +1,4 @@
-{{--
-    Admin Header component (back-office top bar)
-    Usage: <x-admin-header />
-    Assumes an authenticated user with ->name and, once roles exist, ->role->label or similar.
---}}
+{{-- Admin Header component (back-office top bar). Assumes an authenticated user. --}}
 <header class="admin-header">
 
   <a href="{{ url('/admin') }}" aria-label="Admin home">
@@ -14,7 +10,7 @@
       <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
       <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
-    <input type="search" placeholder="Search for users, roles, permissions...">
+    <input type="search" placeholder="{{ __('admin.search_placeholder') }}">
   </div>
 
   <div class="admin-header__right">
@@ -35,7 +31,7 @@
       </svg>
     </button>
 
-    <div class="admin-header__profile" role="button" tabindex="0" aria-haspopup="true">
+    <div class="admin-header__profile" data-dropdown-toggle="profileMenu" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
       <span class="admin-header__avatar">
         {{-- initials fallback; swap for <img src="{{ auth()->user()->avatar_url }}"> once avatars exist --}}
         {{ auth()->check() ? strtoupper(substr(auth()->user()->firstName ?? 'A', 0, 1) . substr(auth()->user()->lastName ?? 'U', 0, 1)) : 'AU' }}
@@ -47,6 +43,25 @@
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{{ url('/admin/profile') }}" class="dropdown-menu__item">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-3.5 3.5-6 8-6s8 2.5 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          {{ __('admin.profile') }}
+        </a>
+        <a href="{{ url('/admin/settings') }}" class="dropdown-menu__item">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4.6a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.2a7 7 0 0 0-2 1.2l-2.4-.6-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-.6a7 7 0 0 0 2 1.2L10 21h4l.5-2.2a7 7 0 0 0 2-1.2l2.4.6 2-3.4-2-1.6c.07-.4.1-.8.1-1.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          {{ __('admin.settings') }}
+        </a>
+        <div class="dropdown-menu__divider"></div>
+        <form method="POST" action="{{ url('/logout') }}" data-demo-submit="Signed out (demo — connect real auth logout once the backend exists).">
+          @csrf
+          <button type="submit" class="dropdown-menu__item dropdown-menu__item--danger">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ __('admin.sign_out') }}
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'home' => 'Accueil',
+    'partnerships' => 'Partenariats',
+    'about' => "À propos de l'ESI",
+    'projects' => 'Projets',
+    'calls' => 'Appels à projets',
+    'mobility' => 'Mobilité',
+    'documents' => 'Documents',
+    'faq' => 'FAQ',
+    'contact' => 'Contact',
+    'staff_portal' => 'Portail du personnel',
+    'sign_in' => 'Connexion',
+    'quick_links' => 'Liens rapides',
+    'resources' => 'Ressources',
+    'contact_heading' => 'Contact',
+    'testimonials' => 'Témoignages',
+    'research_funding_programmes' => 'Programmes de financement de la recherche',
+    'partner_institutions' => 'Établissements partenaires',
+    'faqs' => 'FAQ',
+    'school_name' => "École Supérieure d'Informatique",
+    'office_name' => 'Bureau de Coopération et des Projets Internationaux',
+    'tagline' => "Construire des ponts à travers la coopération internationale, la recherche et l'excellence académique.",
+    'copyright' => '© :year École Supérieure d\'Informatique. Tous droits réservés.',
+];

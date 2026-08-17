@@ -8,3 +8,7 @@ import '../css/footer-public.css';
 import '../css/admin-header.css';
 import '../css/admin-sidebar.css';
 import '../css/admin-layout.css';
+import '../css/hero.css';
+import '../css/components.css';
+import '../css/auth.css';
+import './admin.js';

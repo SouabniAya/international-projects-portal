@@ -78,6 +78,20 @@
   background: transparent;
   cursor: pointer;
   text-decoration: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.site-header__signin:hover,
+.site-header__signin:focus-visible {
+  background: var(--color-deep-space-blue);
+  border-color: var(--color-deep-space-blue);
+}
+.site-header__signin:hover span,
+.site-header__signin:focus-visible span {
+  color: var(--color-white);
+}
+.site-header__signin:hover svg,
+.site-header__signin:focus-visible svg {
+  stroke: var(--color-white);
 }
 .site-header__signin span {
   font-family: var(--font-body);
@@ -98,7 +112,9 @@
   align-items: center;
   gap: 7px;
 }
-.site-header__lang button {
+.site-header__lang a {
+  text-decoration: none;
+  display: inline-block;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -106,11 +122,12 @@
   font-weight: 500;
   font-size: var(--fs-nav);
   color: var(--color-ink-black);
+  text-decoration: none;
   padding: 4px 6px;
   border-radius: var(--radius-sm);
   line-height: 1;
 }
-.site-header__lang button[aria-current="true"] {
+.site-header__lang a[aria-current="true"] {
   background: var(--color-fresh-sky);
   color: var(--color-white);
 }

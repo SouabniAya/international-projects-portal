@@ -58,4 +58,12 @@
 
   --sidebar-width: 240px;
   --admin-header-height: 64px;
+
+  /* Data-viz accents — used ONLY for stat numbers / dashboard trend indicators,
+     never for buttons, links, or chrome. Keeps the rest of the UI on-palette
+     while still giving stats/charts visual variety, per Figma. */
+  --viz-amber: #C97A1A;
+  --viz-green: #1E8A4C;
+  --viz-purple: #6A4C9C;
+  --viz-red: #B4302F;
 }

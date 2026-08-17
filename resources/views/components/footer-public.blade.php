@@ -1,17 +1,14 @@
-{{--
-    Public Footer component
-    Usage: <x-footer-public />
---}}
+{{-- Public Footer component. --}}
 <footer class="footer-public">
   <div class="footer-public__inner">
 
     <div class="footer-public__brand">
       <div class="footer-public__brand-top">
-        <img src="{{ asset('images/logoEsi.png') }}" alt="ESI logo" width="34" height="34">
-        <strong>Higher School of Computer Science</strong>
+        <img src="{{ asset('images/logoEsi.png') }}" alt="ESI logo">
+        <strong>{{ __('nav.school_name') }}</strong>
       </div>
-      <p class="footer-public__office">International Cooperation &amp; Projects Office</p>
-      <p class="footer-public__desc">Building bridges through international collaboration, research and academic excellence.</p>
+      <p class="footer-public__office">{{ __('nav.office_name') }}</p>
+      <p class="footer-public__desc">{{ __('nav.tagline') }}</p>
       <div class="footer-public__socials">
         <a href="mailto:international@esi.dz" aria-label="Email">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#EA4335" stroke-width="2"/><path d="M3 6l9 7 9-7" stroke="#EA4335" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -26,28 +23,29 @@
     </div>
 
     <div class="footer-public__col">
-      <h4>Quick Links</h4>
+      <h4>{{ __('nav.quick_links') }}</h4>
       <ul>
-        <li><a href="{{ url('/') }}">Home</a></li>
-        <li><a href="{{ url('/cooperation') }}">Cooperation</a></li>
-        <li><a href="{{ url('/projects') }}">Projects</a></li>
-        <li><a href="{{ url('/calls') }}">Calls</a></li>
-        <li><a href="{{ url('/mobility') }}">Mobility</a></li>
+        <li><a href="{{ url('/') }}">{{ __('nav.home') }}</a></li>
+        <li><a href="{{ url('/international-presentation') }}">{{ __('nav.about') }}</a></li>
+        <li><a href="{{ url('/projects') }}">{{ __('nav.projects') }}</a></li>
+        <li><a href="{{ url('/calls') }}">{{ __('nav.calls') }}</a></li>
+        <li><a href="{{ url('/mobility') }}">{{ __('nav.mobility') }}</a></li>
+        <li><a href="{{ url('/testimonials') }}">{{ __('nav.testimonials') }}</a></li>
       </ul>
     </div>
 
     <div class="footer-public__col">
-      <h4>Resources</h4>
+      <h4>{{ __('nav.resources') }}</h4>
       <ul>
-        <li><a href="{{ url('/documents') }}">Documents</a></li>
-        <li><a href="{{ url('/funding-programmes') }}">Research Funding Programmes</a></li>
-        <li><a href="{{ url('/partnerships') }}">Partner Institutions</a></li>
-        <li><a href="{{ url('/faq') }}">FAQs</a></li>
+        <li><a href="{{ url('/documents') }}">{{ __('nav.documents') }}</a></li>
+        <li><a href="{{ url('/funding-programmes') }}">{{ __('nav.research_funding_programmes') }}</a></li>
+        <li><a href="{{ url('/partnerships') }}">{{ __('nav.partner_institutions') }}</a></li>
+        <li><a href="{{ url('/faq') }}">{{ __('nav.faqs') }}</a></li>
       </ul>
     </div>
 
     <div class="footer-public__col footer-public__contact">
-      <h4>Contact</h4>
+      <h4>{{ __('nav.contact_heading') }}</h4>
       <p>Algiers, Algeria</p>
       <p><a href="mailto:international@esi.dz">international@esi.dz</a></p>
     </div>
@@ -55,6 +53,6 @@
   </div>
 
   <div class="footer-public__bottom">
-    <p>&copy; {{ date('Y') }} École Supérieure d'Informatique. All rights reserved.</p>
+    <p>{{ __('nav.copyright', ['year' => date('Y')]) }}</p>
   </div>
 </footer>
