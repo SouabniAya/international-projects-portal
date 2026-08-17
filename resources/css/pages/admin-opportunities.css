@@ -3,287 +3,449 @@
    ========================================================================== */
 
 .opportunities-page {
-  padding: 32px 40px;
+    padding: 32px 40px;
 }
+
 .opportunities-page h1 {
-  font-family: var(--font-heading);
-  font-size: 30px;
-  color: var(--color-text-primary);
-  margin: 0 0 8px;
+    font-family: var(--font-heading);
+    font-size: 30px;
+    color: var(--color-text-primary);
+    margin: 0 0 8px;
 }
+
 .opportunities-page__subtitle {
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--color-neutral-500);
-  margin: 0 0 28px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-neutral-500);
+    margin: 0 0 28px;
 }
 
-/* Tabs ------------------------------------------------------------ */
+/* Tabs */
+
 .opportunities-tabs {
-  display: flex;
-  gap: 32px;
-  border-bottom: 1px solid var(--color-neutral-300);
-  margin-bottom: 28px;
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid var(--color-neutral-300);
+    margin-bottom: 28px;
 }
+
 .opportunities-tabs__btn {
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  padding: 0 0 14px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--color-text-primary);
-  cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 0 0 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-text-primary);
+    cursor: pointer;
 }
+
 .opportunities-tabs__btn.is-active {
-  color: var(--color-cerulean);
-  border-bottom-color: var(--color-cerulean);
+    color: var(--color-cerulean);
+    border-bottom-color: var(--color-cerulean);
 }
 
-/* Layout ------------------------------------------------------------ */
+/* Layout */
+
 .opportunities-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .opportunities-layout { grid-template-columns: 1fr; }
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    align-items: start;
 }
 
-/* Filters sidebar ------------------------------------------------------------ */
+/* Filters */
+
 .opportunities-filters {
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 12px;
-  padding: 20px;
-}
-.opportunities-filters__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-.opportunities-filters__head h2 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 18px;
-  margin: 0;
-}
-.opportunities-filters__reset {
-  background: transparent;
-  border: 0;
-  color: var(--color-cerulean);
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.opportunities-filters__field {
-  display: block;
-  margin-bottom: 16px;
-}
-.opportunities-filters__field > span {
-  display: block;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 13.5px;
-  color: var(--color-text-primary);
-  margin-bottom: 6px;
-}
-.opportunities-filters__search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 8px;
-  padding: 9px 12px;
-}
-.opportunities-filters__search svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-neutral-500);
-  flex-shrink: 0;
-}
-.opportunities-filters__search input {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  font-family: var(--font-body);
-  font-size: 14px;
-  width: 100%;
-}
-.opportunities-filters__select {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 8px;
-  padding: 9px 12px;
-  cursor: pointer;
-}
-.opportunities-filters__select span {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-neutral-500);
-}
-.opportunities-filters__select svg {
-  width: 14px;
-  height: 14px;
-  color: var(--color-neutral-500);
-}
-.opportunities-filters__apply {
-  width: 100%;
-  margin-top: 8px;
-  padding: 12px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--color-cerulean);
-  color: var(--color-white);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-}
-.opportunities-filters__apply:hover {
-  filter: brightness(0.95);
+    border: 1px solid var(--color-neutral-300);
+    border-radius: 12px;
+    padding: 20px;
 }
 
-/* Results list ------------------------------------------------------------ */
+.opportunities-filters__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.opportunities-filters__head h2 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0;
+}
+
+.opportunities-filters__reset {
+    background: transparent;
+    border: 0;
+    color: var(--color-cerulean);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.opportunities-filters__field {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.opportunities-filters__field > span {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+}
+
+.opportunities-filters__search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--color-neutral-300);
+    border-radius: 8px;
+    padding: 9px 12px;
+}
+
+.opportunities-filters__search svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-neutral-500);
+    flex-shrink: 0;
+}
+
+.opportunities-filters__search input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 14px;
+    width: 100%;
+}
+
+.opportunities-filters__select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--color-neutral-300);
+    border-radius: 8px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.opportunities-filters__select span {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-neutral-500);
+}
+
+.opportunities-filters__select svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-neutral-500);
+}
+
+.opportunities-filters__apply {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--color-cerulean);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.opportunities-filters__apply:hover {
+    filter: brightness(0.95);
+}
+
+/* Results */
+
 .opportunities-list {
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 12px;
-  overflow: hidden;
+    border: 1px solid var(--color-neutral-300);
+    border-radius: 12px;
+    overflow: hidden;
 }
+
 .opportunity-card {
-  display: flex;
-  gap: 16px;
-  padding: 24px;
-  border-bottom: 1px solid var(--color-neutral-300);
+    display: flex;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--color-neutral-300);
 }
+
 .opportunity-card:last-child {
-  border-bottom: 0;
+    border-bottom: 0;
 }
+
 .opportunity-card__logo img {
-  width: 70px;
-  height: 45px;
-  object-fit: cover;
-  border-radius: 6px;
+    width: 70px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 6px;
 }
+
 .opportunity-card__body {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
+
 .opportunity-card__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
 }
+
 .opportunity-card__head h3 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 16px;
-  margin: 0;
-  color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0;
+    color: var(--color-text-primary);
 }
+
 .opportunity-card__status {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  background: #E6F4EA;
-  color: #1E7E34;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  white-space: nowrap;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    background: #E6F4EA;
+    color: #1E7E34;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
 }
+
 .opportunity-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 10px 0;
 }
+
 .opportunity-card__tag {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  background: #E8F3FA;
-  color: var(--color-cerulean);
-  padding: 4px 10px;
-  border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    background: #E8F3FA;
+    color: var(--color-cerulean);
+    padding: 4px 10px;
+    border-radius: 6px;
 }
+
 .opportunity-card__audience {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--color-neutral-500);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-neutral-500);
 }
+
 .opportunity-card__audience svg {
-  width: 16px;
-  height: 16px;
+    width: 16px;
+    height: 16px;
 }
+
 .opportunity-card__desc {
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--color-neutral-500);
-  margin: 0 0 16px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-neutral-500);
+    margin: 0 0 16px;
 }
+
 .opportunity-card__footer {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
 }
+
 .opportunity-card__deadline {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-danger);
 }
+
 .opportunity-card__deadline svg {
-  width: 15px;
-  height: 15px;
+    width: 15px;
+    height: 15px;
 }
+
 .opportunity-card__view {
-  font-family: var(--font-body);
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--color-cerulean);
-  text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-cerulean);
+    text-decoration: none;
 }
+
+.opportunity-card__view:hover {
+    text-decoration: underline;
+}
+
 .opportunity-card__actions {
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
 }
+
 .opportunity-card__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border-radius: 8px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 13.5px;
-  text-decoration: none;
-  white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+    white-space: nowrap;
 }
+
 .opportunity-card__btn svg {
-  width: 15px;
-  height: 15px;
+    width: 15px;
+    height: 15px;
 }
+
 .opportunity-card__btn--outline {
-  border: 1px solid var(--color-neutral-300);
-  color: var(--color-text-primary);
+    border: 1px solid var(--color-neutral-300);
+    color: var(--color-text-primary);
 }
+
 .opportunity-card__btn--solid {
-  background: var(--color-cerulean);
-  color: var(--color-white);
-  border: 1px solid var(--color-cerulean);
+    background: var(--color-cerulean);
+    color: var(--color-white);
+    border: 1px solid var(--color-cerulean);
+}
+
+/* RTL */
+
+[dir="rtl"] .opportunities-tabs {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .opportunities-layout {
+    grid-template-columns: 280px 1fr;
+}
+
+[dir="rtl"] .opportunities-filters__head,
+[dir="rtl"] .opportunities-filters__select,
+[dir="rtl"] .opportunities-card__head {
+    direction: rtl;
+}
+
+[dir="rtl"] .opportunity-card {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .opportunity-card__head {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .opportunity-card__meta,
+[dir="rtl"] .opportunity-card__footer {
+    direction: rtl;
+}
+
+[dir="rtl"] .opportunity-card__actions {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .opportunities-filters__search {
+    direction: rtl;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .opportunity-card__actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    [dir="rtl"] .opportunity-card__actions {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .opportunities-page {
+        padding: 24px 20px;
+    }
+
+    .opportunities-layout {
+        grid-template-columns: 1fr;
+    }
+
+    [dir="rtl"] .opportunities-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .opportunity-card {
+        flex-direction: column;
+    }
+
+    [dir="rtl"] .opportunity-card {
+        flex-direction: column;
+    }
+
+    .opportunity-card__logo img {
+        width: 70px;
+        height: 45px;
+    }
+
+    .opportunity-card__head {
+        flex-direction: column;
+    }
+
+    [dir="rtl"] .opportunity-card__head {
+        flex-direction: column;
+    }
+
+    .opportunity-card__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .opportunity-card__footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .opportunity-card__actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .opportunity-card__btn {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .opportunities-tabs {
+        gap: 20px;
+        overflow-x: auto;
+    }
+
+    .opportunities-tabs__btn {
+        white-space: nowrap;
+    }
 }

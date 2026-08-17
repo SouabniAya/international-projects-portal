@@ -270,6 +270,40 @@
   color: var(--color-white);
   border-color: var(--color-deep-space-blue);
 }
+html[dir="rtl"] .users-page {
+    direction: rtl;
+}
+
+html[dir="rtl"] .users-page__head,
+html[dir="rtl"] .users-toolbar,
+html[dir="rtl"] .users-pagination {
+    direction: rtl;
+}
+
+html[dir="rtl"] .users-table {
+    direction: rtl;
+}
+
+html[dir="rtl"] .users-table th,
+html[dir="rtl"] .users-table td {
+    text-align: right;
+}
+
+html[dir="rtl"] .users-table__user {
+    flex-direction: row;
+}
+
+html[dir="rtl"] .users-toolbar__search {
+    direction: rtl;
+}
+
+html[dir="rtl"] .users-tabs {
+    direction: rtl;
+}
+
+html[dir="rtl"] .users-pagination__buttons {
+    direction: rtl;
+}
 .users-pagination__buttons span {
   font-family: var(--font-body);
   color: var(--color-neutral-500);
