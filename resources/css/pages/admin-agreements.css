@@ -1,0 +1,530 @@
+/* ==========================================================================
+   Agreement Management page
+   ========================================================================== */
+
+.agr-page {
+  padding: 32px;
+}
+
+/* Back link ------------------------------------------------------------ */
+.agr-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-cerulean);
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+.agr-page__back svg {
+  width: 16px;
+  height: 16px;
+}
+.agr-page__back:hover { text-decoration: underline; }
+
+/* Head ------------------------------------------------------------ */
+.agr-page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.agr-page__head h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  color: var(--color-text-primary);
+  margin: 0 0 6px;
+}
+.agr-page__head p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+.agr-page__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.agr-page__btn svg {
+  width: 16px;
+  height: 16px;
+}
+.agr-page__btn:hover { opacity: 0.92; }
+
+/* Filters ------------------------------------------------------------ */
+.agr-filters {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.agr-filters__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+.agr-filters__search svg {
+  width: 18px;
+  height: 18px;
+  color: var(--color-neutral-500);
+  flex-shrink: 0;
+}
+.agr-filters__search input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 100%;
+}
+
+.agr-filters__row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) auto;
+  gap: 16px;
+  align-items: end;
+}
+@media (max-width: 1100px) {
+  .agr-filters__row { grid-template-columns: repeat(2, 1fr); }
+}
+
+.agr-filters__field label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  margin-bottom: 6px;
+}
+.agr-filters__select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.agr-filters__select span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+.agr-filters__select svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-neutral-500);
+  flex-shrink: 0;
+}
+
+.agr-filters__actions {
+  display: flex;
+  gap: 10px;
+}
+.agr-filters__reset,
+.agr-filters__export {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.agr-filters__reset {
+  background: transparent;
+  border: 1px solid var(--color-neutral-300);
+  color: var(--color-text-primary);
+}
+.agr-filters__export {
+  background: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  color: var(--color-text-primary);
+}
+.agr-filters__reset svg,
+.agr-filters__export svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Stat cards ------------------------------------------------------------ */
+.agr-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 1100px) {
+  .agr-stats { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .agr-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.agr-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 16px;
+}
+.agr-stat-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.agr-stat-card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.agr-stat-card__icon--blue { background: #E8F1FB; color: var(--color-cerulean); }
+.agr-stat-card__icon--green { background: #E6F4EA; color: #1E7E34; }
+.agr-stat-card__icon--orange { background: #FDEFE0; color: #B4691E; }
+.agr-stat-card__icon--purple { background: #F1E9FB; color: #6C3FB8; }
+.agr-stat-card__icon--sky { background: #E8F1FB; color: var(--color-fresh-sky); }
+
+.agr-stat-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.agr-stat-card__body strong {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+.agr-stat-card__body span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+}
+.agr-stat-card__body span em {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+/* Toolbar ------------------------------------------------------------ */
+.agr-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.agr-toolbar__count {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-text-primary);
+}
+.agr-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.agr-toolbar__sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.agr-toolbar__sort span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+}
+.agr-toolbar__select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.agr-toolbar__select span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+.agr-toolbar__select svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-neutral-500);
+}
+.agr-toolbar__view {
+  display: flex;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.agr-toolbar__view button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  border: 0;
+  background: var(--color-white);
+  color: var(--color-neutral-500);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.agr-toolbar__view button svg {
+  width: 15px;
+  height: 15px;
+}
+.agr-toolbar__view button.is-active {
+  background: var(--color-deep-space-blue);
+  color: var(--color-white);
+}
+
+/* Table ------------------------------------------------------------ */
+.agr-table-wrap {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.agr-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.agr-table th {
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  white-space: nowrap;
+}
+.agr-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+.agr-table tbody tr:last-child td { border-bottom: 0; }
+
+.agr-table__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.agr-table__title strong {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.agr-table__title span {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+.agr-table__partner,
+.agr-table__country {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.agr-table__partner img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.agr-table__country img {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.agr-table__tag {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.agr-table__tag--framework-agreement { background: #E8F1FB; color: var(--color-cerulean); }
+.agr-table__tag--academic-agreement { background: #F1E9FB; color: #6C3FB8; }
+.agr-table__tag--research-agreement { background: #E6F4EA; color: #1E7E34; }
+.agr-table__tag--exchange-agreement { background: #FDEFE0; color: #B4691E; }
+.agr-table__tag--mou { background: var(--color-neutral-100, #EEE); color: var(--color-neutral-500); }
+
+.agr-table__status {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.agr-table__status--active { background: #E6F4EA; color: #1E7E34; }
+.agr-table__status--expiring-soon { background: #FDEFE0; color: #B4691E; }
+.agr-table__status--expired { background: #FBE7E7; color: #C23434; }
+
+.agr-table__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.agr-table__actions a,
+.agr-table__actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+}
+.agr-table__actions a { color: var(--color-cerulean); }
+.agr-table__actions svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Pagination ------------------------------------------------------------ */
+.agr-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+}
+.agr-pagination span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+}
+.agr-pagination__buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.agr-pagination__buttons button {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 6px;
+  background: var(--color-white);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.agr-pagination__buttons button.is-active {
+  background: var(--color-deep-space-blue);
+  color: var(--color-white);
+  border-color: var(--color-deep-space-blue);
+}
+.agr-pagination__buttons span {
+  padding: 0 4px;
+}
+
+/* ==========================================================================
+   Agreement Management page — RTL support (Arabic)
+   Assumes <html dir="rtl"> is set when locale is Arabic.
+   ========================================================================== */
+
+/* Back link — flip the arrow icon */
+[dir="rtl"] .agr-page__back svg {
+  transform: scaleX(-1);
+}
+
+/* Filters — text alignment */
+[dir="rtl"] .agr-filters__field label,
+[dir="rtl"] .agr-filters__select span,
+[dir="rtl"] .agr-toolbar__sort span,
+[dir="rtl"] .agr-toolbar__select span {
+  text-align: right;
+}
+
+/* Table — right-align text cells for readability in RTL */
+[dir="rtl"] .agr-table th,
+[dir="rtl"] .agr-table td {
+  text-align: right;
+}
+
+[dir="rtl"] .agr-table__title,
+[dir="rtl"] .agr-table__partner,
+[dir="rtl"] .agr-table__country {
+  flex-direction: row-reverse;
+}
+
+/* Actions column — keep icons in natural reading order */
+[dir="rtl"] .agr-table__actions {
+  flex-direction: row-reverse;
+}
+
+/* Pagination — reverse button order so "previous" stays on the reading-start side */
+[dir="rtl"] .agr-pagination__buttons {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .agr-pagination__buttons button[aria-label] svg {
+  transform: scaleX(-1);
+}
+
+/* Stat cards — icon sits after the number in RTL reading order */
+[dir="rtl"] .agr-stat-card {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .agr-stat-card__body {
+  text-align: right;
+}
+
+/* Filters actions (Reset / Export) — icon after label */
+[dir="rtl"] .agr-filters__reset,
+[dir="rtl"] .agr-filters__export {
+  flex-direction: row-reverse;
+}
+
+/* Search input icon on the right in RTL */
+[dir="rtl"] .agr-filters__search {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .agr-filters__search input {
+  text-align: right;
+}

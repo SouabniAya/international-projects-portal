@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.log
 .DS_Store
 .env
@@ -16,12 +17,36 @@
 /node_modules
 /public/build
 /public/fonts-manifest.dev.json
+=======
+/.phpunit.cache
+/bootstrap/ssr
+/node_modules
+/public/build
+>>>>>>> origin/main
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
 /vendor
+<<<<<<< HEAD
 _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+=======
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+>>>>>>> origin/main

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Admin Sidebar — back-office navigation
-   Source: user-provided screenshot, 2026-08-13
+   Uses CSS logical properties so RTL (dir="rtl") works automatically.
    ========================================================================== */
 
 .admin-sidebar {
@@ -28,7 +28,8 @@
   font-size: 14.5px;
   color: var(--color-white);
   text-decoration: none;
-  border-left: 3px solid transparent;
+  text-align: start;
+  border-inline-start: 3px solid transparent;
 }
 .admin-sidebar__nav a:hover,
 .admin-sidebar__nav a:focus-visible {
@@ -36,7 +37,7 @@
 }
 .admin-sidebar__nav a[aria-current="page"] {
   background: rgba(255, 255, 255, 0.08);
-  border-left-color: var(--color-fresh-sky);
+  border-inline-start-color: var(--color-fresh-sky);
 }
 
 @media (max-width: 900px) {

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // ---- Public pages ----------------------------------------------------
 Route::get('/', fn () => view('home'))->name('home');
+Route::get('/projects', fn () => view('projects'))->name('projects');
+Route::get('/calls/{id}', fn ($id) => view('call-details', ['id' => $id]))->name('call-details');
 
 // ---- Authentication (UC2) ----------------------------------------------
 Route::get('/login', fn () => view('auth.login'))->name('login');
@@ -74,6 +76,7 @@ Route::prefix('admin')->group(function () {
 
         return view('admin.dashboard', compact('kpis', 'icons', 'dirIcon'));
     })->name('admin.dashboard');
+
     Route::get('/cooperation', fn () => view('admin.content-management'))->name('admin.content-management');
     Route::get('/settings', fn () => view('admin.settings'))->name('admin.settings');
     Route::get('/profile', fn () => view('admin.profile'))->name('admin.profile');
@@ -88,3 +91,140 @@ Route::prefix('admin')->group(function () {
     Route::patch('/settings', fn () => back())->name('admin.settings.update');
     Route::patch('/settings/password', fn () => back())->name('admin.settings.password');
 });
+
+// ---- Admin pages added by teammate (kept flat as originally written) ----
+Route::get('/admin/opportunities', function () {
+    return view('admin.opportunities');
+})->name('admin.opportunities');
+Route::get('/admin/users', function () {
+    return view('admin.users');
+})->name('admin.users');
+Route::get('/admin/requests-documents', function () {
+    return view('admin.requests-documents');
+})->name('admin.requests-documents');
+Route::get('/admin/projects/{id}', function ($id) {
+    return view('admin.project-details', ['id' => $id]);
+})->name('admin.project-details');
+Route::get('/admin/partners', function () {
+    $projectId = request()->query('project');
+    return view('admin.partners', ['projectId' => $projectId]);
+})->name('admin.partners');
+Route::get('/admin/documents', function () {
+    return view('admin.documents');
+})->name('admin.documents');
+Route::get('/admin/projects', function () {
+    return view('admin.projects');
+})->name('admin.projects');
+/*Route::get('/admin/calls', function () {
+    return view('admin.calls');
+})->name('admin.calls');
+Route::get('/admin/calls', function () {
+    $calls = [];
+
+    return view('admin.calls', compact('calls'));
+})->name('admin.calls');*/
+Route::get('/admin/calls', function () {
+    $calls = [
+        [
+            'id' => 1,
+            'title' => 'Erasmus+ KA220 – Cooperation Partnerships in Higher Education',
+            'ref' => 'ERASMUS-EDU-2025-CP-HE',
+            'flag' => 'images/flags/eu.png',
+            'programme' => 'Erasmus+',
+            'type' => 'Partnership',
+            'status' => 'Open',
+            'opening' => 'Apr 15, 2025',
+            'deadline' => 'Jun 30, 2025',
+        ],
+        [
+            'id' => 2,
+            'title' => 'Horizon Europe – Research and Innovation Actions (RIA)',
+            'ref' => 'HORIZON-CL4-2025-01-RIA',
+            'flag' => 'images/flags/horizon.png',
+            'programme' => 'Horizon Europe',
+            'type' => 'Research & Innovation',
+            'status' => 'Open Soon',
+            'opening' => 'May 22, 2025',
+            'deadline' => 'Sep 18, 2025',
+        ],
+        [
+            'id' => 3,
+            'title' => 'MSCA Doctoral Networks 2025',
+            'ref' => 'HORIZON-MSCA-2025-DN-01',
+            'flag' => 'images/flags/msca.png',
+            'programme' => 'MSCA',
+            'type' => 'Research Training',
+            'status' => 'Open',
+            'opening' => 'Apr 8, 2025',
+            'deadline' => 'May 28, 2025',
+        ],
+        [
+            'id' => 4,
+            'title' => 'PRIMA Section 2 – Multi-topic 2025',
+            'ref' => 'PRIMA-S2-2025',
+            'flag' => 'images/flags/prima.png',
+            'programme' => 'PRIMA',
+            'type' => 'Research & Innovation',
+            'status' => 'Upcoming',
+            'opening' => 'Jun 1, 2025',
+            'deadline' => 'Aug 28, 2025',
+        ],
+        [
+            'id' => 5,
+            'title' => 'ERC Starting Grants 2025',
+            'ref' => 'ERC-2025-StG',
+            'flag' => 'images/flags/eu.png',
+            'programme' => 'European Commission',
+            'type' => 'Research',
+            'status' => 'Closed',
+            'opening' => 'Jul 11, 2024',
+            'deadline' => 'Oct 17, 2024',
+        ],
+        [
+            'id' => 6,
+            'title' => 'World Bank – Research Grants Program',
+            'ref' => 'WBG-RGP-2025',
+            'flag' => 'images/flags/worldbank.png',
+            'programme' => 'World Bank',
+            'type' => 'Grant',
+            'status' => 'Closed',
+            'opening' => 'Jan 10, 2025',
+            'deadline' => 'Mar 10, 2025',
+        ],
+    ];
+
+    return view('admin.calls', compact('calls'));
+})->name('admin.calls');
+Route::get('/admin/partner-management', function () {
+    return view('admin.partner-management');
+})->name('admin.partner-management');
+Route::get('/admin/funding-programmes', function () {
+    return view('admin.funding-programmes');
+})->name('admin.funding-programmes');
+Route::get('/admin/requests', function () {
+    return view('admin.requests');
+})->name('admin.requests');
+Route::get('/admin/mobility/{id}', function ($id) {
+    return view('admin.mobility-details', ['id' => $id]);
+})->name('admin.mobility-details');
+Route::get('/admin/agreements', function () {
+    return view('admin.agreements');
+})->name('admin.agreements');
+Route::get('/admin/agreements/{id}', function ($id) {
+    return view('admin.agreement-details', ['id' => $id]);
+})->name('admin.agreement-details');
+Route::get('/admin/calls/{id}', function ($id) {
+    return view('admin.call-details', ['id' => $id]);
+})->name('admin.call-details');
+Route::get('/admin/notifications', function () {
+    return view('admin.notifications');
+})->name('admin.notifications');
+Route::get('/admin/notifications/{id}', function ($id) {
+    return view('admin.notification-details', ['id' => $id]);
+})->name('admin.notification-details');
+Route::get('/admin/mobility', function () {
+    return view('admin.mobility-details');
+})->name('admin.mobility');
+Route::get('/mobility', function () {
+    return view('admin.mobility-details');
+})->name('admin.mobility');

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Admin Header — back-office top bar
-   Source: user-provided screenshot, 2026-08-13
+   Uses CSS logical properties so RTL (dir="rtl") works automatically.
    ========================================================================== */
 
 .admin-header {
@@ -11,10 +11,9 @@
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 0 24px;
+  padding-inline: 24px;
   position: relative;
 }
-/* thin brand accent under the logo, per screenshot */
 .admin-header::after {
   content: "";
   position: absolute;
@@ -24,7 +23,10 @@
   height: 3px;
   background: var(--color-fresh-sky);
 }
-
+[dir="rtl"] .admin-header::after {
+  left: auto;
+  right: 24px;
+}
 .admin-header__logo {
   height: 30px;
   width: auto;
@@ -38,6 +40,7 @@
   gap: 8px;
   flex: 1 1 420px;
   max-width: 420px;
+  margin-inline-start: 200px;
   background: var(--color-neutral-50);
   border: 1px solid var(--color-neutral-300);
   border-radius: 8px;
@@ -57,14 +60,15 @@
   font-size: 14px;
   color: var(--color-text-primary);
   width: 100%;
+  text-align: start;
 }
 .admin-header__search input::placeholder {
   color: var(--color-neutral-500);
 }
 
-/* Right side ------------------------------------------------------------ */
+/* Right side (logically: "end" side) ------------------------------------------------------------ */
 .admin-header__right {
-  margin-left: auto;
+  margin-inline-start: auto;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -94,7 +98,7 @@
 .admin-header__badge {
   position: absolute;
   top: 7px;
-  right: 8px;
+  inset-inline-end: 8px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -102,6 +106,7 @@
   border: 1.5px solid var(--color-white);
 }
 
+/* Profile + dropdown ------------------------------------------------------ */
 .admin-header__profile {
   position: relative;
   display: flex;
@@ -115,42 +120,6 @@
 .admin-header__profile:focus-visible {
   background: var(--color-neutral-100);
 }
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 200px;
-  background: var(--color-white);
-  border: 1px solid var(--color-neutral-300);
-  border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 23, 31, 0.15);
-  padding: 6px;
-  z-index: 50;
-}
-.dropdown-menu.is-open { display: block; }
-.dropdown-menu__item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 9px 10px;
-  border: 0;
-  background: none;
-  border-radius: 6px;
-  font-family: var(--font-body);
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--color-ink-black);
-  text-decoration: none;
-  cursor: pointer;
-  text-align: left;
-}
-.dropdown-menu__item:hover { background: var(--color-neutral-100); }
-.dropdown-menu__item svg { width: 16px; height: 16px; color: var(--color-neutral-500); flex-shrink: 0; }
-.dropdown-menu__item--danger { color: var(--color-ink-black); }
-.dropdown-menu__divider { height: 1px; background: var(--color-neutral-300); margin: 6px 4px; }
 .admin-header__avatar {
   width: 34px;
   height: 34px;
@@ -169,6 +138,7 @@
   display: flex;
   flex-direction: column;
   line-height: 1.25;
+  text-align: start;
 }
 .admin-header__profile-name {
   font-family: var(--font-body);
@@ -188,8 +158,67 @@
   flex-shrink: 0;
 }
 
+/* Dropdown menu — opens from the profile block via resources/js/admin.js */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  min-width: 200px;
+  background: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 23, 31, 0.15);
+  padding: 6px;
+  z-index: 50;
+  text-align: start;
+}
+.dropdown-menu.is-open { display: block; }
+.dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  background: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-ink-black);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: start;
+}
+.dropdown-menu__item:hover { background: var(--color-neutral-100); }
+.dropdown-menu__item svg { width: 16px; height: 16px; color: var(--color-neutral-500); flex-shrink: 0; }
+.dropdown-menu__item--danger { color: var(--color-ink-black); }
+.dropdown-menu__divider { height: 1px; background: var(--color-neutral-300); margin: 6px 4px; }
+
 @media (max-width: 700px) {
   .admin-header__search {
     display: none;
   }
+}
+
+/* Language switcher ------------------------------------------------------------ */
+.admin-header__lang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-end: 8px;
+}
+.admin-header__lang a {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm, 6px);
+}
+.admin-header__lang a[aria-current="true"] {
+  background: var(--color-fresh-sky);
+  color: var(--color-white);
 }
