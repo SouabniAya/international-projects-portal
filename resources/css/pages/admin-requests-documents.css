@@ -5,15 +5,18 @@
 .reqdocs-page {
   padding: 32px 40px;
 }
+
 .reqdocs-page__head {
   margin-bottom: 24px;
 }
+
 .reqdocs-page__head h1 {
   font-family: var(--font-heading);
   font-size: 28px;
   color: var(--color-text-primary);
   margin: 0 0 6px;
 }
+
 .reqdocs-page__head p {
   font-family: var(--font-body);
   font-size: 14px;
@@ -21,20 +24,26 @@
   margin: 0;
 }
 
+
 /* Panels ------------------------------------------------------------ */
+
 .reqdocs-panel {
   border: 1px solid var(--color-neutral-300);
   border-radius: 12px;
   margin-bottom: 24px;
   overflow: hidden;
+  background: var(--color-white);
 }
+
 .reqdocs-panel__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 18px 20px;
   border-bottom: 1px solid var(--color-neutral-300);
+  gap: 16px;
 }
+
 .reqdocs-panel__head h2 {
   font-family: var(--font-body);
   font-weight: 700;
@@ -44,6 +53,7 @@
   color: var(--color-text-primary);
   margin: 0;
 }
+
 .reqdocs-panel__view-all {
   font-family: var(--font-body);
   font-weight: 600;
@@ -53,7 +63,14 @@
   border-radius: var(--radius-pill);
   padding: 6px 16px;
   text-decoration: none;
+  white-space: nowrap;
 }
+
+.reqdocs-panel__view-all:hover {
+  background: var(--color-cerulean);
+  color: var(--color-white);
+}
+
 .reqdocs-panel__add {
   display: inline-flex;
   align-items: center;
@@ -67,17 +84,31 @@
   font-size: 13.5px;
   padding: 9px 16px;
   cursor: pointer;
+  white-space: nowrap;
 }
-.reqdocs-panel__add svg { width: 15px; height: 15px; }
+
+.reqdocs-panel__add:hover {
+  filter: brightness(0.95);
+}
+
+.reqdocs-panel__add svg {
+  width: 15px;
+  height: 15px;
+}
+
 
 /* Table ------------------------------------------------------------ */
+
 .reqdocs-table-wrap {
   overflow-x: auto;
 }
+
 .reqdocs-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 760px;
 }
+
 .reqdocs-table th {
   text-align: left;
   font-family: var(--font-body);
@@ -87,7 +118,9 @@
   padding: 14px 20px;
   border-bottom: 1px solid var(--color-neutral-300);
   white-space: nowrap;
+  background: var(--color-white);
 }
+
 .reqdocs-table td {
   padding: 16px 20px;
   border-bottom: 1px solid var(--color-neutral-100, #F1F1F1);
@@ -96,18 +129,29 @@
   color: var(--color-text-primary);
   vertical-align: middle;
 }
+
 .reqdocs-table tbody tr:last-child td {
   border-bottom: 0;
 }
+
+.reqdocs-table tbody tr:hover {
+  background: var(--color-neutral-50, #FAFAFA);
+}
+
 .reqdocs-table__center {
   text-align: center;
 }
+
+
+/* Requester ------------------------------------------------------------ */
 
 .reqdocs-table__requester {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 190px;
 }
+
 .reqdocs-table__dot {
   width: 32px;
   height: 32px;
@@ -115,18 +159,25 @@
   background: var(--color-cerulean);
   flex-shrink: 0;
 }
+
 .reqdocs-table__requester div {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
+
 .reqdocs-table__requester strong {
   font-weight: 700;
   font-size: 13.5px;
 }
+
 .reqdocs-table__requester span {
   font-size: 12.5px;
   color: var(--color-neutral-500);
 }
+
+
+/* Country flag ------------------------------------------------------------ */
 
 .reqdocs-table__flag {
   width: 26px;
@@ -135,22 +186,40 @@
   border-radius: 2px;
 }
 
+
+/* Status ------------------------------------------------------------ */
+
 .reqdocs-table__status {
   font-weight: 600;
+  white-space: nowrap;
 }
-.reqdocs-table__status--new { color: var(--color-cerulean); }
-.reqdocs-table__status--pending { color: #B4691E; }
+
+.reqdocs-table__status--new {
+  color: var(--color-cerulean);
+}
+
+.reqdocs-table__status--pending {
+  color: #B4691E;
+}
+
+
+/* Assignment ------------------------------------------------------------ */
 
 .reqdocs-table__unassigned {
   color: var(--color-danger);
   font-weight: 600;
+  white-space: nowrap;
 }
+
+
+/* Actions ------------------------------------------------------------ */
 
 .reqdocs-table__actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
+
 .reqdocs-table__actions button {
   width: 30px;
   height: 30px;
@@ -162,32 +231,107 @@
   background: var(--color-white);
   cursor: pointer;
   color: var(--color-text-primary);
+  transition: background 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease;
 }
-.reqdocs-table__actions button svg { width: 16px; height: 16px; }
-.reqdocs-table__actions button:hover { background: var(--color-neutral-100, #F5F5F5); }
+
+.reqdocs-table__actions button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.reqdocs-table__actions button:hover {
+  background: var(--color-neutral-100, #F5F5F5);
+}
+
+
+/* Approve / Reject ------------------------------------------------------------ */
 
 .reqdocs-table__icon-btn--approve {
   color: #1E7E34;
   border-color: #BFE5C9;
 }
+
+.reqdocs-table__icon-btn--approve:hover {
+  background: #E6F4EA;
+  border-color: #1E7E34;
+}
+
 .reqdocs-table__icon-btn--reject {
   color: var(--color-danger);
   border-color: #F3C6C6;
 }
 
+.reqdocs-table__icon-btn--reject:hover {
+  background: #FDEBEC;
+  border-color: var(--color-danger);
+}
+
+
+/* Document ------------------------------------------------------------ */
+
 .reqdocs-table__doc {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 220px;
 }
-.reqdocs-table__doc-icon { width: 22px; height: 22px; color: var(--color-danger); flex-shrink: 0; }
+
+.reqdocs-table__doc-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+
 .reqdocs-table__filelink {
   color: var(--color-cerulean);
   font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
+}
+
+.reqdocs-table__filelink:hover {
+  text-decoration: underline;
+}
+
+
+/* Responsive ------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  .reqdocs-page {
+    padding: 28px 24px;
+  }
 }
 
 @media (max-width: 900px) {
-  .reqdocs-page { padding: 24px 16px; }
-  .reqdocs-table th, .reqdocs-table td { padding: 12px; }
+  .reqdocs-page {
+    padding: 24px 16px;
+  }
+
+  .reqdocs-panel__head {
+    padding: 16px;
+  }
+
+  .reqdocs-table th,
+  .reqdocs-table td {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .reqdocs-page__head h1 {
+    font-size: 24px;
+  }
+
+  .reqdocs-panel__head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reqdocs-panel__view-all,
+  .reqdocs-panel__add {
+    align-self: flex-start;
+  }
 }
