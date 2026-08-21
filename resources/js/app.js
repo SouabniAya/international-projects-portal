@@ -12,3 +12,4 @@ import '../css/hero.css';
 import '../css/components.css';
 import '../css/auth.css';
 import './admin.js';
+import '../css/diaporama.css';

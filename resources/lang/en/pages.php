@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home' => ['eyebrow' => 'ESI Algiers · International Relations', 'title' => 'ESI Beyond Borders', 'subtitle' => "Discover ESI Algiers' international partnerships, research and cooperation projects, funding opportunities, and mobility programmes."],
+    'home' => ['eyebrow' => 'ESI Algiers · International Relations', 'title' => 'ESI Beyond Borders', 'subtitle' => "Discover ESI Algiers´ international partnerships, research and cooperation projects, funding opportunities, and mobility programmes."],
     'partnerships' => ['title' => 'International Partnerships', 'subtitle' => 'Discover our network of academic and research partners around the world.'],
     'presentation' => ['title' => 'International Presentation', 'subtitle' => "ESI's internationalization strategy, vision, and academic partnerships."],
     'news' => ['title' => 'News', 'subtitle' => "The latest updates from ESI's international activities."],

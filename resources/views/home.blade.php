@@ -34,22 +34,201 @@
 </section>
 
 {{-- About ESI teaser — the presentation page had no discoverability from Home --}}
-<section class="section section--tight two-col--equal" style="display:grid; align-items:center; background:var(--color-neutral-50);">
-    <div>
-        <h2 style="font-family:var(--font-heading); font-weight:700; font-size:24px; color:var(--color-ink-black); margin:0 0 12px;">About ESI</h2>
-        <p style="font-family:var(--font-body); font-size:15px; line-height:1.6; color:var(--color-neutral-500); margin:0 0 16px;">
-            Discover ESI's internationalization strategy, vision, research domains, and the advantages of partnering with our school.
-        </p>
-        <a href="{{ url('/international-presentation') }}" class="btn btn--outline btn--sm">Read our full presentation →</a>
-    </div>
-    <div class="card">
-        <div class="card__body">
-            <span class="card__eyebrow">Vision</span>
-            <p class="card__text">"A recognized regional hub for excellence in computer science education and research, connected to leading international institutions."</p>
+{{-- News + ESI Presentation Diaporama --}}
+<section class="section">
+    <div class="diaporama" data-diaporama data-interval="5000">
+
+        <div class="diaporama__track">
+
+
+
+            {{-- Slide 3 — School Presentation --}}
+            <div class="diaporama__slide">
+
+                <div
+                    class="diaporama__image"
+                    style="background-image: url('{{ asset('images/esi-campus.jpg') }}');">
+                </div>
+
+                <div class="diaporama__content">
+                    <span class="card__eyebrow">
+                        {{ __('About ESI') }}
+                    </span>
+
+                    <h3 class="diaporama__title">
+                        {{ __('Discover ESI') }}
+                    </h3>
+
+                    <p class="diaporama__text">
+                        {{ __("Discover ESI's internationalization strategy, vision,
+                        research domains, and opportunities for international collaboration.") }}
+                    </p>
+
+                    <a href="{{ url('/international-presentation') }}"
+                       class="btn btn--outline btn--sm">
+                        {{ __('Discover ESI →') }}
+                    </a>
+                </div>
+
+            </div>
+
+            {{-- Slide 1 — News --}}
+            <div class="diaporama__slide is-active">
+
+                <div
+                    class="diaporama__image"
+                    style="background-image: url('{{ asset('images/news/agreement.jpg') }}');">
+                </div>
+
+                <div class="diaporama__content">
+                    <span class="card__eyebrow">
+                        {{ __('News') }}
+                    </span>
+
+                    <h3 class="diaporama__title">
+                        New Agreement Signed with Tech University Munich
+                    </h3>
+
+                    <p class="diaporama__text">
+                        ESI Algiers expands its European network with a comprehensive
+                        agreement covering student exchange and joint research initiatives.
+                    </p>
+
+                    <a href="{{ url('/news/agreement-tu-munich') }}"
+                       class="btn btn--outline btn--sm">
+                        {{ __('Read more →') }}
+                    </a>
+                </div>
+
+            </div>
+
+
+            {{-- Slide 2 — News --}}
+            <div class="diaporama__slide">
+
+                <div
+                    class="diaporama__image"
+                    style="background-image: url('{{ asset('images/news/erasmus.jpg') }}');">
+                </div>
+
+                <div class="diaporama__content">
+                    <span class="card__eyebrow">
+                        {{ __('News') }}
+                    </span>
+
+                    <h3 class="diaporama__title">
+                        Erasmus+ Call for Applications Spring 2025
+                    </h3>
+
+                    <p class="diaporama__text">
+                        The International Relations Office announces the opening
+                        of the new Erasmus+ mobility window for engineering students.
+                    </p>
+
+                    <a href="{{ url('/news/erasmus-spring-2025') }}"
+                       class="btn btn--outline btn--sm">
+                        {{ __('Read more →') }}
+                    </a>
+                </div>
+
+            </div>
+
         </div>
+
+        {{-- Small slide indicators --}}
+        <div
+            class="diaporama__dots"
+            role="tablist"
+            aria-label="{{ __('Slideshow navigation') }}">
+        </div>
+
     </div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
+    document.querySelectorAll('[data-diaporama]').forEach(function (root) {
+
+        const slides = root.querySelectorAll('.diaporama__slide');
+        const dotsWrap = root.querySelector('.diaporama__dots');
+
+        if (!slides.length || !dotsWrap) return;
+
+        const interval = parseInt(
+            root.dataset.interval || '5000',
+            10
+        );
+
+        let current = 0;
+        let timer;
+
+        /* Create dots */
+        slides.forEach(function (_, index) {
+
+            const dot = document.createElement('button');
+
+            dot.type = 'button';
+            dot.setAttribute(
+                'aria-label',
+                'Go to slide ' + (index + 1)
+            );
+
+            if (index === 0) {
+                dot.classList.add('is-active');
+            }
+
+            dot.addEventListener('click', function () {
+                goTo(index);
+                restart();
+            });
+
+            dotsWrap.appendChild(dot);
+        });
+
+        const dots = dotsWrap.querySelectorAll('button');
+
+
+        function goTo(index) {
+
+            slides[current].classList.remove('is-active');
+            dots[current].classList.remove('is-active');
+
+            current = (index + slides.length) % slides.length;
+
+            slides[current].classList.add('is-active');
+            dots[current].classList.add('is-active');
+        }
+
+
+        function next() {
+            goTo(current + 1);
+        }
+
+
+        function start() {
+            timer = setInterval(next, interval);
+        }
+
+
+        function stop() {
+            clearInterval(timer);
+        }
+
+
+        function restart() {
+            stop();
+            start();
+        }
+
+
+        root.addEventListener('mouseenter', stop);
+        root.addEventListener('mouseleave', start);
+
+        start();
+    });
+
+});
+</script>
 {{-- FR-1.9 Quick Actions — matches Figma "Quick Actions" instance --}}
 <section class="section section--tight">
     <div class="quick-actions-grid">
