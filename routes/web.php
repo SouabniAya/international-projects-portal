@@ -222,9 +222,198 @@ Route::get('/admin/notifications', function () {
 Route::get('/admin/notifications/{id}', function ($id) {
     return view('admin.notification-details', ['id' => $id]);
 })->name('admin.notification-details');
+// Public mobility opportunities
+// Public mobility opportunities
+Route::get('/mobility', fn () => view('mobility.mobility'))->name('mobility.index');
+Route::get('/mobility/{id}', fn ($id) => view('mobility.mobility-details', ['id' => $id]))->name('mobility.show');
+
 Route::get('/admin/mobility', function () {
-    return view('admin.mobility-details');
+
+    $opportunities = [
+        [
+            'id' => 1,
+            'title' => 'Erasmus+ Student Mobility',
+            'ref' => 'ERASMUS-SM-2025-01',
+            'programme' => 'Erasmus+',
+            'direction' => 'Outgoing',
+            'status' => 'Open',
+            'opening' => 'Mar 15, 2025',
+            'deadline' => 'May 31, 2025',
+        ],
+        [
+            'id' => 2,
+            'title' => 'Staff Training Mobility',
+            'ref' => 'ERASMUS-ST-2025-02',
+            'programme' => 'Erasmus+',
+            'direction' => 'Outgoing',
+            'status' => 'Open',
+            'opening' => 'Feb 20, 2025',
+            'deadline' => 'Apr 20, 2025',
+        ],
+        [
+            'id' => 3,
+            'title' => 'Incoming Research Mobility',
+            'ref' => 'HORIZON-RM-2025-01',
+            'programme' => 'Horizon Europe',
+            'direction' => 'Incoming',
+            'status' => 'Open Soon',
+            'opening' => 'May 1, 2025',
+            'deadline' => 'Jun 15, 2025',
+        ],
+        [
+            'id' => 4,
+            'title' => 'PhD Exchange Programme',
+            'ref' => 'MSCA-PHD-2025-01',
+            'programme' => 'MSCA',
+            'direction' => 'Outgoing',
+            'status' => 'Closed',
+            'opening' => 'Jan 5, 2025',
+            'deadline' => 'Mar 10, 2025',
+        ],
+        [
+            'id' => 5,
+            'title' => 'Short-Term Student Mobility',
+            'ref' => 'ACAD-SS-2025-01',
+            'programme' => 'Academic Mobility',
+            'direction' => 'Outgoing',
+            'status' => 'Open',
+            'opening' => 'Mar 1, 2025',
+            'deadline' => 'May 5, 2025',
+        ],
+        [
+            'id' => 6,
+            'title' => 'Faculty Exchange Programme',
+            'ref' => 'ERASMUS-FE-2025-03',
+            'programme' => 'Erasmus+',
+            'direction' => 'Incoming',
+            'status' => 'Upcoming',
+            'opening' => 'Jun 1, 2025',
+            'deadline' => 'Jun 30, 2025',
+        ],
+    ];
+
+    return view('admin.mobility', compact('opportunities'));
+
 })->name('admin.mobility');
-Route::get('/mobility', function () {
-    return view('admin.mobility-details');
-})->name('admin.mobility');
+Route::get('/partnerships/projects/{project}', function ($project) {
+
+    $projects = [
+
+        [
+            'programme' => 'Erasmus+',
+            'status' => 'Ongoing',
+            'title' => 'SmartEdu – Smart Education for the Digital Era',
+            'desc' => 'Enhancing digital education through innovative learning solutions.',
+            'tag' => 'Erasmus+',
+            'thematic_area' => 'Digital Education',
+            'duration' => '2025 – 2027',
+            'coordinator' => 'International University Consortium',
+            'countries' => 'Algeria, France, Spain, Italy',
+            'partners' => '8 partner institutions',
+            'budget' => '€850,000',
+            'overview' => 'SmartEdu is an international cooperation project focused on improving digital education through innovative technologies, modern teaching methodologies and collaborative learning environments.',
+            'objectives' => [
+                'Improve digital learning environments for students and teachers.',
+                'Develop innovative educational tools and resources.',
+                'Strengthen cooperation between European and international universities.',
+                'Promote digital skills and inclusive education.'
+            ]
+        ],
+
+        [
+            'programme' => 'Horizon Europe',
+            'status' => 'Proposed',
+            'title' => 'GreenCampus – Sustainable Universities',
+            'desc' => 'Promoting sustainable and eco-friendly university campuses.',
+            'tag' => 'Horizon Europe',
+            'thematic_area' => 'Environment & Sustainability',
+            'duration' => '2026 – 2029',
+            'coordinator' => 'European Sustainable Universities Network',
+            'countries' => 'Algeria, Germany, France, Belgium',
+            'partners' => '12 partner institutions',
+            'budget' => '€1,200,000',
+            'overview' => 'GreenCampus aims to support universities in their transition towards more sustainable, energy-efficient and environmentally responsible campuses.',
+            'objectives' => [
+                'Reduce energy consumption across university campuses.',
+                'Develop sustainable campus management strategies.',
+                'Promote renewable energy and green technologies.',
+                'Encourage environmental awareness among students and staff.'
+            ]
+        ],
+
+        [
+            'programme' => 'Erasmus+',
+            'status' => 'Completed',
+            'title' => 'ResearchConnect – Global Research Networks',
+            'desc' => 'Strengthening international research and academic collaboration.',
+            'tag' => 'Erasmus+',
+            'thematic_area' => 'Research & Innovation',
+            'duration' => '2023 – 2025',
+            'coordinator' => 'Global Research Alliance',
+            'countries' => 'Algeria, France, Germany, Portugal',
+            'partners' => '10 partner institutions',
+            'budget' => '€640,000',
+            'overview' => 'ResearchConnect strengthened international academic cooperation by creating new research networks, mobility opportunities and collaborative research initiatives.',
+            'objectives' => [
+                'Create international research networks.',
+                'Facilitate academic mobility.',
+                'Support collaborative research projects.',
+                'Increase knowledge exchange between partner institutions.'
+            ]
+        ],
+
+        [
+            'programme' => 'PRIMA',
+            'status' => 'Ongoing',
+            'title' => 'AgriTech – Smart Agriculture Solutions',
+            'desc' => 'Supporting smart and sustainable agricultural innovation.',
+            'tag' => 'PRIMA',
+            'thematic_area' => 'Agriculture & Technology',
+            'duration' => '2025 – 2028',
+            'coordinator' => 'Mediterranean Agricultural Research Network',
+            'countries' => 'Algeria, Tunisia, Italy, Spain',
+            'partners' => '9 partner institutions',
+            'budget' => '€920,000',
+            'overview' => 'AgriTech promotes the use of digital technologies and smart agricultural solutions to improve productivity and sustainability in Mediterranean agriculture.',
+            'objectives' => [
+                'Develop smart agriculture technologies.',
+                'Improve water and resource management.',
+                'Support sustainable agricultural production.',
+                'Promote technology transfer between research institutions and farmers.'
+            ]
+        ],
+
+        [
+            'programme' => 'Erasmus+',
+            'status' => 'Ongoing',
+            'title' => 'DigitalHealth – Innovation in Healthcare',
+            'desc' => 'Developing digital solutions for modern healthcare.',
+            'tag' => 'Erasmus+',
+            'thematic_area' => 'Digital Health',
+            'duration' => '2025 – 2027',
+            'coordinator' => 'European Digital Health Consortium',
+            'countries' => 'Algeria, France, Belgium, Netherlands',
+            'partners' => '7 partner institutions',
+            'budget' => '€780,000',
+            'overview' => 'DigitalHealth focuses on the development of innovative digital solutions that can improve healthcare education, research and services.',
+            'objectives' => [
+                'Develop digital healthcare solutions.',
+                'Improve digital health education.',
+                'Support collaboration between universities and healthcare institutions.',
+                'Promote innovation in healthcare services.'
+            ]
+        ],
+
+    ];
+
+    $selectedProject = collect($projects)->first(function ($item) use ($project) {
+        return Str::slug($item['title']) === $project;
+    });
+
+    abort_unless($selectedProject, 404);
+
+    return view('partnerships.project-details', [
+        'project' => $selectedProject
+    ]);
+
+})->name('partnerships.project.show');

@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Public Mobility Opportunities page
+   ========================================================================== */
+
+.mobility-hero {
+  background: var(--color-deep-space-blue);
+  padding: 56px 24px 40px;
+}
+.mobility-hero__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+.mobility-hero h1 {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  color: var(--color-white);
+  margin: 0 0 8px;
+  position: relative;
+  padding-bottom: 16px;
+}
+.mobility-hero h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 48px;
+  height: 4px;
+  background: var(--color-fresh-sky);
+}
+.mobility-hero p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-footer-text);
+  max-width: 60ch;
+  margin: 16px 0 0;
+}
+
+.mobility-toolbar-wrap {
+  background: var(--color-deep-space-blue);
+  padding: 0 24px 56px;
+}
+.mobility-toolbar {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.mobility-toolbar__search {
+  flex: 1 1 260px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.mobility-toolbar__search svg { width: 18px; height: 18px; color: var(--color-neutral-500); }
+.mobility-toolbar__search input {
+  border: 0; outline: 0; background: transparent;
+  font-family: var(--font-body); font-size: 14px; width: 100%;
+}
+.mobility-toolbar__filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.mobility-toolbar__filter span { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--color-text-primary); }
+.mobility-toolbar__filter svg { width: 14px; height: 14px; color: var(--color-neutral-500); }
+
+.mobility-grid-wrap {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+.mobility-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1000px) { .mobility-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .mobility-grid { grid-template-columns: 1fr; } }
+
+.mobility-card {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.mobility-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.mobility-card__logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--color-neutral-100);
+  flex-shrink: 0;
+}
+.mobility-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.mobility-card__badge {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.mobility-card__badge--direction { background: #E8F3FA; color: var(--color-cerulean); }
+.mobility-card__badge--open { background: #E6F4EA; color: #1E7E34; }
+.mobility-card__badge--open-soon { background: #FDEFE0; color: #B4691E; }
+.mobility-card__badge--closed { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+
+.mobility-card__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+.mobility-card__sub {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  margin: 0 0 12px;
+}
+.mobility-card__location {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  margin: 0 0 14px;
+}
+.mobility-card__location svg { width: 15px; height: 15px; flex-shrink: 0; margin-top: 1px; }
+
+.mobility-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.mobility-card__tags span {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  background: #EFEAFB;
+  color: #6A3DC7;
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.mobility-card__bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mobility-card__deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+.mobility-card__deadline svg { width: 14px; height: 14px; }
+.mobility-card__link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--color-cerulean);
+  text-decoration: none;
+}
+
+.mobility-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+.mobility-pagination button {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  background: var(--color-white);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.mobility-pagination button.is-active {
+  background: var(--color-deep-space-blue);
+  color: var(--color-white);
+  border-color: var(--color-deep-space-blue);
+}
+.mobility-pagination span { color: var(--color-neutral-500); }
