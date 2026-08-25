@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form method="POST" action="{{ route('login.store') }}" data-demo-submit="Signed in (demo — connect this route to real authentication).">
+<form method="POST" action="{{ route('login.store') }}">
     @csrf
 
     <div class="form-group">

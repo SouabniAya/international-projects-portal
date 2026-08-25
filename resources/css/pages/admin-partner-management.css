@@ -1,5 +1,6 @@
 /* ==========================================================================
    Admin Partner Management page
+   (covers both the listing page and the Add/Edit Partner form)
    ========================================================================== */
 
 .ptm-page {
@@ -52,8 +53,15 @@
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
+  cursor: pointer;
 }
 .ptm-page__btn svg { width: 16px; height: 16px; }
+
+.ptm-page__btn--outline {
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-neutral-300);
+}
 
 /* Filters ------------------------------------------------------------ */
 .ptm-filters {
@@ -94,6 +102,7 @@
   cursor: pointer;
   white-space: nowrap;
   margin-left: auto;
+  text-decoration: none;
 }
 .ptm-filters__reset svg { width: 15px; height: 15px; }
 
@@ -129,17 +138,41 @@
   color: var(--color-neutral-500);
   margin-bottom: 6px;
 }
+
+/* This is now applied to a real <select> element (not a decorative div) */
 .ptm-filters__select {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
+  width: 100%;
   border: 1px solid var(--color-neutral-300);
   border-radius: 8px;
-  padding: 9px 12px;
+  padding: 9px 36px 9px 12px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
   cursor: pointer;
+  transition: border-color 0.15s ease;
 }
-.ptm-filters__select span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-text-primary); margin: 0; }
-.ptm-filters__select svg { width: 14px; height: 14px; color: var(--color-neutral-500); }
+.ptm-filters__select:hover {
+  border-color: var(--color-neutral-500);
+}
+.ptm-filters__select:focus {
+  outline: none;
+  border-color: var(--color-cerulean);
+  box-shadow: 0 0 0 3px rgba(0, 123, 191, 0.15);
+}
+
+.ptm-filters__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
 
 /* Toolbar ------------------------------------------------------------ */
 .ptm-toolbar {
@@ -155,11 +188,21 @@
 .ptm-toolbar__sort { display: flex; align-items: center; gap: 10px; }
 .ptm-toolbar__sort span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
 .ptm-toolbar__select {
-  display: flex; align-items: center; gap: 8px;
-  border: 1px solid var(--color-neutral-300); border-radius: 8px; padding: 8px 12px; cursor: pointer;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 13px;
+  cursor: pointer;
 }
-.ptm-toolbar__select span { font-family: var(--font-body); font-size: 13.5px; }
-.ptm-toolbar__select svg { width: 13px; height: 13px; color: var(--color-neutral-500); }
 .ptm-toolbar__view { display: flex; border: 1px solid var(--color-neutral-300); border-radius: 8px; overflow: hidden; }
 .ptm-toolbar__view button {
   display: flex; align-items: center; gap: 6px; border: 0; background: var(--color-white);
@@ -211,6 +254,16 @@
   object-fit: cover;
   flex-shrink: 0;
 }
+.ptm-table__logo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+}
 .ptm-table__partner div,
 .ptm-table__location div {
   display: flex;
@@ -249,6 +302,8 @@
   border-radius: 6px;
   background: #EFEAFB;
   color: #6A3DC7;
+  margin-right: 4px;
+  display: inline-block;
 }
 
 .ptm-table__status {
@@ -258,8 +313,10 @@
   padding: 4px 12px;
   border-radius: var(--radius-pill);
 }
-.ptm-table__status--active { background: #E6F4EA; color: #1E7E34; }
+.ptm-table__status--active  { background: #E6F4EA; color: #1E7E34; }
 .ptm-table__status--pending { background: #FDEFE0; color: #B4691E; }
+.ptm-table__status--expired { background: #FCE8E8; color: #C0392B; }
+.ptm-table__status--unknown { background: var(--color-neutral-100, #F1F1F1); color: var(--color-neutral-500); }
 
 .ptm-table__actions {
   display: flex;
@@ -279,6 +336,28 @@
 }
 .ptm-table__actions svg { width: 18px; height: 18px; }
 
+.ptm-table__empty {
+  text-align: center;
+  padding: 48px 16px;
+  white-space: normal;
+}
+.ptm-table__empty > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.ptm-table__empty strong {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+.ptm-table__empty span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
+}
+
 /* Pagination ------------------------------------------------------------ */
 .ptm-pagination {
   display: flex;
@@ -289,6 +368,7 @@
   padding: 18px 16px 8px;
 }
 .ptm-pagination > span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
+.ptm-pagination__info { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
 .ptm-pagination__buttons { display: flex; align-items: center; gap: 8px; }
 .ptm-pagination__buttons button {
   min-width: 34px;
@@ -306,3 +386,164 @@
   border-color: var(--color-deep-space-blue);
 }
 .ptm-pagination__buttons span { color: var(--color-neutral-500); }
+
+
+/* ==========================================================================
+   Add / Edit Partner form
+   ========================================================================== */
+
+.ptm-alert {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.ptm-alert--error {
+  border-color: #F3B6BC;
+  background: #FDEBEC;
+  color: #9C2B34;
+}
+.ptm-alert strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.ptm-alert ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.ptm-alert li {
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.ptm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ptm-form-card {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 24px 24px 8px;
+}
+
+.ptm-form-card__header {
+  margin-bottom: 20px;
+}
+.ptm-form-card__header h2 {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+.ptm-form-card__header p {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+.ptm-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 20px;
+  margin-bottom: 16px;
+}
+@media (max-width: 700px) {
+  .ptm-form-grid { grid-template-columns: 1fr; }
+}
+
+.ptm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ptm-form-field--full {
+  grid-column: 1 / -1;
+}
+
+.ptm-form-field label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.ptm-form-field label span {
+  color: #C0392B;
+  margin-left: 2px;
+}
+
+.ptm-form-field input[type="text"],
+.ptm-form-field input[type="url"],
+.ptm-form-field input[type="date"],
+.ptm-form-field input[type="file"],
+.ptm-form-field select,
+.ptm-form-field textarea {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background: var(--color-white);
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+.ptm-form-field input:hover,
+.ptm-form-field select:hover,
+.ptm-form-field textarea:hover {
+  border-color: var(--color-neutral-500);
+}
+.ptm-form-field input:focus,
+.ptm-form-field select:focus,
+.ptm-form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-cerulean);
+  box-shadow: 0 0 0 3px rgba(0, 123, 191, 0.15);
+}
+
+.ptm-form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 15px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.ptm-form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: var(--font-body);
+}
+
+.ptm-form-field input[type="file"] {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.ptm-form-help {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+.ptm-form-error {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #C0392B;
+}
+
+.ptm-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 4px 0 20px;
+}

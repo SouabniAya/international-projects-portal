@@ -12,7 +12,7 @@
 @import './components.css';
 @import 'pages/projects.css';
 @import 'pages/admin-opportunities.css';
-@import 'pages/admin-users.css';
+
 @import 'pages/admin-requests-documents.css';
 @import 'pages/admin-project-details.css';
 @import 'pages/admin-partners.css';
@@ -29,3 +29,7 @@
 @import 'pages/mobility-details.css';
 @import 'pages/admin-mobility.css';
 @import 'pages/project-details.css';
+@import "pages/call-details.css";
+@import "pages/calls.css";
+@import './admin-users.css';
+@import './diaporama.css';

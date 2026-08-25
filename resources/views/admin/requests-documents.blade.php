@@ -10,6 +10,12 @@
         <p>Manage incoming requests and the document library in one centralized place.</p>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert--success" style="margin-bottom:16px; padding:12px 16px; border-radius:8px; background:#E6F4EA; color:#1E7E34;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     {{-- Contact Requests --}}
     <section class="reqdocs-panel">
         <div class="reqdocs-panel__head">
@@ -23,7 +29,6 @@
                     <tr>
                         <th>Requester</th>
                         <th>Subject</th>
-                        <th>Reason</th>
                         <th>Submitted On</th>
                         <th>Status</th>
                         <th>Assigned To</th>
@@ -31,19 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                    $contactRequests = collect(range(1, 3))->map(fn() => [
-                        'name' => 'Mohamed Salah',
-                        'email' => 'm.salah@email.com',
-                        'subject' => 'Information about funding opportunities',
-                        'reason' => 'Request for information',
-                        'date' => '15 May 2024 10:23 AM',
-                        'status' => 'New',
-                        'assigned' => 'Unassigned',
-                    ]);
-                    @endphp
-
-                    @foreach($contactRequests as $r)
+                    @forelse ($contactRequests as $r)
                     <tr>
                         <td>
                             <div class="reqdocs-table__requester">
@@ -55,10 +48,15 @@
                             </div>
                         </td>
                         <td>{{ $r['subject'] }}</td>
-                        <td>{{ $r['reason'] }}</td>
-                        <td>{{ $r['date'] }}</td>
-                        <td><span class="reqdocs-table__status reqdocs-table__status--new">{{ $r['status'] }}</span></td>
-                        <td><span class="reqdocs-table__unassigned">{{ $r['assigned'] }}</span></td>
+                        <td>{{ $r['date']->format('d M Y h:i A') }}</td>
+                        <td><span class="reqdocs-table__status reqdocs-table__status--{{ strtolower($r['status']) }}">{{ ucfirst($r['status']) }}</span></td>
+                        <td>
+                            @if ($r['assigned'])
+                                {{ $r['assigned'] }}
+                            @else
+                                <span class="reqdocs-table__unassigned">Unassigned</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="reqdocs-table__actions">
                                 <button type="button" aria-label="Assign">
@@ -70,7 +68,9 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr><td colspan="6" style="text-align:center; padding:24px;">No contact requests yet.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -93,25 +93,11 @@
                         <th>Contact</th>
                         <th>Documents</th>
                         <th>Status</th>
-                        <th>Assigned to</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                    $partnerRequests = collect(range(1, 3))->map(fn() => [
-                        'name' => 'Nadia H.',
-                        'email' => 'nadia.h@eust.edu',
-                        'org' => 'European University of Science',
-                        'country_flag' => 'images/flags/fr.png',
-                        'phone' => '+33 1 23 45 67 89',
-                        'docs' => 2,
-                        'status' => 'Pending',
-                        'assigned' => 'Unassigned',
-                    ]);
-                    @endphp
-
-                    @foreach($partnerRequests as $r)
+                    @forelse ($partnerRequests as $r)
                     <tr>
                         <td>
                             <div class="reqdocs-table__requester">
@@ -123,26 +109,33 @@
                             </div>
                         </td>
                         <td>{{ $r['org'] }}</td>
-                        <td><img src="{{ asset($r['country_flag']) }}" alt="" class="reqdocs-table__flag"></td>
+                        <td><img src="{{ asset('images/flags/' . $r['country'] . '.png') }}" alt="" class="reqdocs-table__flag"></td>
                         <td>{{ $r['phone'] }}</td>
                         <td class="reqdocs-table__center">{{ $r['docs'] }}</td>
-                        <td><span class="reqdocs-table__status reqdocs-table__status--pending">{{ $r['status'] }}</span></td>
-                        <td><span class="reqdocs-table__unassigned">{{ $r['assigned'] }}</span></td>
+                        <td><span class="reqdocs-table__status reqdocs-table__status--{{ strtolower($r['status']) }}">{{ ucfirst($r['status']) }}</span></td>
                         <td>
                             <div class="reqdocs-table__actions">
-                                <button type="button" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--approve" aria-label="Approve">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                                <button type="button" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--reject" aria-label="Reject">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                                </button>
+                                <form method="POST" action="{{ route('admin.partnership.approve', $r['id']) }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--approve" aria-label="Approve">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('admin.partnership.reject', $r['id']) }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--reject" aria-label="Reject">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                    </button>
+                                </form>
                                 <button type="button" aria-label="View">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
                                 </button>
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr><td colspan="7" style="text-align:center; padding:24px;">No partnership requests yet.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -152,10 +145,6 @@
     <section class="reqdocs-panel">
         <div class="reqdocs-panel__head">
             <h2>Document Library</h2>
-            <button type="button" class="reqdocs-panel__add">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                Add Document
-            </button>
         </div>
 
         <div class="reqdocs-table-wrap">
@@ -171,13 +160,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                    $documents = [
-                        ['title' => 'Guide to Horizon Europe Programme', 'category' => 'Funding Programmes', 'date' => '10 Apr 2024', 'visibility' => 'Public', 'size' => '2.3 MB'],
-                    ];
-                    @endphp
-
-                    @foreach($documents as $doc)
+                    @forelse ($documents as $doc)
                     <tr>
                         <td>
                             <div class="reqdocs-table__doc">
@@ -186,24 +169,32 @@
                             </div>
                         </td>
                         <td>{{ $doc['category'] }}</td>
-                        <td>{{ $doc['date'] }}</td>
+                        <td>{{ $doc['date']->format('d M Y') }}</td>
                         <td>{{ $doc['visibility'] }}</td>
-                        <td><a href="#" class="reqdocs-table__filelink">PDF ({{ $doc['size'] }})</a></td>
+                        <td><a href="{{ route('documents.download', $doc['id']) }}" class="reqdocs-table__filelink">{{ $doc['format'] }} ({{ $doc['size'] }})</a></td>
                         <td>
                             <div class="reqdocs-table__actions">
-                                <button type="button" aria-label="Download">
+                                <a href="{{ route('documents.download', $doc['id']) }}" aria-label="Download">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                                <button type="button" aria-label="Edit">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                                </button>
-                                <button type="button" aria-label="More">
-                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="19" cy="12" r="1.4" fill="currentColor"/></svg>
-                                </button>
+                                </a>
+                                <form method="POST" action="{{ route('admin.document.approve', $doc['id']) }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--approve" aria-label="Approve">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13l4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('admin.document.reject', $doc['id']) }}" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="reqdocs-table__icon-btn reqdocs-table__icon-btn--reject" aria-label="Reject">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr><td colspan="6" style="text-align:center; padding:24px;">No documents yet.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

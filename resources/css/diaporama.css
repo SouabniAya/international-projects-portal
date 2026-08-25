@@ -1,0 +1,218 @@
+.diaporama {
+    position: relative;
+    width: min(100%, 1416px);
+    height: 390px;
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--color-deep-space-blue);
+}
+
+.diaporama__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.diaporama__slide {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: flex-end;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.02);
+
+    transition:
+        opacity 0.6s ease,
+        transform 0.8s ease,
+        visibility 0.6s;
+}
+
+.diaporama__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+
+/* Full-slide image */
+.diaporama__image {
+    position: absolute;
+    inset: 0;
+
+    background-size: cover;
+    background-position: center;
+
+    z-index: 0;
+}
+
+
+/* Gradient makes the text readable */
+.diaporama__slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 20, 35, 0.88) 0%,
+            rgba(0, 20, 35, 0.60) 40%,
+            rgba(0, 20, 35, 0.10) 100%
+        );
+}
+
+
+/* Text directly over image */
+.diaporama__content {
+    position: relative;
+    z-index: 2;
+
+    width: 620px;
+    max-width: 65%;
+
+    padding: 42px 52px 52px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.diaporama__content .card__eyebrow {
+    color: var(--color-fresh-sky);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.diaporama__title {
+    margin: 0;
+
+    font-family: var(--font-heading);
+    font-size: clamp(26px, 3vw, 40px);
+    line-height: 1.12;
+    font-weight: 700;
+
+    color: var(--color-white);
+}
+
+.diaporama__text {
+    margin: 0;
+    max-width: 560px;
+
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, 0.86);
+}
+
+
+/* Button */
+.diaporama__content .btn {
+    margin-top: 8px;
+
+    color: var(--color-white);
+    border-color: var(--color-white);
+}
+
+.diaporama__content .btn:hover {
+    background: var(--color-white);
+    color: var(--color-deep-space-blue);
+}
+
+
+/* Small dots */
+.diaporama__dots {
+    position: absolute;
+    z-index: 5;
+
+    left: 50%;
+    bottom: 16px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 0;
+    background: transparent;
+}
+
+.diaporama__dots button {
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.65);
+
+    cursor: pointer;
+
+    transition:
+        width 0.25s ease,
+        background 0.25s ease;
+}
+
+.diaporama__dots button.is-active {
+    width: 19px;
+    height: 7px;
+
+    border-radius: 5px;
+
+    background: var(--color-white);
+}
+
+
+/* Responsive */
+@media (max-width: 900px) {
+
+    .diaporama {
+        height: 350px;
+    }
+
+    .diaporama__content {
+        max-width: 80%;
+        padding: 35px 35px 48px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .diaporama {
+        height: 360px;
+        border-radius: 14px;
+    }
+
+    .diaporama__slide::after {
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 20, 35, 0.9) 0%,
+                rgba(0, 20, 35, 0.45) 70%,
+                rgba(0, 20, 35, 0.15) 100%
+            );
+    }
+
+    .diaporama__content {
+        width: 100%;
+        max-width: 100%;
+        padding: 28px 24px 48px;
+    }
+
+    .diaporama__title {
+        font-size: 25px;
+    }
+
+    .diaporama__text {
+        font-size: 14px;
+    }
+}
