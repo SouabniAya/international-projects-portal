@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRequest;
 use App\Models\Document;
+use App\Models\Partner;
 use App\Models\PartnershipRequest;
 use Illuminate\Http\Request;
 
@@ -78,14 +79,83 @@ class RequestsDocumentsController extends Controller
         ]);
     }
 
+    public function showContactRequest(int $requestID)
+    {
+        $locale = app()->getLocale();
+
+        $request = ContactRequest::with([
+            'subject.translations',
+            'requesterCategory.translations',
+            'handler',
+        ])->findOrFail($requestID);
+
+        return view('admin.requests.contact-show', [
+            'r' => $request,
+            'subjectLabel' => optional(
+                $request->subject?->translations->firstWhere('languageCode', $locale)
+            )->subjectLabel ?? $request->subject?->subjectCode,
+            'categoryLabel' => optional(
+                $request->requesterCategory?->translations->firstWhere('languageCode', $locale)
+            )->categoryLabel ?? $request->requesterCategory?->categoryCode,
+        ]);
+    }
+
+    public function showPartnershipRequest(int $requestID)
+    {
+        $request = PartnershipRequest::with(['documents', 'handler', 'countryModel'])
+            ->findOrFail($requestID);
+
+        return view('admin.requests.partnership-show', [
+            'r' => $request,
+        ]);
+    }
+
     public function approvePartnership(int $requestID)
     {
-        PartnershipRequest::findOrFail($requestID)->update([
+        $partnershipRequest = PartnershipRequest::findOrFail($requestID);
+
+        // Only create the Partner the first time this request is approved —
+        // re-clicking Approve on an already-accepted request (or approving
+        // after a Reject) must never create a duplicate Partner row.
+        if ($partnershipRequest->status !== 'accepted') {
+            $this->createPartnerFromRequest($partnershipRequest);
+        }
+
+        $partnershipRequest->update([
             'status'          => 'accepted',
             'handledByUserID' => auth()->id(),
         ]);
 
-        return back()->with('success', 'Partnership request approved.');
+        return back()->with('success', 'Partnership request approved and partner added.');
+    }
+
+    /**
+     * BecomeAPartnerController folds fields with no dedicated PartnershipRequest
+     * column (institution type, website, city) into `message` as labeled lines,
+     * e.g. "Website: https://...". Pull those back out here so the new Partner
+     * isn't missing data the applicant actually provided.
+     */
+    private function createPartnerFromRequest(PartnershipRequest $partnershipRequest): void
+    {
+        $extract = function (string $label) use ($partnershipRequest): ?string {
+            if (preg_match('/^' . preg_quote($label, '/') . ':\s*(.+)$/mi', (string) $partnershipRequest->message, $m)) {
+                return trim($m[1]);
+            }
+            return null;
+        };
+
+        Partner::create([
+            'partnerName'       => $partnershipRequest->organizationName,
+            'city'              => $extract('City'),
+            'establishmentType' => $extract('Institution type'),
+            'partnershipType'   => 'Other', // not collected on the public form — set on the Edit Partner page
+            'partnershipStatus' => 'active',
+            'countryCode'       => $partnershipRequest->country,
+            'website'           => $extract('Website'),
+            'logo'              => null,
+            'publicationStatus' => 'published',
+            'publishedAt'       => now(),
+        ]);
     }
 
     public function rejectPartnership(int $requestID)

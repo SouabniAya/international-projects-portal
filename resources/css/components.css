@@ -168,6 +168,7 @@
 }
 .badge--open { background: rgba(0, 168, 232, 0.14); color: var(--color-cerulean); }
 .badge--closing-soon { background: rgba(0, 52, 89, 0.10); color: var(--color-deep-space-blue); }
+.badge--upcoming { background: rgba(0, 126, 167, 0.10); color: var(--color-cerulean); }
 .badge--closed { background: rgba(0, 23, 31, 0.08); color: var(--color-neutral-500); }
 .badge--ongoing { background: rgba(0, 168, 232, 0.14); color: var(--color-cerulean); }
 .badge--completed { background: rgba(0, 23, 31, 0.08); color: var(--color-neutral-500); }

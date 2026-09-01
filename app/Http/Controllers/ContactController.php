@@ -67,6 +67,7 @@ class ContactController extends Controller
             'subject'        => 'required|integer',
             'message'        => 'required|string',
             'consent'        => 'required|accepted',
+            'event_registration' => 'nullable|boolean',
         ]);
 
         $contactRequest = ContactRequest::create([

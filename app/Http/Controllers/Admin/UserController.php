@@ -172,6 +172,12 @@ class UserController extends Controller
                 'in:active,disabled',
             ],
 
+            'roleID' => [
+                'nullable',
+                'integer',
+                'exists:Role,roleID',
+            ],
+
             'roles' => [
                 'nullable',
                 'array',
@@ -183,7 +189,12 @@ class UserController extends Controller
             ],
         ]);
 
-        DB::transaction(function () use ($validated) {
+        $roleIds = $request->input('roles', []);
+        if ($request->filled('roleID') && empty($roleIds)) {
+            $roleIds = [(int) $request->input('roleID')];
+        }
+
+        DB::transaction(function () use ($validated, $roleIds) {
 
             $user = User::create([
                 'firstName' => $validated['firstName'],
@@ -195,8 +206,8 @@ class UserController extends Controller
                 'accountStatus' => $validated['accountStatus'],
             ]);
 
-            if (!empty($validated['roles'])) {
-                $user->roles()->sync($validated['roles']);
+            if (!empty($roleIds)) {
+                $user->roles()->sync(array_map('intval', array_values($roleIds)));
             }
         });
 
@@ -296,6 +307,12 @@ class UserController extends Controller
                 'in:active,disabled',
             ],
 
+            'roleID' => [
+                'nullable',
+                'integer',
+                'exists:Role,roleID',
+            ],
+
             'roles' => [
                 'nullable',
                 'array',
@@ -307,9 +324,15 @@ class UserController extends Controller
             ],
         ]);
 
+        $roleIds = $request->input('roles', []);
+        if ($request->filled('roleID') && empty($roleIds)) {
+            $roleIds = [(int) $request->input('roleID')];
+        }
+
         DB::transaction(function () use (
             $validated,
-            $user
+            $user,
+            $roleIds
         ) {
 
             $user->firstName = $validated['firstName'];
@@ -337,7 +360,7 @@ class UserController extends Controller
              * Sync roles.
              */
             $user->roles()->sync(
-                $validated['roles'] ?? []
+                array_map('intval', array_values($roleIds))
             );
         });
 

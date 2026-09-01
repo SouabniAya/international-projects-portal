@@ -9,4 +9,13 @@ class MobilityOpportunityTranslation extends Model
     protected $table = 'MobilityOpportunityTranslation';
     protected $primaryKey = 'translationID';
     public $timestamps = false;
+
+    protected $fillable = [
+        'mobilityID',
+        'languageCode',
+        'title',
+        'conditions',
+        'applicationProcess',
+        'selectionCriteria',
+    ];
 }

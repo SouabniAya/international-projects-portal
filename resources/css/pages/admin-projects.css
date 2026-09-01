@@ -378,3 +378,22 @@
 }
 .pm-sidebar__actions a:hover { color: var(--color-cerulean); }
 .pm-sidebar__actions svg { width: 16px; height: 16px; color: var(--color-neutral-500); flex-shrink: 0; }
+/* Fix: native <select> was drawing its own arrow inside .pm-filters__select /
+   .pm-toolbar__select on top of the custom SVG chevron already placed next
+   to it in the blade — this suppresses the native one so only the custom
+   SVG shows. */
+.pm-filters__select select,
+.pm-toolbar__select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}

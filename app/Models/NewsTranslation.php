@@ -9,4 +9,6 @@ class NewsTranslation extends Model
     protected $table = 'NewsTranslation';
     protected $primaryKey = 'translationID';
     public $timestamps = false;
+
+    protected $fillable = ['newsID', 'languageCode', 'title', 'content'];
 }

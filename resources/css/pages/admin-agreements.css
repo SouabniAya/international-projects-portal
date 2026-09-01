@@ -133,6 +133,22 @@
   color: var(--color-neutral-500);
   flex-shrink: 0;
 }
+/* Fix: native <select> draws its own arrow on top of the custom SVG
+   chevron placed next to it in the blade — same fix already applied to
+   Calls/Projects/Mobility filter bars. Suppress the native one. */
+.agr-filters__select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
+}
 
 .agr-filters__actions {
   display: flex;
@@ -527,4 +543,80 @@
 
 [dir="rtl"] .agr-filters__search input {
   text-align: right;
+}
+
+/* Board (card) view ------------------------------------------------------------ */
+.agr-board-wrap {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 20px;
+}
+.agr-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.agr-board__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 10px;
+  padding: 16px;
+}
+.agr-board__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.agr-board__card-head img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.agr-board__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+.agr-board__ref {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-neutral-500);
+}
+.agr-board__meta {
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.agr-board__meta > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.agr-board__meta dt {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+.agr-board__meta dd {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+.agr-board__link {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-cerulean);
+  text-decoration: none;
 }

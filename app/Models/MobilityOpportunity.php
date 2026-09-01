@@ -13,6 +13,23 @@ class MobilityOpportunity extends Model
     protected $primaryKey = 'mobilityID';
     public $timestamps = false;
 
+    protected $fillable = [
+        'hostingEstablishment', 'city', 'targetAudience', 'placesAvailable',
+        'startDate', 'endDate', 'requiredLanguageSkills', 'applicationDeadline',
+        'contact', 'fundingAvailable', 'applicationLink', 'featured',
+        'publicationStatus', 'publishedAt', 'scheduledAt', 'programID',
+        'countryCode', 'publishedByUserID', 'hostedByPartner', 'mobilityType',
+    ];
+
+    protected $casts = [
+        'startDate' => 'date',
+        'endDate' => 'date',
+        'applicationDeadline' => 'date',
+        'featured' => 'boolean',
+        'publishedAt' => 'datetime',
+        'scheduledAt' => 'datetime',
+    ];
+
     public function translations()
     {
         return $this->hasMany(MobilityOpportunityTranslation::class, 'mobilityID');
@@ -36,4 +53,8 @@ class MobilityOpportunity extends Model
 {
     return $this->hasMany(MobilityDocument::class, 'mobilityID')->with('document');
 }
+public function publisher()
+    {
+        return $this->belongsTo(User::class, 'publishedByUserID', 'userID');
+    }
 }

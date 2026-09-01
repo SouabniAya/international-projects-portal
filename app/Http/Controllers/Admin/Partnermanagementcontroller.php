@@ -61,6 +61,19 @@ class PartnerManagementController extends Controller
             $query->where('Partner.partnershipStatus', $request->input('partnershipStatus'));
         }
 
+        // Project filter — used by the "Partners" tab on a project's detail
+        // page (route('admin.partner-management', ['project' => $id])),
+        // scoped through the ProjectPartner pivot table.
+        if ($request->filled('project')) {
+            $projectId = $request->input('project');
+            $query->whereExists(function ($sub) use ($projectId) {
+                $sub->select(DB::raw(1))
+                    ->from('ProjectPartner')
+                    ->whereColumn('ProjectPartner.partnerID', 'Partner.partnerID')
+                    ->where('ProjectPartner.projectID', $projectId);
+            });
+        }
+
         // Domain filter — matches partners that cooperate in the given thematic area name
         if ($request->filled('domain')) {
             $domain = $request->input('domain');

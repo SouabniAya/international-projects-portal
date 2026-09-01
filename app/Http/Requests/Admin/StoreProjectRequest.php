@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreProjectRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        // Admin route group already gates access via the "admin" guard;
+        // per-permission checks can be layered in here later if/when
+        // granular permissions (RoleGrant) are enforced at the request level.
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'acronym' => ['nullable', 'string', 'max:50'],
+            'projectReference' => ['nullable', 'string', 'max:100'],
+            'coordinator' => ['required', 'string', 'max:255'],
+            'schoolRole' => ['required', 'string', 'max:100'],
+            'startDate' => ['required', 'date'],
+            'endDate' => ['required', 'date', 'after:startDate'],
+            'projectStatus' => ['required', 'in:proposed,ongoing,completed'],
+            'website' => ['nullable', 'url', 'max:255'],
+            'budget' => ['nullable', 'numeric', 'min:0'],
+            'featured' => ['nullable', 'boolean'],
+            'publicationStatus' => ['nullable', 'in:draft,scheduled,published,archived'],
+            'programID' => ['nullable', 'exists:FundingProgramme,programID'],
+            'countryCode' => ['required', 'exists:Country,countryCode'],
+
+            'translation' => ['required', 'array'],
+            'translation.title' => ['required', 'string', 'max:255'],
+            'translation.abstract' => ['nullable', 'string'],
+            'translation.objectives' => ['nullable', 'string'],
+            'translation.targetGroups' => ['nullable', 'string'],
+            'translation.keyResults' => ['nullable', 'string'],
+            'translation.publicDeliverables' => ['nullable', 'string'],
+            'translation.publications' => ['nullable', 'string'],
+        ];
+    }
+}

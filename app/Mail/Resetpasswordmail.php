@@ -4,13 +4,10 @@ namespace App\Mail;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordMail extends Mailable implements ShouldQueue
+class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,22 +15,16 @@ class ResetPasswordMail extends Mailable implements ShouldQueue
     {
     }
 
-    public function envelope(): Envelope
+    public function build()
     {
-        return new Envelope(subject: 'Reset your password — ESI International Projects Portal');
-    }
-
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.reset-password',
-            with: [
+        return $this->from('MS_nwRMRw@test-65qngkd37zdlwr12.mlsender.net', 'ESI International Projects Portal')
+            ->subject('Reset your password — ESI International Projects Portal')
+            ->view('emails.reset-password', [
                 'resetUrl' => route('password.reset', [
                     'token' => $this->token,
                     'email' => $this->user->email,
                 ]),
                 'firstName' => $this->user->firstName,
-            ],
-        );
+            ]);
     }
 }

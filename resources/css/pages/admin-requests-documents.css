@@ -220,7 +220,8 @@
   gap: 8px;
 }
 
-.reqdocs-table__actions button {
+.reqdocs-table__actions button,
+.reqdocs-table__actions a {
   width: 30px;
   height: 30px;
   display: inline-flex;
@@ -231,17 +232,20 @@
   background: var(--color-white);
   cursor: pointer;
   color: var(--color-text-primary);
+  text-decoration: none;
   transition: background 0.15s ease,
               color 0.15s ease,
               border-color 0.15s ease;
 }
 
-.reqdocs-table__actions button svg {
+.reqdocs-table__actions button svg,
+.reqdocs-table__actions a svg {
   width: 16px;
   height: 16px;
 }
 
-.reqdocs-table__actions button:hover {
+.reqdocs-table__actions button:hover,
+.reqdocs-table__actions a:hover {
   background: var(--color-neutral-100, #F5F5F5);
 }
 

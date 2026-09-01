@@ -1,452 +1,914 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RequestsDocumentsController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\CallController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\PresentationController;
-use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-// ---- Public pages ----------------------------------------------------
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/projects', fn () => view('projects'))->name('projects');
+
+// ============================================================================
+// PUBLIC PAGES
+// ============================================================================
+
+Route::get('/', [
+    App\Http\Controllers\HomeController::class,
+    'index'
+])->name('home');
+
+Route::get('/projects', [
+    App\Http\Controllers\ProjectController::class,
+    'index'
+])->name('projects');
+
+Route::get('/projects/{id}', [
+    App\Http\Controllers\ProjectController::class,
+    'show'
+])->name('projects.show');
 
 
-// Add these two lines to routes/web.php (alongside your other admin routes).
-// Don't forget: use App\Http\Controllers\CallController;
+// ============================================================================
+// PUBLIC CALLS
+// ============================================================================
+
+Route::get('/calls', [
+    CallController::class,
+    'index'
+])->name('calls.index');
+
+Route::get('/calls/{call}', [
+    CallController::class,
+    'show'
+])->name('calls.show');
 
 
-Route::get('/calls', [CallController::class, 'index'])->name('calls.index');
-Route::get('/calls/{call}', [CallController::class, 'show'])->name('calls.show');
+// ============================================================================
+// AUTHENTICATION
+// ============================================================================
 
-// ---- Authentication (UC2) ----------------------------------------------
-Route::get('/login', fn () => view('auth.login'))->name('login');
-Route::post('/login', fn () => back())->name('login.store');
-Route::get('/forgot-password', fn () => view('auth.forgot-password'))->name('password.request');
-Route::post('/forgot-password', fn () => back())->name('password.email');
-Route::post('/logout', fn () => redirect('/'))->name('logout');
+Route::get('/login', fn () => view('auth.login'))
+    ->name('login');
 
-// ---- Locale switcher -----------------------------------------------------
-// Requires App\Http\Middleware\SetLocale registered in bootstrap/app.php:
-//   ->withMiddleware(function (Middleware $middleware) {
-//       $middleware->web(append: [\App\Http\Middleware\SetLocale::class]);
-//   })
+Route::post('/login', [
+    AuthController::class,
+    'login'
+])->name('login.store');
+
+Route::post('/logout', [
+    AuthController::class,
+    'logout'
+])->name('logout');
+
+Route::get('/forgot-password', [
+    ForgotPasswordController::class,
+    'showLinkRequestForm'
+])->name('password.request');
+
+Route::post('/forgot-password', [
+    ForgotPasswordController::class,
+    'sendResetLink'
+])->name('password.email');
+
+Route::get('/reset-password/{token}', [
+    ForgotPasswordController::class,
+    'showResetForm'
+])->name('password.reset');
+
+Route::post('/reset-password', [
+    ForgotPasswordController::class,
+    'reset'
+])->name('password.update');
+
+
+// ============================================================================
+// LOCALE
+// ============================================================================
+
 Route::get('/lang/{locale}', function (string $locale) {
+
     if (in_array($locale, ['en', 'fr', 'ar'], true)) {
         session(['locale' => $locale]);
     }
+
     return back();
+
 })->name('lang.switch');
 
-Route::get('/partnerships', fn () => view('partnerships.index'))->name('partnerships.index');
-Route::get('/partnerships/{slug}', fn ($slug) => view('partnerships.show'))->name('partnerships.show');
+
+// ============================================================================
+// PUBLIC PARTNERSHIPS
+// ============================================================================
+
+Route::get('/partnerships', [
+    App\Http\Controllers\PartnerController::class,
+    'index'
+])->name('partnerships.index');
+
+Route::get('/partnerships/{slug}', [
+    App\Http\Controllers\PartnerController::class,
+    'show'
+])->name('partnerships.show');
 
 
+// ============================================================================
+// PUBLIC PRESENTATION
+// ============================================================================
 
-Route::get('/international-presentation', [PresentationController::class, 'index'])->name('presentation');
-
-Route::get('/funding-programmes/{slug}', fn ($slug) => view('funding-programmes.show'))->name('funding-programmes.show');
-
-Route::get('/news', fn () => view('news.index'))->name('news.index');
-Route::get('/news/{slug}', fn ($slug) => view('news.show'))->name('news.show');
-
-Route::get('/events', fn () => view('events.index'))->name('events.index');
-Route::get('/events/{slug}', fn ($slug) => view('events.show'))->name('events.show');
-
-Route::get('/testimonials', fn () => view('testimonials'))->name('testimonials');
-
-Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
-
-Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
-Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
-
-Route::get('/become-a-partner', fn () => view('become-a-partner'))->name('become-a-partner');
-Route::post('/become-a-partner', fn () => back())->name('become-a-partner.store');
-
-Route::get('/documents', fn () => view('documents'))->name('documents');
-
-    Route::get('/cooperation', fn () => view('admin.content-management'))->name('admin.content-management');
-   
-    
-
-    // Referenced by <form action="{{ route(...) }}"> on the admin pages.
-    // JS currently intercepts these submits for the demo (see resources/js/admin.js),
-    // so these can stay as simple redirect-back stubs until real controllers exist —
-    // just swap the closure for a Controller@method and the frontend needs no changes.
-    Route::post('/content', fn () => back())->name('admin.content.store');
-    Route::get('/content/create', fn () => view('admin.content.create'))->name('admin.content.create');
-    Route::post('/partnerships', fn () => back())->name('admin.partnerships.store');
-    Route::patch('/settings', fn () => back())->name('admin.settings.update');
-    Route::patch('/settings/password', fn () => back())->name('admin.settings.password');
+Route::get('/international-presentation', [
+    PresentationController::class,
+    'index'
+])->name('presentation');
 
 
-Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
-Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile');
-    Route::get('/users', [UserController::class, 'index'])
-        ->name('users.index');
-Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
-Route::put('/settings/profile', [App\Http\Controllers\Admin\SettingsController::class, 'updateProfile'])->name('settings.profile');
-Route::put('/settings/password', [App\Http\Controllers\Admin\SettingsController::class, 'updatePassword'])->name('settings.password');
-Route::put('/settings/two-factor', [App\Http\Controllers\Admin\SettingsController::class, 'toggleTwoFactor'])->name('settings.two-factor');
-    Route::get('/users/create', [UserController::class, 'create'])
-        ->name('users.create');
+// ============================================================================
+// PUBLIC FUNDING PROGRAMMES / FUNDING OPPORTUNITIES
+// ============================================================================
 
-    Route::post('/users', [UserController::class, 'store'])
-        ->name('users.store');
+Route::get('/funding-opportunities', [
+    App\Http\Controllers\FundingProgrammeController::class,
+    'index'
+])->name('funding-programmes.index');
 
-    Route::get('/users/permissions', [UserController::class, 'permissions'])
-        ->name('users.permissions');
+Route::get('/funding-programmes/{id}', [
+    App\Http\Controllers\FundingProgrammeController::class,
+    'show'
+])->name('funding-programmes.show');
 
-    Route::get('/users/login-history', [UserController::class, 'loginHistory'])
-        ->name('users.login-history');
 
-    Route::get('/users/export', [UserController::class, 'export'])
-        ->name('users.export');
+// ============================================================================
+// PUBLIC NEWS
+// ============================================================================
 
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
-        ->name('users.edit');
+Route::get('/news', [
+    App\Http\Controllers\NewsController::class,
+    'index'
+])->name('news.index');
 
-    Route::get('/users/{user}', [UserController::class, 'show'])
-        ->name('users.show');
+Route::get('/news/{id}', [
+    App\Http\Controllers\NewsController::class,
+    'show'
+])->name('news.show');
 
-    Route::put('/users/{user}', [UserController::class, 'update'])
-        ->name('users.update');
 
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])
-        ->name('users.destroy');
+// ============================================================================
+// PUBLIC EVENTS
+// ============================================================================
+
+Route::get('/events', [
+    App\Http\Controllers\EventController::class,
+    'index'
+])->name('events.index');
+
+Route::get('/events/{id}', [
+    App\Http\Controllers\EventController::class,
+    'show'
+])->name('events.show');
+
+Route::get('/events/{id}/register', [
+    App\Http\Controllers\EventController::class,
+    'register'
+])->name('events.register');
+
+Route::post('/events/{id}/register', [
+    App\Http\Controllers\EventController::class,
+    'registerStore'
+])->name('events.register.store');
+
+
+// ============================================================================
+// PUBLIC TESTIMONIALS
+// ============================================================================
+
+Route::get('/testimonials', [
+    TestimonialController::class,
+    'index'
+])->name('testimonials.index');
+
+Route::get('/testimonials/submit', [
+    TestimonialController::class,
+    'create'
+])->name('testimonials.create');
+
+Route::post('/testimonials', [
+    TestimonialController::class,
+    'store'
+])->name('testimonials.store');
+
+
+// ============================================================================
+// FAQ / CONTACT
+// ============================================================================
+
+Route::get('/faq', [
+    App\Http\Controllers\FaqController::class,
+    'index'
+])->name('faq');
+
+Route::get('/help', fn () => view('help'))->name('help');
+
+Route::get('/contact', [
+    App\Http\Controllers\ContactController::class,
+    'index'
+])->name('contact');
+
+Route::post('/contact', [
+    App\Http\Controllers\ContactController::class,
+    'store'
+])->name('contact.store');
+
+
+// ============================================================================
+// BECOME A PARTNER
+// ============================================================================
+
+Route::get('/become-a-partner', function () {
+
+    $countries = \App\Models\Country::with([
+        'translations' => fn ($q) => $q->whereIn(
+            'languageCode',
+            [app()->getLocale(), 'en']
+        )
+    ])
+        ->get()
+        ->sortBy(
+            fn ($country) =>
+                $country->translation()?->countryName
+                ?? $country->countryCode
+        )
+        ->values();
+
+    return view('become-a-partner', compact('countries'));
+
+})->name('become-a-partner');
+
+Route::post('/become-a-partner', [
+    App\Http\Controllers\BecomeAPartnerController::class,
+    'store'
+])->name('become-a-partner.store');
+
+
+// ============================================================================
+// PUBLIC DOCUMENTS
+// ============================================================================
+
+Route::get('/documents', [
+    DocumentController::class,
+    'index'
+])->name('documents.index');
+
+Route::get('/documents/{documentID}/download', [
+    DocumentController::class,
+    'download'
+])->name('documents.download');
+
+
+// ============================================================================
+// PUBLIC MOBILITY
+// ============================================================================
+
+Route::get('/mobility', [
+    App\Http\Controllers\MobilityController::class,
+    'index'
+])->name('mobility.index');
+
+Route::get('/mobility/{id}', [
+    App\Http\Controllers\MobilityController::class,
+    'show'
+])->name('mobility.show');
+
+
+// ============================================================================
+// ADMIN
+// ALL NORMAL ADMIN ROUTES ARE PROTECTED BY auth:admin
+// ============================================================================
+
+Route::middleware('auth:admin')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        // --------------------------------------------------------------------
+        // Dashboard
+        // --------------------------------------------------------------------
+
+        Route::get('/dashboard', [
+            App\Http\Controllers\Admin\DashboardController::class,
+            'index'
+        ])->name('dashboard');
+
+        Route::get('/help', fn () => view('admin.help'))->name('help');
+
+        Route::get('/reports', [
+            App\Http\Controllers\Admin\ReportsController::class,
+            'index'
+        ])->name('reports');
+
+
+        // --------------------------------------------------------------------
+        // Profile
+        // --------------------------------------------------------------------
+
+        Route::get('/profile', [
+            App\Http\Controllers\Admin\ProfileController::class,
+            'index'
+        ])->name('profile');
+
+
+        // --------------------------------------------------------------------
+        // Content Management
+        // --------------------------------------------------------------------
+
+        Route::get('/cooperation', [
+            App\Http\Controllers\Admin\ContentManagementController::class,
+            'index'
+        ])->name('content-management');
+
+        Route::post('/content', fn () => back())
+            ->name('content.store');
+
+        Route::get('/content/create', fn () =>
+            view('admin.content.create')
+        )->name('content.create');
+
+        Route::post('/partnerships', fn () => back())
+            ->name('partnerships.store');
+
+        Route::get('/school-presentation', [
+            App\Http\Controllers\Admin\SchoolPresentationController::class,
+            'index'
+        ])->name('school-presentation');
+
+        Route::get('/school-presentation/edit', [
+            App\Http\Controllers\Admin\SchoolPresentationController::class,
+            'edit'
+        ])->name('school-presentation.edit');
+
+        Route::put('/school-presentation', [
+            App\Http\Controllers\Admin\SchoolPresentationController::class,
+            'update'
+        ])->name('school-presentation.update');
+
+        Route::get('/faqs', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'index'
+        ])->name('faqs');
+
+        Route::get('/faqs/create', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'create'
+        ])->name('faqs.create');
+
+        Route::post('/faqs', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'store'
+        ])->name('faqs.store');
+
+        Route::get('/faqs/{id}/edit', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'edit'
+        ])->name('faqs.edit');
+
+        Route::put('/faqs/{id}', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'update'
+        ])->name('faqs.update');
+
+        Route::delete('/faqs/{id}', [
+            App\Http\Controllers\Admin\FaqController::class,
+            'destroy'
+        ])->name('faqs.destroy');
+
+        Route::get('/testimonials', [
+            App\Http\Controllers\Admin\TestimonialController::class,
+            'index'
+        ])->name('testimonials');
+
+        Route::post('/testimonials/{id}/status', [
+            App\Http\Controllers\Admin\TestimonialController::class,
+            'updateStatus'
+        ])->name('testimonials.status');
+
+
+        // --------------------------------------------------------------------
+        // Users
+        // --------------------------------------------------------------------
+
+        Route::get('/users', [
+            UserController::class,
+            'index'
+        ])->name('users.index');
+
+        Route::get('/users/create', [
+            UserController::class,
+            'create'
+        ])->name('users.create');
+
+        Route::post('/users', [
+            UserController::class,
+            'store'
+        ])->name('users.store');
+
+        Route::get('/users/permissions', [
+            UserController::class,
+            'permissions'
+        ])->name('users.permissions');
+
+        Route::get('/users/permissions/{role}', [
+            UserController::class,
+            'managePermissions'
+        ])->name('users.permissions.manage');
+
+        Route::get('/users/login-history', [
+            UserController::class,
+            'loginHistory'
+        ])->name('users.login-history');
+
+        Route::get('/users/export', [
+            UserController::class,
+            'export'
+        ])->name('users.export');
+
+        Route::get('/users/{user}/edit', [
+            UserController::class,
+            'edit'
+        ])->name('users.edit');
+
+        Route::get('/users/{user}', [
+            UserController::class,
+            'show'
+        ])->name('users.show');
+
+        Route::put('/users/{user}', [
+            UserController::class,
+            'update'
+        ])->name('users.update');
+
+        Route::delete('/users/{user}', [
+            UserController::class,
+            'destroy'
+        ])->name('users.destroy');
+
+
+        // --------------------------------------------------------------------
+        // Settings
+        // --------------------------------------------------------------------
+
+        Route::get('/settings', [
+            App\Http\Controllers\Admin\SettingsController::class,
+            'index'
+        ])->name('settings');
+
+        Route::put('/settings/profile', [
+            App\Http\Controllers\Admin\SettingsController::class,
+            'updateProfile'
+        ])->name('settings.profile');
+
+        Route::put('/settings/password', [
+            App\Http\Controllers\Admin\SettingsController::class,
+            'updatePassword'
+        ])->name('settings.password');
+
+        Route::put('/settings/two-factor', [
+            App\Http\Controllers\Admin\SettingsController::class,
+            'toggleTwoFactor'
+        ])->name('settings.two-factor');
+
+        Route::patch('/settings', fn () => back())
+            ->name('settings.update');
+
+
+        // --------------------------------------------------------------------
+        // Opportunities
+        // --------------------------------------------------------------------
+
+        Route::get('/opportunities', [
+            CallController::class,
+            'opportunitiesIndex'
+        ])->name('opportunities');
+
+
+        // --------------------------------------------------------------------
+        // PROJECTS
+        // --------------------------------------------------------------------
+
+        Route::get('/projects', [
+            ProjectController::class,
+            'index'
+        ])->name('projects');
+
+        Route::get('/projects/create', [
+            ProjectController::class,
+            'create'
+        ])->name('projects.create');
+
+        Route::get('/projects/export', [
+            ProjectController::class,
+            'export'
+        ])->name('projects.export');
+
+        Route::post('/projects', [
+            ProjectController::class,
+            'store'
+        ])->name('projects.store');
+
+        /*
+         * IMPORTANT:
+         * /projects/create MUST remain above /projects/{id}.
+         */
+        Route::get('/projects/{id}', [
+            ProjectController::class,
+            'show'
+        ])->name('project-details');
+
+        Route::put('/projects/{id}', [
+            ProjectController::class,
+            'update'
+        ])->name('projects.update');
+
+        Route::delete('/projects/{id}', [
+            ProjectController::class,
+            'destroy'
+        ])->name('projects.destroy');
+
+
+        // --------------------------------------------------------------------
+        // EVENTS
+        // --------------------------------------------------------------------
+
+        Route::get('/events', [
+            App\Http\Controllers\Admin\EventController::class,
+            'index'
+        ])->name('events');
+
+        Route::get('/events/create', [
+            App\Http\Controllers\Admin\EventController::class,
+            'create'
+        ])->name('events.create');
+
+        Route::post('/events', [
+            App\Http\Controllers\Admin\EventController::class,
+            'store'
+        ])->name('events.store');
+
+        Route::get('/events/{id}', [
+            App\Http\Controllers\Admin\EventController::class,
+            'show'
+        ])->name('events.show');
+
+        Route::get('/events/{id}/edit', [
+            App\Http\Controllers\Admin\EventController::class,
+            'edit'
+        ])->name('events.edit');
+
+        Route::put('/events/{id}', [
+            App\Http\Controllers\Admin\EventController::class,
+            'update'
+        ])->name('events.update');
+
+        Route::delete('/events/{id}', [
+            App\Http\Controllers\Admin\EventController::class,
+            'destroy'
+        ])->name('events.destroy');
+
+        Route::get('/news', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'index'
+        ])->name('news');
+
+        Route::get('/news/create', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'create'
+        ])->name('news.create');
+
+        Route::post('/news', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'store'
+        ])->name('news.store');
+
+        Route::get('/news/{id}', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'show'
+        ])->name('news.show');
+
+        Route::get('/news/{id}/edit', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'edit'
+        ])->name('news.edit');
+
+        Route::put('/news/{id}', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'update'
+        ])->name('news.update');
+
+        Route::delete('/news/{id}', [
+            App\Http\Controllers\Admin\NewsController::class,
+            'destroy'
+        ])->name('news.destroy');
+
+
+        // --------------------------------------------------------------------
+        // PARTNERS
+        // --------------------------------------------------------------------
+
+        // --------------------------------------------------------------------
+        // PARTNER MANAGEMENT
+        // --------------------------------------------------------------------
+
+        Route::get('/partner-management', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'index'
+        ])->name('partner-management');
+
+        Route::get('/partner-management/create', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'create'
+        ])->name('partner-management.create');
+
+        Route::post('/partner-management', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'store'
+        ])->name('partner-management.store');
+
+        Route::get('/partners/{partnerID}', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'show'
+        ])->name('partner-management.show');
+
+        Route::delete('/partners/{partnerID}', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'destroy'
+        ])->name('partner-management.destroy');
+
+        Route::get('/partners/{partnerID}/edit', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'edit'
+        ])->name('partner-management.edit');
+
+        Route::put('/partners/{partnerID}', [
+            App\Http\Controllers\Admin\PartnerManagementController::class,
+            'update'
+        ])->name('partner-management.update');
+
+
+        // --------------------------------------------------------------------
+        // ADMIN DOCUMENTS
+        // --------------------------------------------------------------------
+
+        Route::get('/documents', [
+            App\Http\Controllers\Admin\DocumentController::class,
+            'index'
+        ])->name('documents');
+
+        Route::post('/documents', [
+            App\Http\Controllers\Admin\DocumentController::class,
+            'store'
+        ])->name('documents.store');
+
+        Route::get('/documents/create-options', [
+            App\Http\Controllers\Admin\DocumentController::class,
+            'create'
+        ])->name('documents.create-options');
+
+        Route::delete('/documents/{documentID}', [
+            App\Http\Controllers\Admin\DocumentController::class,
+            'destroy'
+        ])->name('documents.destroy');
+
+
+        // --------------------------------------------------------------------
+        // CALLS
+        // --------------------------------------------------------------------
+
+        Route::get('/calls', [
+            CallController::class,
+            'adminIndex'
+        ])->name('calls');
+
+        Route::get('/calls/create', [
+            CallController::class,
+            'adminCreate'
+        ])->name('calls.create');
+
+        Route::get('/calls/export', [
+            CallController::class,
+            'adminExport'
+        ])->name('calls.export');
+
+        Route::post('/calls', [
+            CallController::class,
+            'adminStore'
+        ])->name('calls.store');
+
+        Route::put('/calls/{call}', [
+            CallController::class,
+            'adminUpdate'
+        ])->name('calls.update');
+
+        Route::delete('/calls/{call}', [
+            CallController::class,
+            'adminDestroy'
+        ])->name('calls.destroy');
+
+
+        // --------------------------------------------------------------------
+        // AGREEMENTS
+        // --------------------------------------------------------------------
+
+        Route::get('/agreements', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'index'
+        ])->name('agreements');
+
+        Route::post('/agreements', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'store'
+        ])->name('agreements.store');
+
+        Route::get('/agreements/create', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'create'
+        ])->name('agreements.create');
+
+        Route::get('/agreements/export', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'export'
+        ])->name('agreements.export');
+
+        Route::get('/agreements/{id}/edit', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'edit'
+        ])->name('agreements.edit');
+
+        Route::put('/agreements/{id}', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'update'
+        ])->name('agreements.update');
+
+        Route::delete('/agreements/{id}', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'destroy'
+        ])->name('agreements.destroy');
+
+        Route::get('/agreements/{id}', [
+            App\Http\Controllers\Admin\AgreementController::class,
+            'show'
+        ])->name('agreement-details');
+
+
+        // --------------------------------------------------------------------
+        // FUNDING PROGRAMMES
+        // --------------------------------------------------------------------
+
+        Route::get('/funding-programmes', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'index'
+        ])->name('funding-programmes');
+
+        Route::get('/funding-programmes/create', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'create'
+        ])->name('funding-programmes.create');
+
+        Route::get('/funding-programmes/{id}/edit', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'edit'
+        ])->name('funding-programmes.edit');
+
+        Route::post('/funding-programmes', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'store'
+        ])->name('funding-programmes.store');
+
+        Route::put('/funding-programmes/{id}', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'update'
+        ])->name('funding-programmes.update');
+
+        Route::delete('/funding-programmes/{id}', [
+            App\Http\Controllers\Admin\FundingProgrammeController::class,
+            'destroy'
+        ])->name('funding-programmes.destroy');
+
+
+        // --------------------------------------------------------------------
+        // MOBILITY
+        // --------------------------------------------------------------------
+
+        Route::get('/mobility', [
+            App\Http\Controllers\MobilityController::class,
+            'adminIndex'
+        ])->name('mobility');
+
+        Route::get('/mobility/create', [
+            App\Http\Controllers\MobilityController::class,
+            'adminCreate'
+        ])->name('mobility.create');
+
+        Route::get('/mobility/export', [
+            App\Http\Controllers\MobilityController::class,
+            'adminExport'
+        ])->name('mobility.export');
+
+        Route::post('/mobility', [
+            App\Http\Controllers\MobilityController::class,
+            'adminStore'
+        ])->name('mobility.store');
+
+        Route::put('/mobility/{mobility}', [
+            App\Http\Controllers\MobilityController::class,
+            'adminUpdate'
+        ])->name('mobility.update');
+
+        Route::delete('/mobility/{mobility}', [
+            App\Http\Controllers\MobilityController::class,
+            'adminDestroy'
+        ])->name('mobility.destroy');
+
+        Route::get('/mobility/{id}', [
+            App\Http\Controllers\MobilityController::class,
+            'adminShow'
+        ])->name('mobility-details');
+
+
+        // --------------------------------------------------------------------
+        // NOTIFICATIONS
+        // --------------------------------------------------------------------
+
+        Route::get('/notifications', [
+            App\Http\Controllers\Admin\NotificationController::class,
+            'index'
+        ])->name('notifications');
+
+        Route::get('/notifications/{id}', [
+            App\Http\Controllers\Admin\NotificationController::class,
+            'show'
+        ])->name('notification-details');
+
+
+        // --------------------------------------------------------------------
+        // CALL DETAILS
+        // --------------------------------------------------------------------
+
+        Route::get('/calls/{id}', [
+            CallController::class,
+            'adminShow'
+        ])->name('call-details');
+
 });
-Route::get('/admin/users/permissions/{role}', 
-    [UserController::class, 'managePermissions']
-)->name('admin.users.permissions.manage');
 
 
-Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+// ============================================================================
+// REQUESTS / DOCUMENTS WORKFLOW
+//
+// Must use auth:admin: AuthController only ever authenticates against
+// Auth::guard('admin') (see config/auth.php + AuthController::login()).
+// The plain 'auth' guard defaults to 'web', which no admin session ever
+// populates, so this group was unreachable by any admin account.
+// ============================================================================
 
+Route::middleware(['auth:admin'])
+    ->prefix('admin')
+    ->group(function () {
 
+        Route::get('/requests-documents', [
+            RequestsDocumentsController::class,
+            'index'
+        ])->name('admin.requests-documents');
 
+        Route::post('/partnership-requests/{requestID}/approve', [
+            RequestsDocumentsController::class,
+            'approvePartnership'
+        ])->name('admin.partnership.approve');
 
-// ---- Admin pages added by teammate (kept flat as originally written) ----
-Route::get('/admin/opportunities', function () {
-    return view('admin.opportunities');
-})->name('admin.opportunities');
+        Route::post('/partnership-requests/{requestID}/reject', [
+            RequestsDocumentsController::class,
+            'rejectPartnership'
+        ])->name('admin.partnership.reject');
 
+        Route::post('/documents/{documentID}/approve', [
+            RequestsDocumentsController::class,
+            'approveDocument'
+        ])->name('admin.document.approve');
 
-Route::get('/admin/projects/{id}', function ($id) {
-    return view('admin.project-details', ['id' => $id]);
-})->name('admin.project-details');
-Route::get('/admin/partners', function () {
-    $projectId = request()->query('project');
-    return view('admin.partners', ['projectId' => $projectId]);
-})->name('admin.partners');
-Route::get('/admin/documents', [App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('admin.documents');
-Route::post('/admin/documents', [App\Http\Controllers\Admin\DocumentController::class, 'store'])->name('admin.documents.store');
-Route::get('/admin/projects', function () {
-    return view('admin.projects');
-})->name('admin.projects');
-Route::get('/admin/documents/create-options', [App\Http\Controllers\Admin\DocumentController::class, 'create'])->name('admin.documents.create-options');
-Route::get('/admin/calls', function () {
-    $calls = [
-        [
-            'id' => 1,
-            'title' => 'Erasmus+ KA220 – Cooperation Partnerships in Higher Education',
-            'ref' => 'ERASMUS-EDU-2025-CP-HE',
-            'flag' => 'images/flags/eu.png',
-            'programme' => 'Erasmus+',
-            'type' => 'Partnership',
-            'status' => 'Open',
-            'opening' => 'Apr 15, 2025',
-            'deadline' => 'Jun 30, 2025',
-        ],
-        [
-            'id' => 2,
-            'title' => 'Horizon Europe – Research and Innovation Actions (RIA)',
-            'ref' => 'HORIZON-CL4-2025-01-RIA',
-            'flag' => 'images/flags/horizon.png',
-            'programme' => 'Horizon Europe',
-            'type' => 'Research & Innovation',
-            'status' => 'Open Soon',
-            'opening' => 'May 22, 2025',
-            'deadline' => 'Sep 18, 2025',
-        ],
-        [
-            'id' => 3,
-            'title' => 'MSCA Doctoral Networks 2025',
-            'ref' => 'HORIZON-MSCA-2025-DN-01',
-            'flag' => 'images/flags/msca.png',
-            'programme' => 'MSCA',
-            'type' => 'Research Training',
-            'status' => 'Open',
-            'opening' => 'Apr 8, 2025',
-            'deadline' => 'May 28, 2025',
-        ],
-        [
-            'id' => 4,
-            'title' => 'PRIMA Section 2 – Multi-topic 2025',
-            'ref' => 'PRIMA-S2-2025',
-            'flag' => 'images/flags/prima.png',
-            'programme' => 'PRIMA',
-            'type' => 'Research & Innovation',
-            'status' => 'Upcoming',
-            'opening' => 'Jun 1, 2025',
-            'deadline' => 'Aug 28, 2025',
-        ],
-        [
-            'id' => 5,
-            'title' => 'ERC Starting Grants 2025',
-            'ref' => 'ERC-2025-StG',
-            'flag' => 'images/flags/eu.png',
-            'programme' => 'European Commission',
-            'type' => 'Research',
-            'status' => 'Closed',
-            'opening' => 'Jul 11, 2024',
-            'deadline' => 'Oct 17, 2024',
-        ],
-        [
-            'id' => 6,
-            'title' => 'World Bank – Research Grants Program',
-            'ref' => 'WBG-RGP-2025',
-            'flag' => 'images/flags/worldbank.png',
-            'programme' => 'World Bank',
-            'type' => 'Grant',
-            'status' => 'Closed',
-            'opening' => 'Jan 10, 2025',
-            'deadline' => 'Mar 10, 2025',
-        ],
-    ];
+        Route::post('/documents/{documentID}/reject', [
+            RequestsDocumentsController::class,
+            'rejectDocument'
+        ])->name('admin.document.reject');
 
-    return view('admin.calls', compact('calls'));
-})->name('admin.calls');
-Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/requests-documents/contact/{requestID}', [
+    RequestsDocumentsController::class,
+    'showContactRequest'
+])->name('admin.requests.contact.show');
 
-Route::get('/partner-management', [App\Http\Controllers\Admin\PartnerManagementController::class, 'index'])->name('partner-management');
-    // Create Partner
-    Route::get('/partner-management/create', [App\Http\Controllers\Admin\PartnerManagementController::class, 'create'])
-        ->name('partner-management.create');
-Route::get('/partners/{partnerID}', [App\Http\Controllers\Admin\PartnerManagementController::class, 'show'])->name('partner-management.show');
-Route::delete('/partners/{partnerID}', [App\Http\Controllers\Admin\PartnerManagementController::class, 'destroy'])->name('partner-management.destroy');
-    Route::post('/partner-management', [App\Http\Controllers\Admin\PartnerManagementController::class, 'store'])
-        ->name('partner-management.store');
+Route::get('/requests-documents/partnership/{requestID}', [
+    RequestsDocumentsController::class,
+    'showPartnershipRequest'
+])->name('admin.requests.partnership.show');
 
 });
-Route::get('/admin/funding-programmes', function () {
-    return view('admin.funding-programmes');
-})->name('admin.funding-programmes');
-Route::get('/admin/requests', function () {
-    return view('admin.requests');
-})->name('admin.requests');
-Route::get('/admin/mobility/{id}', function ($id) {
-    return view('admin.mobility-details', ['id' => $id]);
-})->name('admin.mobility-details');
-Route::get('/admin/agreements', function () {
-    return view('admin.agreements');
-})->name('admin.agreements');
-Route::get('/admin/agreements/{id}', function ($id) {
-    return view('admin.agreement-details', ['id' => $id]);
-})->name('admin.agreement-details');
-Route::get('/admin/calls/{id}', function ($id) {
-    return view('admin.call-details', ['id' => $id]);
-})->name('admin.call-details');
-Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications');
-
-Route::get('/admin/notifications/{id}', function ($id) {
-    return view('admin.notification-details', ['id' => $id]);
-})->name('admin.notification-details');
-// Public mobility opportunities
-// Public mobility opportunities
-Route::get('/mobility', [App\Http\Controllers\MobilityController::class, 'index'])->name('mobility.index');
-Route::get('/mobility/{id}', [App\Http\Controllers\MobilityController::class, 'show'])->name('mobility.show');
-
-Route::get('/admin/mobility', function () {
-
-    $opportunities = [
-        [
-            'id' => 1,
-            'title' => 'Erasmus+ Student Mobility',
-            'ref' => 'ERASMUS-SM-2025-01',
-            'programme' => 'Erasmus+',
-            'direction' => 'Outgoing',
-            'status' => 'Open',
-            'opening' => 'Mar 15, 2025',
-            'deadline' => 'May 31, 2025',
-        ],
-        [
-            'id' => 2,
-            'title' => 'Staff Training Mobility',
-            'ref' => 'ERASMUS-ST-2025-02',
-            'programme' => 'Erasmus+',
-            'direction' => 'Outgoing',
-            'status' => 'Open',
-            'opening' => 'Feb 20, 2025',
-            'deadline' => 'Apr 20, 2025',
-        ],
-        [
-            'id' => 3,
-            'title' => 'Incoming Research Mobility',
-            'ref' => 'HORIZON-RM-2025-01',
-            'programme' => 'Horizon Europe',
-            'direction' => 'Incoming',
-            'status' => 'Open Soon',
-            'opening' => 'May 1, 2025',
-            'deadline' => 'Jun 15, 2025',
-        ],
-        [
-            'id' => 4,
-            'title' => 'PhD Exchange Programme',
-            'ref' => 'MSCA-PHD-2025-01',
-            'programme' => 'MSCA',
-            'direction' => 'Outgoing',
-            'status' => 'Closed',
-            'opening' => 'Jan 5, 2025',
-            'deadline' => 'Mar 10, 2025',
-        ],
-        [
-            'id' => 5,
-            'title' => 'Short-Term Student Mobility',
-            'ref' => 'ACAD-SS-2025-01',
-            'programme' => 'Academic Mobility',
-            'direction' => 'Outgoing',
-            'status' => 'Open',
-            'opening' => 'Mar 1, 2025',
-            'deadline' => 'May 5, 2025',
-        ],
-        [
-            'id' => 6,
-            'title' => 'Faculty Exchange Programme',
-            'ref' => 'ERASMUS-FE-2025-03',
-            'programme' => 'Erasmus+',
-            'direction' => 'Incoming',
-            'status' => 'Upcoming',
-            'opening' => 'Jun 1, 2025',
-            'deadline' => 'Jun 30, 2025',
-        ],
-    ];
-
-    return view('admin.mobility', compact('opportunities'));
-
-})->name('admin.mobility');
-Route::get('/partnerships/projects/{project}', function ($project) {
-
-    $projects = [
-
-        [
-            'programme' => 'Erasmus+',
-            'status' => 'Ongoing',
-            'title' => 'SmartEdu – Smart Education for the Digital Era',
-            'desc' => 'Enhancing digital education through innovative learning solutions.',
-            'tag' => 'Erasmus+',
-            'thematic_area' => 'Digital Education',
-            'duration' => '2025 – 2027',
-            'coordinator' => 'International University Consortium',
-            'countries' => 'Algeria, France, Spain, Italy',
-            'partners' => '8 partner institutions',
-            'budget' => '€850,000',
-            'overview' => 'SmartEdu is an international cooperation project focused on improving digital education through innovative technologies, modern teaching methodologies and collaborative learning environments.',
-            'objectives' => [
-                'Improve digital learning environments for students and teachers.',
-                'Develop innovative educational tools and resources.',
-                'Strengthen cooperation between European and international universities.',
-                'Promote digital skills and inclusive education.'
-            ]
-        ],
-
-        [
-            'programme' => 'Horizon Europe',
-            'status' => 'Proposed',
-            'title' => 'GreenCampus – Sustainable Universities',
-            'desc' => 'Promoting sustainable and eco-friendly university campuses.',
-            'tag' => 'Horizon Europe',
-            'thematic_area' => 'Environment & Sustainability',
-            'duration' => '2026 – 2029',
-            'coordinator' => 'European Sustainable Universities Network',
-            'countries' => 'Algeria, Germany, France, Belgium',
-            'partners' => '12 partner institutions',
-            'budget' => '€1,200,000',
-            'overview' => 'GreenCampus aims to support universities in their transition towards more sustainable, energy-efficient and environmentally responsible campuses.',
-            'objectives' => [
-                'Reduce energy consumption across university campuses.',
-                'Develop sustainable campus management strategies.',
-                'Promote renewable energy and green technologies.',
-                'Encourage environmental awareness among students and staff.'
-            ]
-        ],
-
-        [
-            'programme' => 'Erasmus+',
-            'status' => 'Completed',
-            'title' => 'ResearchConnect – Global Research Networks',
-            'desc' => 'Strengthening international research and academic collaboration.',
-            'tag' => 'Erasmus+',
-            'thematic_area' => 'Research & Innovation',
-            'duration' => '2023 – 2025',
-            'coordinator' => 'Global Research Alliance',
-            'countries' => 'Algeria, France, Germany, Portugal',
-            'partners' => '10 partner institutions',
-            'budget' => '€640,000',
-            'overview' => 'ResearchConnect strengthened international academic cooperation by creating new research networks, mobility opportunities and collaborative research initiatives.',
-            'objectives' => [
-                'Create international research networks.',
-                'Facilitate academic mobility.',
-                'Support collaborative research projects.',
-                'Increase knowledge exchange between partner institutions.'
-            ]
-        ],
-
-        [
-            'programme' => 'PRIMA',
-            'status' => 'Ongoing',
-            'title' => 'AgriTech – Smart Agriculture Solutions',
-            'desc' => 'Supporting smart and sustainable agricultural innovation.',
-            'tag' => 'PRIMA',
-            'thematic_area' => 'Agriculture & Technology',
-            'duration' => '2025 – 2028',
-            'coordinator' => 'Mediterranean Agricultural Research Network',
-            'countries' => 'Algeria, Tunisia, Italy, Spain',
-            'partners' => '9 partner institutions',
-            'budget' => '€920,000',
-            'overview' => 'AgriTech promotes the use of digital technologies and smart agricultural solutions to improve productivity and sustainability in Mediterranean agriculture.',
-            'objectives' => [
-                'Develop smart agriculture technologies.',
-                'Improve water and resource management.',
-                'Support sustainable agricultural production.',
-                'Promote technology transfer between research institutions and farmers.'
-            ]
-        ],
-
-        [
-            'programme' => 'Erasmus+',
-            'status' => 'Ongoing',
-            'title' => 'DigitalHealth – Innovation in Healthcare',
-            'desc' => 'Developing digital solutions for modern healthcare.',
-            'tag' => 'Erasmus+',
-            'thematic_area' => 'Digital Health',
-            'duration' => '2025 – 2027',
-            'coordinator' => 'European Digital Health Consortium',
-            'countries' => 'Algeria, France, Belgium, Netherlands',
-            'partners' => '7 partner institutions',
-            'budget' => '€780,000',
-            'overview' => 'DigitalHealth focuses on the development of innovative digital solutions that can improve healthcare education, research and services.',
-            'objectives' => [
-                'Develop digital healthcare solutions.',
-                'Improve digital health education.',
-                'Support collaboration between universities and healthcare institutions.',
-                'Promote innovation in healthcare services.'
-            ]
-        ],
-
-    ];
-
-    $selectedProject = collect($projects)->first(function ($item) use ($project) {
-        return Str::slug($item['title']) === $project;
-    });
-
-    abort_unless($selectedProject, 404);
-
-    return view('partnerships.project-details', [
-        'project' => $selectedProject
-    ]);
-
-})->name('partnerships.project.show');

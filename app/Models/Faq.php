@@ -13,6 +13,8 @@ class Faq extends Model
     protected $primaryKey = 'faqID';
     public $timestamps = false;
 
+    protected $fillable = ['displayOrder'];
+
     public function translations()
     {
         return $this->hasMany(FaqTranslation::class, 'faqID');

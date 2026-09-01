@@ -29,4 +29,9 @@ class SchoolPresentation extends Model
     {
         return $this->hasOne(OfficeHours::class, 'presentationID', 'presentationID');
     }
+
+    public function publisher()
+    {
+        return $this->belongsTo(User::class, 'publishedByUserID', 'userID');
+    }
 }

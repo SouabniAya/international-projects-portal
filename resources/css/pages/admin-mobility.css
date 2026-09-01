@@ -281,3 +281,97 @@
   border-color: var(--color-deep-space-blue);
 }
 .admmob-pagination__buttons span { color: var(--color-neutral-500); }
+
+/* Board (card) view ------------------------------------------------------------ */
+.admmob-board-wrap {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 20px;
+}
+.admmob-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.admmob-board__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 10px;
+  padding: 16px;
+}
+.admmob-board__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admmob-board__card-head img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.admmob-board__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+.admmob-board__ref {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-neutral-500);
+}
+.admmob-board__meta {
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.admmob-board__meta > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.admmob-board__meta dt {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+.admmob-board__meta dd {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+.admmob-board__link {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-cerulean);
+  text-decoration: none;
+}
+/* Fix: native <select> was drawing its own arrow inside .admmob-filters__select /
+   .admmob-toolbar__select on top of the custom SVG chevron already placed next
+   to it in the blade — this suppresses the native one so only the custom
+   SVG shows. */
+.admmob-filters__select select,
+.admmob-toolbar__select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}

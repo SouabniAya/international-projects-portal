@@ -1,146 +1,350 @@
-/* ============================================================
-   Calls for Proposals — listing page (calls/index.blade.php)
-   Extends the shared cd-* family from pages/call-details.css
-   (cd-page, cd-page__title, cd-tags, cd-tags__pill, cd-page__btn
-   are already defined there — don't redeclare them here).
-   resources/css/pages/calls.css
-   ============================================================ */
+/* ======================================================================
+   Public Calls for Proposals page
+   Matches the visual language of Projects / Mobility public pages.
+   ====================================================================== */
 
-/* ---- Filter bar ------------------------------------------- */
-.cd-filters {
+.calls-hero {
+    background: var(--color-deep-space-blue);
+    padding: 56px 24px 40px;
+}
+
+.calls-hero__inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+.calls-hero h1 {
+    font-family: var(--font-heading);
+    font-size: 40px;
+    color: var(--color-white);
+    margin: 0 0 8px;
+    position: relative;
+    padding-bottom: 16px;
+}
+
+.calls-hero h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 48px;
+    height: 4px;
+    background: var(--color-fresh-sky);
+}
+
+.calls-hero p {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-footer-text);
+    max-width: 60ch;
+    margin: 16px 0 0;
+}
+
+.calls-toolbar-wrap {
+    background: var(--color-deep-space-blue);
+    padding: 0 24px 56px;
+}
+
+.calls-toolbar {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: 12px;
+    padding: 16px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
-    margin: 0 0 28px;
-    padding: 16px;
-    background: #fff;
-    border: 1px solid var(--color-neutral-300, #d1d5db);
-    border-radius: 10px;
+    gap: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-.cd-filters__search {
+.calls-toolbar__search {
+    flex: 1 1 260px;
     display: flex;
     align-items: center;
     gap: 8px;
-    flex: 1 1 240px;
-    min-width: 200px;
-    padding: 8px 12px;
-    border: 1px solid var(--color-neutral-300, #d1d5db);
+    border: 1px solid var(--color-neutral-300);
     border-radius: 8px;
-    background: #fafafa;
+    padding: 10px 14px;
 }
 
-.cd-filters__search svg {
+.calls-toolbar__search svg {
     width: 18px;
     height: 18px;
-    color: var(--color-neutral-500, #6b7280);
+    color: var(--color-neutral-500);
     flex-shrink: 0;
 }
 
-.cd-filters__search input[type="search"] {
-    border: none;
+.calls-toolbar__search input {
+    border: 0;
+    outline: 0;
     background: transparent;
-    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
     width: 100%;
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 14.5px;
-    color: var(--color-ink-black, #1a1a1a);
 }
 
-.cd-filters select {
-    padding: 8px 12px;
-    border: 1px solid var(--color-neutral-300, #d1d5db);
-    border-radius: 8px;
+.calls-toolbar__select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 150px;
+}
+
+.calls-toolbar__select select {
+    width: 100%;
+    height: 38px;
+    padding: 0 34px 0 13px;
+    border: 1px solid #d9e1e8;
+    border-radius: 7px;
     background: #fff;
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 14px;
-    color: var(--color-ink-black, #1a1a1a);
+    color: #17324d;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+}
+
+.calls-toolbar__select select:hover,
+.calls-toolbar__select select:focus {
+    border-color: #0b6fa4;
+}
+
+.calls-toolbar__select select:focus {
+    box-shadow: 0 0 0 2px rgba(11, 111, 164, 0.12);
+}
+
+.calls-toolbar__select svg {
+    position: absolute;
+    right: 10px;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.calls-toolbar__button {
+    height: 38px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--color-deep-space-blue);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-/* ---- Results grid ------------------------------------------- */
-.cd-calls-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
+.calls-toolbar__button:hover {
+    opacity: .9;
 }
 
-.cd-call-card {
+.calls-grid-wrap {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 48px 24px;
+}
+
+.calls-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.calls-card {
+    border: 1px solid var(--color-neutral-300);
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+}
+
+.calls-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 10px;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid var(--color-neutral-300, #d1d5db);
-    border-radius: 12px;
-    text-decoration: none;
-    color: inherit;
-    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    margin-bottom: 16px;
 }
 
-.cd-call-card:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-    border-color: var(--color-neutral-500, #9ca3af);
+.calls-card__logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--color-neutral-100);
+    color: var(--color-cerulean);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
-.cd-call-card__title {
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-weight: 600;
-    font-size: 16.5px;
-    color: var(--color-ink-black, #1a1a1a);
-    margin: 0;
-    line-height: 1.35;
-}
-
-.cd-call-card__excerpt {
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--color-neutral-500, #6b7280);
-    margin: 0;
-}
-
-.cd-call-card__meta {
+.calls-card__badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: auto;
-    padding-top: 10px;
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 13px;
-    color: var(--color-neutral-500, #6b7280);
-    border-top: 1px solid var(--color-neutral-300, #e5e7eb);
+    justify-content: flex-end;
+    gap: 6px;
 }
 
-/* ---- Empty state ------------------------------------------- */
-.cd-empty-state {
+.calls-card__badge {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+}
+
+.calls-card__badge--programme {
+    background: #E8F3FA;
+    color: var(--color-cerulean);
+}
+
+.calls-card__badge--open {
+    background: #E6F4EA;
+    color: #1E7E34;
+}
+
+.calls-card__badge--upcoming,
+.calls-card__badge--closing-soon {
+    background: #FDEFE0;
+    color: #B4691E;
+}
+
+.calls-card__badge--closed {
+    background: var(--color-neutral-100);
+    color: var(--color-neutral-500);
+}
+
+.calls-card__title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    margin: 0 0 8px;
+}
+
+.calls-card__desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-neutral-500);
+    margin: 0 0 14px;
+    flex: 1;
+}
+
+.calls-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.calls-card__meta span {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 600;
+    background: #EFEAFB;
+    color: #6A3DC7;
+    padding: 3px 9px;
+    border-radius: 6px;
+}
+
+.calls-card__bottom {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-neutral-300);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.calls-card__deadline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-danger);
+}
+
+.calls-card__deadline svg {
+    width: 14px;
+    height: 14px;
+}
+
+.calls-card__link {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--color-cerulean);
+    text-decoration: none;
+}
+
+.calls-card__link:hover {
+    text-decoration: underline;
+}
+
+.calls-empty {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 48px 16px;
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 15px;
-    color: var(--color-neutral-500, #6b7280);
+    padding: 60px 20px;
+    color: var(--color-neutral-500);
+    font-family: var(--font-body);
 }
 
-/* ---- Pagination ---------------------------------------------- */
-.cd-pagination {
+.calls-empty h3 {
+    margin: 0 0 8px;
+    color: var(--color-text-primary);
+}
+
+.calls-empty p {
+    margin: 0;
+}
+
+.calls-pagination {
     display: flex;
     justify-content: center;
-    font-family: var(--font-body, 'Inter', sans-serif);
-    font-size: 14px;
+    align-items: center;
+    margin-top: 40px;
+    font-family: var(--font-body);
 }
 
-/* ---- Responsive -------------------------------------------- */
-@media (max-width: 640px) {
-    .cd-filters {
+@media (max-width: 1000px) {
+    .calls-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .calls-toolbar {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .cd-calls-grid {
+    .calls-toolbar__search,
+    .calls-toolbar__select,
+    .calls-toolbar__button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .calls-hero h1 {
+        font-size: 32px;
+    }
+
+    .calls-grid {
         grid-template-columns: 1fr;
     }
 }

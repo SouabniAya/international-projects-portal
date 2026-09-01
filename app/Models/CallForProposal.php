@@ -59,6 +59,11 @@ class CallForProposal extends Model
         return $this->belongsToMany(Country::class, 'EligibleIn', 'proposalID', 'countryCode', 'countryCode', 'countryCode');
     }
 
+    public function publisher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'publishedByUserID', 'userID');
+    }
+
     // ------------------------------------------------------------
     // Scopes
     // ------------------------------------------------------------

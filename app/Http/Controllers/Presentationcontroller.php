@@ -26,7 +26,13 @@ class PresentationController extends Controller
                     'name'        => $t->name ?? '',
                     'description' => $t->description ?? '',
                 ];
-            });
+            })
+            // Teams without a translation row for the current locale have
+            // nothing to display — skip them instead of rendering an empty
+            // card (was showing 2 blank boxes: teamID 1 and 2 have no rows
+            // in ResearchTeamTranslation at all, only 3 and 4 do).
+            ->filter(fn ($team) => trim($team['name']) !== '')
+            ->values();
 
         return view('presentation', [
             'vision'                      => $content->vision ?? '',

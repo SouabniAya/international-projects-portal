@@ -34,6 +34,16 @@ class Document extends Model
         return $this->belongsTo(Document::class, 'replacedByDocumentID', 'documentID');
     }
 
+    public function uploader()
+    {
+        return $this->belongsTo(User::class, 'uploadedByUserID', 'userID');
+    }
+
+    public function publisher()
+    {
+        return $this->belongsTo(User::class, 'publishedByUserID', 'userID');
+    }
+
     /**
      * Human-readable file size, e.g. "2.4 MB".
      */

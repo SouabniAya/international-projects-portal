@@ -10,6 +10,8 @@ class FaqTranslation extends Model
     protected $primaryKey = 'translationID';
     public $timestamps = false;
 
+    protected $fillable = ['faqID', 'languageCode', 'question', 'answer'];
+
     public function faq()
     {
         return $this->belongsTo(Faq::class, 'faqID');

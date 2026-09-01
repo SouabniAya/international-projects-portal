@@ -37,6 +37,16 @@ class Partner extends Model
             ->withPivot('partnerRole');
     }
 
+    public function agreements()
+    {
+        return $this->hasMany(Agreement::class, 'partnerID', 'partnerID');
+    }
+
+    public function publisher()
+    {
+        return $this->belongsTo(User::class, 'publishedByUserID', 'userID');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('partnershipStatus', 'active')->where('publicationStatus', 'published');

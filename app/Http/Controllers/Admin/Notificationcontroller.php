@@ -18,13 +18,47 @@ class NotificationController extends Controller
             ->orderByDesc('submissionDate')
             ->paginate(10)
             ->through(fn ($c) => [
-                'id' => $c->contactRequestID ?? $c->id ?? null,
-                'title' => 'Contact request from ' . $c->fullName,
+                'id' => $c->requestID,
+                'title' => 'New message from ' . $c->fullName,
                 'desc' => $c->message ?? '',
-                'status' => $c->status === 'new' ? 'Unread' : 'Read',
+                'status' => $c->status === 'new' ? 'unread' : 'read',
+                'status_label' => $c->status === 'new' ? 'Unread' : 'Read',
                 'datetime' => \Carbon\Carbon::parse($c->submissionDate)->format('M j, Y g:i A'),
             ]);
 
         return view('admin.notifications', compact('notifications'));
+    }
+
+    public function show(int $id)
+    {
+        $c = DB::table('ContactRequest')->where('requestID', $id)->first();
+
+        abort_unless($c, 404);
+
+        if ($c->status === 'new') {
+            DB::table('ContactRequest')->where('requestID', $id)->update(['status' => 'handled']);
+            $c->status = 'handled';
+        }
+
+        $subjectLabel = DB::table('ContactSubjectRoutingTranslation')
+            ->where('subjectCode', $c->subjectCode)
+            ->whereIn('languageCode', [app()->getLocale(), 'en'])
+            ->orderByRaw("languageCode = ? DESC", [app()->getLocale()])
+            ->value('subjectLabel');
+
+        $notification = [
+            'id' => $c->requestID,
+            'title' => 'Message from ' . $c->fullName,
+            'fullName' => $c->fullName,
+            'email' => $c->email,
+            'phone' => $c->phone ?? null,
+            'subject' => $subjectLabel ?: 'General inquiry',
+            'message' => $c->message ?? '',
+            'status' => $c->status === 'new' ? 'unread' : 'read',
+            'status_label' => $c->status === 'new' ? 'Unread' : 'Read',
+            'datetime' => \Carbon\Carbon::parse($c->submissionDate)->format('M j, Y g:i A'),
+        ];
+
+        return view('admin.notification-details', compact('notification'));
     }
 }

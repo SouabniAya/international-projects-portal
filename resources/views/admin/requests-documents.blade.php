@@ -65,9 +65,9 @@
                                 <button type="button" aria-label="Assign">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
                                 </button>
-                                <button type="button" aria-label="View">
+                                <a href="{{ route('admin.requests.contact.show', $r['id']) }}" aria-label="View">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -137,9 +137,9 @@
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                                     </button>
                                 </form>
-                                <button type="button" aria-label="View">
+                                <a href="{{ route('admin.requests.partnership.show', $r['id']) }}" aria-label="View">
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>

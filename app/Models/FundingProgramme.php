@@ -23,6 +23,16 @@ class FundingProgramme extends Model
         return $this->hasMany(CallForProposal::class, 'programID', 'programID');
     }
 
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'programID', 'programID');
+    }
+
+    public function documents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Document::class, 'FundingProgrammeDocument', 'programID', 'documentID');
+    }
+
     public function translation(?string $locale = null): ?FundingProgrammeTranslation
     {
         $locale ??= app()->getLocale();

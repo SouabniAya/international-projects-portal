@@ -40,6 +40,11 @@ class Testimony extends Model
         return $this->belongsTo(MobilityOpportunity::class, 'mobilityID', 'mobilityID');
     }
 
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class, 'reviewedByUserID', 'userID');
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');

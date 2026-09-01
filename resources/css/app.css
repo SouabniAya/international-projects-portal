@@ -9,6 +9,7 @@
 @import './admin-sidebar.css';
 @import './admin-layout.css';
 @import './hero.css';
+@import './auth.css';
 @import './components.css';
 @import 'pages/projects.css';
 @import 'pages/admin-opportunities.css';
@@ -25,11 +26,12 @@
 @import './pages/admin-agreements.css';
 @import 'pages/call-details.css';
 @import './pages/admin-notifications.css';
+@import './pages/admin-testimonials.css';
 @import 'pages/mobility.css';
 @import 'pages/mobility-details.css';
 @import 'pages/admin-mobility.css';
 @import 'pages/project-details.css';
-@import "pages/call-details.css";
 @import "pages/calls.css";
+@import './pages/admin-call-details.css';
 @import './admin-users.css';
 @import './diaporama.css';

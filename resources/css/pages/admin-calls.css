@@ -386,7 +386,8 @@
     background: #dcfce7;
 }
 
-.cfp-table__status--open-soon {
+.cfp-table__status--open-soon,
+.cfp-table__status--closing-soon {
     color: #b45309;
     background: #fef3c7;
 }
@@ -567,4 +568,97 @@
 
 [dir="rtl"] .cfp-toolbar__view button svg {
     transform: none;
+}
+
+/* Board (card) view ------------------------------------------------------------ */
+.cfp-board-wrap {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 20px;
+}
+.cfp-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.cfp-board__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 10px;
+  padding: 16px;
+}
+.cfp-board__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cfp-board__card-head img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.cfp-board__title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+.cfp-board__ref {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-neutral-500);
+}
+.cfp-board__meta {
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cfp-board__meta > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cfp-board__meta dt {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+.cfp-board__meta dd {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+.cfp-board__link {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-cerulean);
+  text-decoration: none;
+}
+/* Fix: native <select> was drawing its own arrow inside .cfp-filters__select /
+   .cfp-toolbar__select on top of the custom SVG chevron already placed next
+   to it in the blade — this suppresses the native one so only the custom
+   SVG shows. */
+.cfp-filters__select select,
+.cfp-toolbar__select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #111827;
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
 }
