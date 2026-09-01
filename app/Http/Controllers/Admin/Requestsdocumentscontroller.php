@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactRequest;
 use App\Models\Document;
+use App\Models\EventRegistration;
 use App\Models\Partner;
 use App\Models\PartnershipRequest;
 use Illuminate\Http\Request;
@@ -72,10 +73,30 @@ class RequestsDocumentsController extends Controller
                 ];
             });
 
+        $eventRegistrations = EventRegistration::with('event.translations')
+            ->orderByDesc('submissionDate')
+            ->take(5)
+            ->get()
+            ->map(function ($r) use ($locale) {
+                $eventTitle = optional(
+                    $r->event?->translations->firstWhere('languageCode', $locale)
+                )->title ?? '';
+
+                return [
+                    'id'     => $r->registrationID,
+                    'name'   => $r->fullName,
+                    'email'  => $r->email,
+                    'event'  => $eventTitle,
+                    'date'   => $r->submissionDate,
+                    'status' => $r->status,
+                ];
+            });
+
         return view('admin.requests-documents', [
-            'contactRequests' => $contactRequests,
-            'partnerRequests' => $partnerRequests,
-            'documents'       => $documents,
+            'contactRequests'    => $contactRequests,
+            'partnerRequests'    => $partnerRequests,
+            'documents'          => $documents,
+            'eventRegistrations' => $eventRegistrations,
         ]);
     }
 

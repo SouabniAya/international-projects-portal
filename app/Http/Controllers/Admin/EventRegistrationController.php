@@ -45,4 +45,13 @@ class EventRegistrationController extends Controller
         EventRegistration::findOrFail($registrationID)->delete();
         return back()->with('success', 'Registration deleted.');
     }
+    public function show(int $registrationID): View
+{
+    $registration = EventRegistration::with([
+        'event.translations',
+        'handler',
+    ])->findOrFail($registrationID);
+
+    return view('admin.event-registration-show', compact('registration'));
+}
 }

@@ -12,7 +12,7 @@ use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-
+use App\Http\Controllers\Admin\EventRegistrationController;
 // ============================================================================
 // PUBLIC PAGES
 // ============================================================================
@@ -169,7 +169,6 @@ Route::get('/events/{id}', [
     App\Http\Controllers\EventController::class,
     'show'
 ])->name('events.show');
-
 Route::get('/events/{id}/register', [
     App\Http\Controllers\EventController::class,
     'register'
@@ -293,6 +292,21 @@ Route::middleware('auth:admin')
     ->name('admin.')
     ->group(function () {
 
+
+    Route::get('/event-registrations', [
+    EventRegistrationController::class,
+    'index'
+])->name('event-registrations');
+
+Route::post('/event-registrations/{registrationID}/status', [
+    EventRegistrationController::class,
+    'updateStatus'
+])->name('event-registrations.status');
+
+Route::delete('/event-registrations/{registrationID}', [
+    EventRegistrationController::class,
+    'destroy'
+])->name('event-registrations.destroy');
         // --------------------------------------------------------------------
         // Dashboard
         // --------------------------------------------------------------------
@@ -319,9 +333,15 @@ Route::middleware('auth:admin')
             'index'
         ])->name('profile');
 
-
+Route::get(
+    '/event-registrations/{registrationID}',
+    [App\Http\Controllers\Admin\EventRegistrationController::class, 'show']
+)->name('event-registrations.show');
         // --------------------------------------------------------------------
-        // Content Management
+    Route::get(
+    '/event-registrations/{registrationID}',
+    [EventRegistrationController::class, 'show']
+)->name('event-registrations.show');    // Content Management
         // --------------------------------------------------------------------
 
         Route::get('/cooperation', [
@@ -481,6 +501,7 @@ Route::middleware('auth:admin')
 
         Route::patch('/settings', fn () => back())
             ->name('settings.update');
+
 
 
         // --------------------------------------------------------------------

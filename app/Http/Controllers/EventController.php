@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactSubjectRouting;
 use App\Models\Event;
-use App\Http\Controllers\ContactController;
+use App\Models\EventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -53,19 +53,48 @@ class EventController extends Controller
         ]);
     }
 
-    public function registerStore(Request $request, int $id)
-    {
-        $locale = app()->getLocale();
-        $event = Event::published()->with(['translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en'])])->findOrFail($id);
-        $title = $event->translation($locale)?->title ?? 'Event';
+ public function registerStore(Request $request, int $id)
+{
+    $locale = app()->getLocale();
 
-        $request->merge([
-            'message' => trim("Event registration interest: {$title}" . "\n\n" . ($request->input('message') ?? '')),
-        ]);
+    $event = Event::published()
+        ->with([
+            'translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en'])
+        ])
+        ->findOrFail($id);
 
-        return app(ContactController::class)->store($request);
-    }
+    $title = $event->translation($locale)?->title ?? 'Event';
 
+    $validated = $request->validate([
+        'fullName' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255'],
+        'phone' => ['nullable', 'string', 'max:50'],
+        'attendeeType' => ['required', 'in:participant,speaker,partner,press,other'],
+        'message' => ['nullable', 'string'],
+        'consent' => ['required', 'accepted'],
+    ]);
+
+    EventRegistration::create([
+        'eventID' => $event->eventID,
+        'fullName' => $validated['fullName'],
+        'email' => $validated['email'],
+        'phone' => $validated['phone'] ?? null,
+
+        // On conserve le type de participant
+        // dans subjectCode si c'est le champ prévu par ta table.
+        'subjectCode' => $validated['attendeeType'],
+
+        'message' => $validated['message'] ?? null,
+        'consent' => true,
+        'submissionDate' => now(),
+        'status' => 'pending',
+        'handledByUserID' => null,
+    ]);
+
+    return redirect()
+        ->route('events.show', $event->eventID)
+        ->with('success', 'Your registration request has been submitted successfully.');
+}
     public function show(int $id): View
     {
         $locale = app()->getLocale();

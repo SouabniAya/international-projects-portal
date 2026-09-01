@@ -16,10 +16,12 @@
 
     <form method="POST" action="{{ route('events.register.store', $event['id']) }}">
         @csrf
+
         <div class="form-group">
-            <label class="form-label" for="name">Full name</label>
-            <input class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+            <label class="form-label" for="fullName">Full name</label>
+            <input class="form-control" id="fullName" name="fullName" value="{{ old('fullName') }}" required>
         </div>
+
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" for="email">Email</label>
@@ -30,26 +32,31 @@
                 <input class="form-control" type="tel" id="phone" name="phone" value="{{ old('phone') }}">
             </div>
         </div>
+
         <div class="form-group">
-            <label class="form-label" for="subject">Reason</label>
-            <select class="form-control" id="subject" name="subject" required>
-                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>Select a reason</option>
-                @foreach($subjects as $subject)
-                    <option value="{{ $subject['code'] }}" @selected(old('subject') == $subject['code'])>{{ $subject['label'] }}</option>
-                @endforeach
+            <label class="form-label" for="attendeeType">Attending as</label>
+            <select class="form-control" id="attendeeType" name="attendeeType" required>
+                <option value="" disabled {{ old('attendeeType') ? '' : 'selected' }}>Select an option</option>
+                <option value="participant" @selected(old('attendeeType') == 'participant')>Participant</option>
+                <option value="speaker" @selected(old('attendeeType') == 'speaker')>Speaker</option>
+                <option value="partner" @selected(old('attendeeType') == 'partner')>Partner institution representative</option>
+                <option value="press" @selected(old('attendeeType') == 'press')>Press / Media</option>
+                <option value="other" @selected(old('attendeeType') == 'other')>Other</option>
             </select>
         </div>
+
         <div class="form-group">
             <label class="form-label" for="message">Additional information</label>
             <textarea class="form-control" id="message" name="message" rows="5">{{ old('message') }}</textarea>
         </div>
-        <input type="hidden" name="event_registration" value="1">
+
         <div class="form-group" style="margin-top:16px;">
             <label style="display:flex;align-items:center;gap:8px;">
                 <input type="checkbox" name="consent" value="1" required @checked(old('consent'))>
                 I agree to the processing of my information for this registration request.
             </label>
         </div>
+
         <button type="submit" class="btn btn--primary">Submit registration</button>
     </form>
 </section>
