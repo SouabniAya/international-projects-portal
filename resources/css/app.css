@@ -1,7 +1,8 @@
 /* Page-specific stylesheets, imported directly here (not via app.js).
    Design-system styles (tokens, base, header, footer, admin-*) are
    imported below, in cascade order: tokens → base → components → pages. */
-@import './tokens.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+   @import './tokens.css';
 @import './base.css';
 @import './header.css';
 @import './footer-public.css';

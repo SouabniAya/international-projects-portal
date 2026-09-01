@@ -27,62 +27,105 @@ use Illuminate\View\View;
 class ContentManagementController extends Controller
 {
     public function index(Request $request): View
-    {
-        $locale = app()->getLocale();
-        $search = trim((string) $request->query('search', ''));
-        $status = (string) $request->query('status', 'all');
-        $type = (string) $request->query('type', 'all');
+{
+    $locale = app()->getLocale();
+    $filters = $this->resolveFilters($request);
 
-        $items = $this->contentItems($locale);
+    $items = $this->filteredItems($locale, $filters);
 
-        if ($search !== '') {
-            $needle = mb_strtolower($search);
-            $items = $items->filter(function (array $item) use ($needle): bool {
-                return str_contains(mb_strtolower($item['title']), $needle)
-                    || str_contains(mb_strtolower($item['type']), $needle)
-                    || str_contains(mb_strtolower($item['author']), $needle);
-            });
+    $perPage = 10;
+    $page = max(1, (int) $request->query('page', 1));
+    $total = $items->count();
+
+    $pagedItems = $items->slice(($page - 1) * $perPage, $perPage)->values();
+
+    $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+        $pagedItems,
+        $total,
+        $perPage,
+        $page,
+        [
+            'path' => $request->url(),
+            'query' => $request->query(),
+        ]
+    );
+
+    // Types for the filter dropdown/tabs should reflect the full dataset,
+    // not just the current filter results, so build off contentItems() directly.
+    $types = $this->contentItems($locale)->pluck('type')->unique()->sort()->values();
+
+    return view('admin.content-management', [
+        'contentItems' => $paginator,
+        'contentTypes' => $types,
+        'filters' => $filters,
+    ]);
+}
+
+public function export(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+{
+    $locale = app()->getLocale();
+    $filters = $this->resolveFilters($request);
+
+    $items = $this->filteredItems($locale, $filters);
+
+    $filename = 'content-management-' . now()->format('Y-m-d_His') . '.csv';
+
+    return response()->streamDownload(function () use ($items) {
+        $handle = fopen('php://output', 'w');
+
+        // BOM so Excel opens UTF-8 correctly (accented names, etc.)
+        fwrite($handle, "\xEF\xBB\xBF");
+
+        fputcsv($handle, ['Content', 'Type', 'Status', 'Author', 'Date']);
+
+        foreach ($items as $item) {
+            fputcsv($handle, [
+                $item['title'],
+                $item['type'],
+                $item['label'],
+                $item['author'],
+                $item['date'],
+            ]);
         }
 
-        if ($status !== 'all') {
-            $items = $items->where('status', $status);
-        }
+        fclose($handle);
+    }, $filename, [
+        'Content-Type' => 'text/csv; charset=UTF-8',
+    ]);
+}
 
-        if ($type !== 'all') {
-            $items = $items->where('type', $type);
-        }
+private function resolveFilters(Request $request): array
+{
+    return [
+        'search' => trim((string) $request->query('search', '')),
+        'status' => (string) $request->query('status', 'all'),
+        'type' => (string) $request->query('type', 'all'),
+    ];
+}
 
-        $items = $items->values();
+private function filteredItems(string $locale, array $filters): Collection
+{
+    $items = $this->contentItems($locale);
 
-        $perPage = 10;
-        $page = max(1, (int) $request->query('page', 1));
-        $total = $items->count();
-
-        $pagedItems = $items->slice(($page - 1) * $perPage, $perPage)->values();
-
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
-            $pagedItems,
-            $total,
-            $perPage,
-            $page,
-            [
-                'path' => $request->url(),
-                'query' => $request->query(),
-            ]
-        );
-
-        $types = $items->pluck('type')->unique()->sort()->values();
-
-        return view('admin.content-management', [
-            'contentItems' => $paginator,
-            'contentTypes' => $types,
-            'filters' => [
-                'search' => $search,
-                'status' => $status,
-                'type' => $type,
-            ],
-        ]);
+    if ($filters['search'] !== '') {
+        $needle = mb_strtolower($filters['search']);
+        $items = $items->filter(function (array $item) use ($needle): bool {
+            return str_contains(mb_strtolower($item['title']), $needle)
+                || str_contains(mb_strtolower($item['type']), $needle)
+                || str_contains(mb_strtolower($item['author']), $needle);
+        });
     }
+
+    if ($filters['status'] !== 'all') {
+        $items = $items->where('status', $filters['status']);
+    }
+
+    if ($filters['type'] !== 'all') {
+        $items = $items->where('type', $filters['type']);
+    }
+
+    return $items->values();
+}
 
     public function create(): View
     {

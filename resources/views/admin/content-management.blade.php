@@ -90,9 +90,14 @@
 
     <button type="submit" class="btn btn--secondary btn--sm">{{ __('Apply') }}</button>
 
-    <a class="btn btn--outline btn--sm" href="#" data-export-csv="#contentTableWrap" data-export-filename="content-management">
-        ⭳ {{ __('Export CSV') }}
-    </a>
+   <a class="btn btn--outline btn--sm"
+   href="{{ route('admin.content-management.export', array_filter([
+        'search' => $filters['search'] ?: null,
+        'status' => $filters['status'] !== 'all' ? $filters['status'] : null,
+        'type'   => $filters['type'] !== 'all' ? $filters['type'] : null,
+   ])) }}">
+    ⭳ {{ __('Export CSV') }}
+</a>
 
     {{--
         Note: since results are now server-side paginated (10 per page),

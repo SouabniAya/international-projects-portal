@@ -340,6 +340,331 @@
   font-size: 12px;
   color: var(--color-neutral-500);
 }
+
+.pm-page {
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Back link ------------------------------------------------------------ */
+
+.pm-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-cerulean);
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.pm-page__back:hover {
+  text-decoration: underline;
+}
+
+/* Header ------------------------------------------------------------ */
+
+.pm-page__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pm-page__head h1 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin: 0 0 6px;
+}
+
+.pm-page__head p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+/* Error message ------------------------------------------------------------ */
+
+.pm-page .alert--error {
+  border: 1px solid #F1B8B8;
+  background: #FBE7E7;
+  color: #C23434;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+.pm-page .alert--error ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.pm-page .alert--error li {
+  margin-bottom: 4px;
+}
+
+.pm-page .alert--error li:last-child {
+  margin-bottom: 0;
+}
+
+/* Form container ------------------------------------------------------------ */
+
+.admin-form {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--color-white);
+}
+
+/* Main form grid ------------------------------------------------------------ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 16px;
+  margin-bottom: 24px;
+}
+
+/* All labels ------------------------------------------------------------ */
+
+.admin-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Inputs / selects / textarea ------------------------------------------------ */
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 10px 12px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Input height */
+
+.admin-form input,
+.admin-form select {
+  min-height: 42px;
+}
+
+/* Textareas */
+
+.admin-form textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Placeholder */
+
+.admin-form input::placeholder,
+.admin-form textarea::placeholder {
+  color: var(--color-neutral-500);
+  opacity: 0.7;
+}
+
+/* Focus */
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus {
+  border-color: var(--color-cerulean);
+  box-shadow: 0 0 0 3px rgba(43, 126, 177, 0.10);
+}
+
+/* Select */
+
+.admin-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #777 50%),
+    linear-gradient(135deg, #777 50%, transparent 50%);
+  background-position:
+    calc(100% - 16px) 18px,
+    calc(100% - 11px) 18px;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
+}
+
+/* Full-width fields ------------------------------------------------------------ */
+
+/*
+   The fields after .form-grid are:
+   Title
+   Conditions
+   Application process
+   Selection criteria
+*/
+
+.admin-form > label {
+  margin-bottom: 20px;
+}
+
+.admin-form > label:last-of-type {
+  margin-bottom: 24px;
+}
+
+/* Make title full width */
+
+.admin-form > label:first-of-type input {
+  min-height: 44px;
+}
+
+/* Textarea labels */
+
+.admin-form > label:has(textarea) {
+  gap: 7px;
+}
+
+/* Button ------------------------------------------------------------ */
+
+.pm-page__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 20px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
+}
+
+.pm-page__btn:hover {
+  opacity: 0.92;
+}
+
+.pm-page__btn:active {
+  transform: translateY(1px);
+}
+
+/* Required fields ------------------------------------------------------------ */
+
+.admin-form input:required,
+.admin-form select:required,
+.admin-form textarea:required {
+  background-color: var(--color-white);
+}
+
+/* Responsive ------------------------------------------------------------ */
+
+@media (max-width: 1000px) {
+  .pm-page {
+    padding: 24px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .pm-page {
+    padding: 20px 16px;
+  }
+
+  .pm-page__head {
+    margin-bottom: 20px;
+  }
+
+  .pm-page__head h1 {
+    font-size: 24px;
+  }
+
+  .admin-form {
+    padding: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .admin-form > label {
+    margin-bottom: 16px;
+  }
+
+  .pm-page__btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   RTL support
+   ========================================================================== */
+
+[dir="rtl"] .pm-page__back {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .pm-page__head,
+[dir="rtl"] .admin-form {
+  text-align: right;
+}
+
+[dir="rtl"] .admin-form label {
+  text-align: right;
+}
+
+[dir="rtl"] .admin-form input,
+[dir="rtl"] .admin-form select,
+[dir="rtl"] .admin-form textarea {
+  text-align: right;
+}
+
+[dir="rtl"] .admin-form select {
+  background-position:
+    16px 18px,
+    21px 18px;
+  padding-right: 12px;
+  padding-left: 34px;
+}
+
+[dir="rtl"] .pm-page .alert--error ul {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
 .admmob-board__meta dd {
   margin: 0;
   font-family: var(--font-body);

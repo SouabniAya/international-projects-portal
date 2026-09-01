@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-
+use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RequestsDocumentsController;
 use App\Http\Controllers\Admin\ProjectController;
@@ -298,10 +298,8 @@ Route::middleware('auth:admin')
     'index'
 ])->name('event-registrations');
 
-Route::post('/event-registrations/{registrationID}/status', [
-    EventRegistrationController::class,
-    'updateStatus'
-])->name('event-registrations.status');
+Route::patch('event-registrations/{registrationID}/status', [EventRegistrationController::class, 'updateStatus'])
+    ->name('event-registrations.status');
 
 Route::delete('/event-registrations/{registrationID}', [
     EventRegistrationController::class,
@@ -323,7 +321,11 @@ Route::delete('/event-registrations/{registrationID}', [
             'index'
         ])->name('reports');
 
+Route::get('content-management/export', [ContentManagementController::class, 'export'])
+    ->name('content-management.export');
 
+Route::get('content-management', [ContentManagementController::class, 'index'])
+    ->name('content-management');
         // --------------------------------------------------------------------
         // Profile
         // --------------------------------------------------------------------

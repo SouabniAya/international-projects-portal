@@ -17,7 +17,7 @@
     gap: 6px;
     font-size: 14px;
     font-weight: 500;
-    color: #2563eb;
+    color: #007EA7;
     text-decoration: none;
     margin-bottom: 20px;
 }
@@ -60,7 +60,7 @@
     align-items: center;
     gap: 8px;
     flex-shrink: 0;
-    background: #2563eb;
+    background: #007EA7;
     color: #fff;
     font-size: 14px;
     font-weight: 600;
@@ -77,7 +77,7 @@
 }
 
 .fpm-page__btn:hover {
-    background: #1d4ed8;
+    background: #007EA7;
 }
 
 /* Filters panel

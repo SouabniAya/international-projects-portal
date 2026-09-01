@@ -417,6 +417,7 @@
                                           style="display:inline;">
 
                                         @csrf
+                                        @method('PATCH')
 
                                         <input type="hidden"
                                                name="status"
@@ -450,6 +451,7 @@
                                           style="display:inline;">
 
                                         @csrf
+                                        @method('PATCH')
 
                                         <input type="hidden"
                                                name="status"
