@@ -12,14 +12,7 @@
         <h2>{{ __('Overview Dashboard') }}</h2>
         <p class="dash-header__date">{{ now()->format('F j, Y') }}</p>
     </div>
-    <div class="dash-header__actions">
-        <button type="button" class="btn btn--outline btn--sm" data-toast="{{ __('Report exported (demo — connect a real export endpoint once the backend exists).') }}">⭳ {{ __('Export Report') }}</button>
-        <select class="form-control" style="width:auto;">
-            <option>{{ __('Last 30 Days') }}</option>
-            <option>{{ __('Last 90 Days') }}</option>
-            <option>{{ __('This Year') }}</option>
-        </select>
-    </div>
+
 </div>
 <div class="section__header" style="margin:-16px 0 20px;">
     <button type="button" class="btn btn--primary btn--sm" data-modal-open="newPartnershipModal">+ {{ __('New Partnership') }}</button>
@@ -47,76 +40,64 @@
 
 {{-- Donut + Bar charts --}}
 <div class="chart-row">
-    <div class="chart-card">
-        <h3>{{ __('Partners by Region') }}</h3>
-        <div class="donut" style="background: conic-gradient(var(--color-deep-space-blue) 0% 33%, var(--color-cerulean) 33% 61%, var(--color-fresh-sky) 61% 82%, var(--color-neutral-300) 82% 100%);"></div>
-        <div class="donut-legend">
-            <div class="donut-legend__row"><span class="donut-legend__dot" style="background:var(--color-deep-space-blue);"></span> {{ __('Western Europe') }} <span class="donut-legend__value">33%</span></div>
-            <div class="donut-legend__row"><span class="donut-legend__dot" style="background:var(--color-cerulean);"></span> {{ __('North Africa') }} <span class="donut-legend__value">28%</span></div>
-            <div class="donut-legend__row"><span class="donut-legend__dot" style="background:var(--color-fresh-sky);"></span> {{ __('North America') }} <span class="donut-legend__value">21%</span></div>
-            <div class="donut-legend__row"><span class="donut-legend__dot" style="background:var(--color-neutral-300);"></span> {{ __('Other') }} <span class="donut-legend__value">18%</span></div>
-        </div>
-    </div>
-
-    <div class="chart-card">
-        <h3>{{ __('Projects by Status') }}</h3>
-        <div class="bar-chart">
-            <div class="bar-chart__col">
-                <span class="bar-chart__value">18</span>
-                <div class="bar-chart__bar" style="height:45%; background:var(--color-neutral-300);"></div>
-                <span class="bar-chart__label">{{ __('Proposed') }}</span>
+<div class="chart-card">
+    <h3>{{ __('Partners by Region') }}</h3>
+    <div class="donut" style="background: {{ $donutGradient }};"></div>
+    <div class="donut-legend">
+        @foreach ($donutSegments as $segment)
+            <div class="donut-legend__row">
+                <span class="donut-legend__dot" style="background:{{ $segment['color'] }};"></span>
+                {{ __($segment['name']) }}
+                <span class="donut-legend__value">{{ $segment['pct'] }}%</span>
             </div>
-            <div class="bar-chart__col">
-                <span class="bar-chart__value">62</span>
-                <div class="bar-chart__bar" style="height:100%; background:var(--color-cerulean);"></div>
-                <span class="bar-chart__label">{{ __('Ongoing') }}</span>
-            </div>
-            <div class="bar-chart__col">
-                <span class="bar-chart__value">20</span>
-                <div class="bar-chart__bar" style="height:50%; background:var(--color-deep-space-blue);"></div>
-                <span class="bar-chart__label">{{ __('Completed') }}</span>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 
-{{-- Recent Activity + Pending Actions --}}
+ <div class="chart-card">
+    <h3>{{ __('Projects by Status') }}</h3>
+    <div class="bar-chart">
+        @foreach ($projectBars as $bar)
+            <div class="bar-chart__col">
+                <span class="bar-chart__value">{{ $bar['value'] }}</span>
+                <div class="bar-chart__bar" style="height:{{ $bar['heightPct'] }}%; background:var(--color-cerulean);"></div>
+                <span class="bar-chart__label">{{ __($bar['label']) }}</span>
+            </div>
+        @endforeach
+    </div>
+</div>
+</div>
+
 <div class="list-row">
     <div class="list-card">
-        <div class="list-card__header"><h3>{{ __('Recent Activity') }}</h3><a href="#">{{ __('View All') }}</a></div>
-        @foreach ([
-            ['title' => 'New partnership request from TU Munich', 'sub' => '2 hours ago · Initiated by Dr. Schmidt'],
-            ['title' => 'Agreement updated for INSA Lyon', 'sub' => '5 hours ago · Erasmus+ Annex added'],
-            ['title' => 'Project approved: "AI for Green Energy"', 'sub' => 'Yesterday · Joint Research Fund'],
-            ['title' => 'Student mobility application submitted', 'sub' => 'Yesterday · Outgoing to Politecnico di Milano'],
-        ] as $item)
+        <div class="list-card__header"><h3>{{ __('Recently Added Partners') }}</h3></div>
+        @forelse ($recentPartners as $item)
         <div class="activity-item">
             <span class="activity-item__icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
             </span>
             <div>
-                <p class="activity-item__title">{{ __($item['title']) }}</p>
-                <p class="activity-item__sub">{{ __($item['sub']) }}</p>
+                <p class="activity-item__title">{{ $item['title'] }}</p>
+                <p class="activity-item__sub">{{ $item['sub'] }}</p>
             </div>
         </div>
-        @endforeach
+        @empty
+        <p class="activity-item__sub">{{ __('No partners yet.') }}</p>
+        @endforelse
     </div>
 
     <div class="list-card">
-        <div class="list-card__header"><h3>{{ __('Pending Actions') }}</h3><span class="badge badge--pending">{{ __('3 awaiting review') }}</span></div>
-        @foreach ([
-            ['title' => 'Partnership request — TU Munich', 'sub' => 'Submitted 2 hours ago'],
-            ['title' => 'Agreement renewal — Sorbonne Université', 'sub' => 'Expires in 45 days'],
-            ['title' => 'Mobility application — A. Belkacem', 'sub' => 'Submitted yesterday'],
-        ] as $item)
+        <div class="list-card__header"><h3>{{ __('Partners by Type') }}</h3></div>
+        @forelse ($partnersByType as $item)
         <div class="pending-item">
             <div>
-                <p class="pending-item__title">{{ __($item['title']) }}</p>
-                <p class="pending-item__sub">{{ __($item['sub']) }}</p>
+                <p class="pending-item__title">{{ $item['title'] }}</p>
+                <p class="pending-item__sub">{{ $item['sub'] }}</p>
             </div>
-            <button type="button" class="btn btn--outline btn--sm" data-toast="{{ __('Reviewing :title (demo — link this to the real review flow).', ['title' => $item['title']]) }}">{{ __('Review') }}</button>
         </div>
-        @endforeach
+        @empty
+        <p class="pending-item__sub">{{ __('No data yet.') }}</p>
+        @endforelse
     </div>
 </div>
 

@@ -22,15 +22,7 @@
 
 <section class="section" style="max-width:820px;">
     <div id="faqList">
-        @foreach ([
-            ['q' => 'How do I apply for a mobility opportunity?', 'a' => 'Browse the Mobility page, select an opportunity matching your profile, and follow the application link before the listed deadline.'],
-            ['q' => 'Can my institution become a partner of ESI?', 'a' => 'Yes — use the "Become a Partner" form to submit your institution\'s details. The International Relations Office will follow up within two weeks.'],
-            ['q' => 'Where can I find current calls for proposals?', 'a' => 'All open and upcoming calls are listed on the Calls for Proposals page, with filters by programme and thematic area.'],
-            ['q' => 'What documents do I need for an outgoing exchange?', 'a' => 'Typically a learning agreement, transcript of records, and a motivation letter. Exact requirements vary by programme — check the specific mobility listing.'],
-            ['q' => 'Who do I contact for partnership agreements?', 'a' => 'Reach out through the Contact page and select "Partnership Agreement" as the subject — your message will be routed to the right staff member.'],
-            ['q' => 'How long does mobility application review take?', 'a' => 'Most applications are reviewed within two to three weeks of the deadline. You will be notified by email either way.'],
-            ['q' => 'Can I apply for more than one mobility opportunity at a time?', 'a' => 'Yes, but you can only be selected for one active mobility per academic year unless stated otherwise in the call.'],
-        ] as $i => $item)
+     @foreach ($faqItems as $i => $item)
         <details data-filter-item style="border-bottom:1px solid var(--color-neutral-300); padding:18px 0;" @if($i === 0) open @endif>
             <summary style="cursor:pointer; font-family:var(--font-body); font-weight:600; font-size:15.5px; color:var(--color-ink-black); list-style:none;">
                 {{ $item['q'] }}

@@ -23,14 +23,13 @@
         <div class="card">
             <div class="card__body" style="display:flex; gap:20px; align-items:center;">
 
-                <span class="admin-header__avatar"
-                      style="width:64px; height:64px; font-size:22px;">
-                    AU
+                <span class="admin-header__avatar" style="width:64px; height:64px; font-size:22px;">
+                    {{ $initials }}
                 </span>
 
                 <div>
                     <h3 class="card__title" style="margin-bottom:4px;">
-                        Admin User
+                        {{ trim(($user->firstName ?? '') . ' ' . ($user->lastName ?? '')) ?: $user->userName }}
                     </h3>
 
                     <p class="card__text">
@@ -50,28 +49,18 @@
                 </h3>
 
                 <div class="contact-row" style="margin-top:14px;">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <rect x="3" y="5" width="18" height="14" rx="2"
-                              stroke="currentColor" stroke-width="1.6"/>
-                        <path d="m3 7 9 6 9-6"
-                              stroke="currentColor"
-                              stroke-width="1.6"/>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.6"/>
                     </svg>
-
-                    <span>admin@esi.dz</span>
+                    <span>{{ $user->email ?? '—' }}</span>
                 </div>
 
                 <div class="contact-row">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2C10.5 19 5 13.5 5 7a2 2 0 0 1 1-2Z"
-                              stroke="currentColor"
-                              stroke-width="1.4"
-                              stroke-linejoin="round"/>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2C10.5 19 5 13.5 5 7a2 2 0 0 1 1-2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
                     </svg>
-
-                    <span>+213 555 00 00 00</span>
+                    <span>{{ $user->phoneNumber ?? __('Not provided') }}</span>
                 </div>
 
             </div>
@@ -87,53 +76,26 @@
 
                 <div style="margin-top:8px;">
 
-                    <div class="activity-item"
-                         style="padding-left:0; padding-right:0;">
+                    @forelse($recentActivity as $activity)
+                        <div class="activity-item" style="padding-left:0; padding-right:0;">
+                            <span class="activity-item__icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+                                </svg>
+                            </span>
 
-                        <span class="activity-item__icon">
-                            <svg viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="9"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"/>
-                            </svg>
-                        </span>
-
-                        <div>
-                            <p class="activity-item__title">
-                                {{ __('Published "Erasmus+ mobility results announced"') }}
-                            </p>
-
-                            <p class="activity-item__sub">
-                                {{ __('Yesterday') }}
-                            </p>
+                            <div>
+                                <p class="activity-item__title">
+                                    {{ $activity['description'] }}
+                                </p>
+                                <p class="activity-item__sub">
+                                    {{ $activity['when'] }}
+                                </p>
+                            </div>
                         </div>
-
-                    </div>
-
-                    <div class="activity-item"
-                         style="padding-left:0; padding-right:0;">
-
-                        <span class="activity-item__icon">
-                            <svg viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="9"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"/>
-                            </svg>
-                        </span>
-
-                        <div>
-                            <p class="activity-item__title">
-                                {{ __('Updated the Partner Details page for INSA Lyon') }}
-                            </p>
-
-                            <p class="activity-item__sub">
-                                {{ __('3 days ago') }}
-                            </p>
-                        </div>
-
-                    </div>
+                    @empty
+                        <p class="card__text">{{ __('No recent activity.') }}</p>
+                    @endforelse
 
                 </div>
             </div>
@@ -150,18 +112,16 @@
                     {{ __('Account Status') }}
                 </h3>
 
-                <span class="badge badge--approved" style="margin-top:8px;">
-                    {{ __('Active') }}
+                <span class="badge {{ ($user->accountStatus ?? 'disabled') === 'active' ? 'badge--approved' : 'badge--rejected' }}" style="margin-top:8px;">
+                    {{ __(ucfirst($user->accountStatus ?? 'disabled')) }}
                 </span>
 
                 <p class="card__text" style="margin-top:12px;">
                     {{ __('Two-factor authentication:') }}
-                    <strong>{{ __('Not enabled') }}</strong>
+                    <strong>{{ $user->twoFactorEnabled ? __('Enabled') : __('Not enabled') }}</strong>
                 </p>
 
-                <a href="{{ url('/admin/settings') }}"
-                   class="btn btn--outline btn--sm"
-                   style="margin-top:8px;">
+                <a href="{{ url('/admin/settings') }}" class="btn btn--outline btn--sm" style="margin-top:8px;">
                     {{ __('Manage in Settings') }}
                 </a>
 

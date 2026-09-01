@@ -2,10 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RequestsDocumentsController;
+use App\Http\Controllers\CallController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 // ---- Public pages ----------------------------------------------------
-Route::get('/', fn () => view('home'))->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/projects', fn () => view('projects'))->name('projects');
-Route::get('/calls/{id}', fn ($id) => view('call-details', ['id' => $id]))->name('call-details');
+
+
+// Add these two lines to routes/web.php (alongside your other admin routes).
+// Don't forget: use App\Http\Controllers\CallController;
+
+
+Route::get('/calls', [CallController::class, 'index'])->name('calls.index');
+Route::get('/calls/{call}', [CallController::class, 'show'])->name('calls.show');
 
 // ---- Authentication (UC2) ----------------------------------------------
 Route::get('/login', fn () => view('auth.login'))->name('login');
@@ -29,7 +45,9 @@ Route::get('/lang/{locale}', function (string $locale) {
 Route::get('/partnerships', fn () => view('partnerships.index'))->name('partnerships.index');
 Route::get('/partnerships/{slug}', fn ($slug) => view('partnerships.show'))->name('partnerships.show');
 
-Route::get('/international-presentation', fn () => view('presentation'))->name('presentation');
+
+
+Route::get('/international-presentation', [PresentationController::class, 'index'])->name('presentation');
 
 Route::get('/funding-programmes/{slug}', fn ($slug) => view('funding-programmes.show'))->name('funding-programmes.show');
 
@@ -41,45 +59,19 @@ Route::get('/events/{slug}', fn ($slug) => view('events.show'))->name('events.sh
 
 Route::get('/testimonials', fn () => view('testimonials'))->name('testimonials');
 
-Route::get('/faq', fn () => view('faq'))->name('faq');
+Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faq');
 
-Route::get('/contact', fn () => view('contact'))->name('contact');
-Route::post('/contact', fn () => back())->name('contact.store');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/become-a-partner', fn () => view('become-a-partner'))->name('become-a-partner');
 Route::post('/become-a-partner', fn () => back())->name('become-a-partner.store');
 
 Route::get('/documents', fn () => view('documents'))->name('documents');
 
-// ---- Admin pages (add auth/role middleware once available) -----------
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        $kpis = [
-            ['label' => 'Countries', 'value' => 24, 'trend' => '+4%', 'direction' => 'up', 'icon' => 'globe'],
-            ['label' => 'Partners', 'value' => 72, 'trend' => '+8%', 'direction' => 'up', 'icon' => 'building'],
-            ['label' => 'Agreements', 'value' => 72, 'trend' => '0%', 'direction' => 'flat', 'icon' => 'document'],
-            ['label' => 'Projects', 'value' => 100, 'trend' => '+12%', 'direction' => 'up', 'icon' => 'folder'],
-            ['label' => 'Mobility', 'value' => 14, 'trend' => '-3%', 'direction' => 'down', 'icon' => 'plane'],
-            ['label' => 'Funding Calls', 'value' => 8, 'trend' => '+1%', 'direction' => 'up', 'icon' => 'megaphone'],
-        ];
-
-        $icons = [
-            'globe' => '<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18" stroke="currentColor" stroke-width="1.6"/>',
-            'building' => '<rect x="4" y="3" width="16" height="18" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h2M8 12h2M8 16h2M14 8h2M14 12h2M14 16h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-            'document' => '<path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-            'folder' => '<path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
-            'plane' => '<path d="M2.5 19.5 21 12 2.5 4.5 5 12l-2.5 7.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
-            'megaphone' => '<path d="M3 10v4a1 1 0 0 0 1 1h2l9 4V5L6 9H4a1 1 0 0 0-1 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 9a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
-        ];
-
-        $dirIcon = ['up' => '↑', 'down' => '↓', 'flat' => '→'];
-
-        return view('admin.dashboard', compact('kpis', 'icons', 'dirIcon'));
-    })->name('admin.dashboard');
-
     Route::get('/cooperation', fn () => view('admin.content-management'))->name('admin.content-management');
-    Route::get('/settings', fn () => view('admin.settings'))->name('admin.settings');
-    Route::get('/profile', fn () => view('admin.profile'))->name('admin.profile');
+   
+    
 
     // Referenced by <form action="{{ route(...) }}"> on the admin pages.
     // JS currently intercepts these submits for the demo (see resources/js/admin.js),
@@ -90,18 +82,59 @@ Route::prefix('admin')->group(function () {
     Route::post('/partnerships', fn () => back())->name('admin.partnerships.store');
     Route::patch('/settings', fn () => back())->name('admin.settings.update');
     Route::patch('/settings/password', fn () => back())->name('admin.settings.password');
+
+
+Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
+Route::get('/profile', [App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile');
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index');
+Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
+Route::put('/settings/profile', [App\Http\Controllers\Admin\SettingsController::class, 'updateProfile'])->name('settings.profile');
+Route::put('/settings/password', [App\Http\Controllers\Admin\SettingsController::class, 'updatePassword'])->name('settings.password');
+Route::put('/settings/two-factor', [App\Http\Controllers\Admin\SettingsController::class, 'toggleTwoFactor'])->name('settings.two-factor');
+    Route::get('/users/create', [UserController::class, 'create'])
+        ->name('users.create');
+
+    Route::post('/users', [UserController::class, 'store'])
+        ->name('users.store');
+
+    Route::get('/users/permissions', [UserController::class, 'permissions'])
+        ->name('users.permissions');
+
+    Route::get('/users/login-history', [UserController::class, 'loginHistory'])
+        ->name('users.login-history');
+
+    Route::get('/users/export', [UserController::class, 'export'])
+        ->name('users.export');
+
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+
+    Route::get('/users/{user}', [UserController::class, 'show'])
+        ->name('users.show');
+
+    Route::put('/users/{user}', [UserController::class, 'update'])
+        ->name('users.update');
+
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])
+        ->name('users.destroy');
 });
+Route::get('/admin/users/permissions/{role}', 
+    [UserController::class, 'managePermissions']
+)->name('admin.users.permissions.manage');
+
+
+Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+
+
 
 // ---- Admin pages added by teammate (kept flat as originally written) ----
 Route::get('/admin/opportunities', function () {
     return view('admin.opportunities');
 })->name('admin.opportunities');
-Route::get('/admin/users', function () {
-    return view('admin.users');
-})->name('admin.users');
-Route::get('/admin/requests-documents', function () {
-    return view('admin.requests-documents');
-})->name('admin.requests-documents');
+
+
 Route::get('/admin/projects/{id}', function ($id) {
     return view('admin.project-details', ['id' => $id]);
 })->name('admin.project-details');
@@ -109,20 +142,12 @@ Route::get('/admin/partners', function () {
     $projectId = request()->query('project');
     return view('admin.partners', ['projectId' => $projectId]);
 })->name('admin.partners');
-Route::get('/admin/documents', function () {
-    return view('admin.documents');
-})->name('admin.documents');
+Route::get('/admin/documents', [App\Http\Controllers\Admin\DocumentController::class, 'index'])->name('admin.documents');
+Route::post('/admin/documents', [App\Http\Controllers\Admin\DocumentController::class, 'store'])->name('admin.documents.store');
 Route::get('/admin/projects', function () {
     return view('admin.projects');
 })->name('admin.projects');
-/*Route::get('/admin/calls', function () {
-    return view('admin.calls');
-})->name('admin.calls');
-Route::get('/admin/calls', function () {
-    $calls = [];
-
-    return view('admin.calls', compact('calls'));
-})->name('admin.calls');*/
+Route::get('/admin/documents/create-options', [App\Http\Controllers\Admin\DocumentController::class, 'create'])->name('admin.documents.create-options');
 Route::get('/admin/calls', function () {
     $calls = [
         [
@@ -195,9 +220,18 @@ Route::get('/admin/calls', function () {
 
     return view('admin.calls', compact('calls'));
 })->name('admin.calls');
-Route::get('/admin/partner-management', function () {
-    return view('admin.partner-management');
-})->name('admin.partner-management');
+Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+Route::get('/partner-management', [App\Http\Controllers\Admin\PartnerManagementController::class, 'index'])->name('partner-management');
+    // Create Partner
+    Route::get('/partner-management/create', [App\Http\Controllers\Admin\PartnerManagementController::class, 'create'])
+        ->name('partner-management.create');
+Route::get('/partners/{partnerID}', [App\Http\Controllers\Admin\PartnerManagementController::class, 'show'])->name('partner-management.show');
+Route::delete('/partners/{partnerID}', [App\Http\Controllers\Admin\PartnerManagementController::class, 'destroy'])->name('partner-management.destroy');
+    Route::post('/partner-management', [App\Http\Controllers\Admin\PartnerManagementController::class, 'store'])
+        ->name('partner-management.store');
+
+});
 Route::get('/admin/funding-programmes', function () {
     return view('admin.funding-programmes');
 })->name('admin.funding-programmes');
@@ -216,16 +250,15 @@ Route::get('/admin/agreements/{id}', function ($id) {
 Route::get('/admin/calls/{id}', function ($id) {
     return view('admin.call-details', ['id' => $id]);
 })->name('admin.call-details');
-Route::get('/admin/notifications', function () {
-    return view('admin.notifications');
-})->name('admin.notifications');
+Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications');
+
 Route::get('/admin/notifications/{id}', function ($id) {
     return view('admin.notification-details', ['id' => $id]);
 })->name('admin.notification-details');
 // Public mobility opportunities
 // Public mobility opportunities
-Route::get('/mobility', fn () => view('mobility.mobility'))->name('mobility.index');
-Route::get('/mobility/{id}', fn ($id) => view('mobility.mobility-details', ['id' => $id]))->name('mobility.show');
+Route::get('/mobility', [App\Http\Controllers\MobilityController::class, 'index'])->name('mobility.index');
+Route::get('/mobility/{id}', [App\Http\Controllers\MobilityController::class, 'show'])->name('mobility.show');
 
 Route::get('/admin/mobility', function () {
 

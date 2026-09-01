@@ -220,3 +220,68 @@
   border-color: var(--color-deep-space-blue);
 }
 .mobility-pagination span { color: var(--color-neutral-500); }
+.mobility-toolbar__select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 135px;
+}
+
+.mobility-toolbar__select select {
+    width: 100%;
+    height: 38px;
+    padding: 0 34px 0 13px;
+    border: 1px solid #d9e1e8;
+    border-radius: 7px;
+    background: #fff;
+    color: #17324d;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+}
+
+.mobility-toolbar__select select:hover {
+    border-color: #0b6fa4;
+}
+
+.mobility-toolbar__select select:focus {
+    border-color: #0b6fa4;
+    box-shadow: 0 0 0 2px rgba(11, 111, 164, 0.12);
+}
+
+.mobility-toolbar__select svg {
+    position: absolute;
+    right: 10px;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.mobility-card__programme {
+    display: inline-flex;
+    margin-top: 8px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: #eef6fb;
+    color: #075985;
+    font-size: 11px;
+    font-weight: 600;
+}
+@media (max-width: 768px) {
+
+    .mobility-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .mobility-toolbar__search {
+        width: 100%;
+    }
+
+    .mobility-toolbar__select {
+        flex: 1;
+        min-width: 120px;
+    }
+
+}

@@ -263,3 +263,5 @@
   overflow: hidden;
   display: inline-flex;
 }
+.mobility-details__badge--open-soon { background: #FDEFE0; color: #B4691E; }
+.mobility-details__badge--closed { background: var(--color-neutral-100); color: var(--color-neutral-500); }

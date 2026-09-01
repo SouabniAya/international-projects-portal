@@ -1,5 +1,6 @@
 /* ==========================================================================
    Admin Partner Management page
+   (covers both the listing page and the Add/Edit Partner form)
    ========================================================================== */
 
 .ptm-page {
@@ -59,34 +60,29 @@
 }
 
 .ptm-page__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 18px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--color-cerulean);
-    color: var(--color-white);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    transition: filter 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ptm-page__btn svg { width: 16px; height: 16px; }
+
+.ptm-page__btn--outline {
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-neutral-300);
 }
 
-.ptm-page__btn:hover {
-    filter: brightness(0.95);
-}
-
-.ptm-page__btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-
-/* Filters
-   ========================================================================== */
-
+/* Filters ------------------------------------------------------------ */
 .ptm-filters {
     border: 1px solid var(--color-neutral-300);
     border-radius: 12px;
@@ -141,18 +137,19 @@
 
 
 .ptm-filters__reset {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: transparent;
-    border: 0;
-    color: var(--color-cerulean);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 13.5px;
-    cursor: pointer;
-    white-space: nowrap;
-    margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  color: var(--color-cerulean);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: auto;
+  text-decoration: none;
 }
 
 .ptm-filters__reset:hover {
@@ -204,38 +201,42 @@
     margin-bottom: 6px;
 }
 
+/* This is now applied to a real <select> element (not a decorative div) */
 .ptm-filters__select {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid var(--color-neutral-300);
-    border-radius: 8px;
-    padding: 9px 12px;
-    cursor: pointer;
-    background: var(--color-white);
+  display: block;
+  width: 100%;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 9px 36px 9px 12px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
 }
-
 .ptm-filters__select:hover {
-    border-color: var(--color-cerulean);
+  border-color: var(--color-neutral-500);
+}
+.ptm-filters__select:focus {
+  outline: none;
+  border-color: var(--color-cerulean);
+  box-shadow: 0 0 0 3px rgba(0, 123, 191, 0.15);
 }
 
-.ptm-filters__select span {
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    color: var(--color-text-primary);
-    margin: 0;
+.ptm-filters__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
 }
 
-.ptm-filters__select svg {
-    width: 14px;
-    height: 14px;
-    color: var(--color-neutral-500);
-}
-
-
-/* Toolbar
-   ========================================================================== */
-
+/* Toolbar ------------------------------------------------------------ */
 .ptm-toolbar {
     display: flex;
     align-items: center;
@@ -272,35 +273,22 @@
 }
 
 .ptm-toolbar__select {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid var(--color-neutral-300);
-    border-radius: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    background: var(--color-white);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 13px;
+  cursor: pointer;
 }
-
-.ptm-toolbar__select span {
-    font-family: var(--font-body);
-    font-size: 13.5px;
-}
-
-.ptm-toolbar__select svg {
-    width: 13px;
-    height: 13px;
-    color: var(--color-neutral-500);
-}
-
-
-.ptm-toolbar__view {
-    display: flex;
-    border: 1px solid var(--color-neutral-300);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
+.ptm-toolbar__view { display: flex; border: 1px solid var(--color-neutral-300); border-radius: 8px; overflow: hidden; }
 .ptm-toolbar__view button {
     display: flex;
     align-items: center;
@@ -394,7 +382,16 @@
     object-fit: cover;
     flex-shrink: 0;
 }
-
+.ptm-table__logo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cerulean);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+}
 .ptm-table__partner div,
 .ptm-table__location div {
     display: flex;
@@ -437,13 +434,15 @@
    ========================================================================== */
 
 .ptm-table__tag {
-    font-family: var(--font-body);
-    font-size: 11.5px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 6px;
-    background: #EFEAFB;
-    color: #6A3DC7;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #EFEAFB;
+  color: #6A3DC7;
+  margin-right: 4px;
+  display: inline-block;
 }
 
 
@@ -451,27 +450,16 @@
    ========================================================================== */
 
 .ptm-table__status {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: var(--radius-pill);
-    display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
 }
-
-.ptm-table__status--active {
-    background: #E6F4EA;
-    color: #1E7E34;
-}
-
-.ptm-table__status--pending {
-    background: #FDEFE0;
-    color: #B4691E;
-}
-
-
-/* Actions
-   ========================================================================== */
+.ptm-table__status--active  { background: #E6F4EA; color: #1E7E34; }
+.ptm-table__status--pending { background: #FDEFE0; color: #B4691E; }
+.ptm-table__status--expired { background: #FCE8E8; color: #C0392B; }
+.ptm-table__status--unknown { background: var(--color-neutral-100, #F1F1F1); color: var(--color-neutral-500); }
 
 .ptm-table__actions {
     display: flex;
@@ -490,21 +478,31 @@
     color: var(--color-text-primary);
     padding: 0;
 }
+.ptm-table__actions svg { width: 18px; height: 18px; }
 
-.ptm-table__actions a:hover,
-.ptm-table__actions button:hover {
-    color: var(--color-cerulean);
+.ptm-table__empty {
+  text-align: center;
+  padding: 48px 16px;
+  white-space: normal;
+}
+.ptm-table__empty > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.ptm-table__empty strong {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+.ptm-table__empty span {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-neutral-500);
 }
 
-.ptm-table__actions svg {
-    width: 18px;
-    height: 18px;
-}
-
-
-/* Pagination
-   ========================================================================== */
-
+/* Pagination ------------------------------------------------------------ */
 .ptm-pagination {
     display: flex;
     align-items: center;
@@ -513,19 +511,9 @@
     gap: 12px;
     padding: 18px 16px 8px;
 }
-
-.ptm-pagination > span {
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    color: var(--color-neutral-500);
-}
-
-.ptm-pagination__buttons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
+.ptm-pagination > span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
+.ptm-pagination__info { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
+.ptm-pagination__buttons { display: flex; align-items: center; gap: 8px; }
 .ptm-pagination__buttons button {
     min-width: 34px;
     height: 34px;
@@ -552,129 +540,165 @@
     color: var(--color-white);
     border-color: var(--color-deep-space-blue);
 }
-
-.ptm-pagination__buttons span {
-    color: var(--color-neutral-500);
-}
+.ptm-pagination__buttons span { color: var(--color-neutral-500); }
 
 
-/* Responsive
+/* ==========================================================================
+   Add / Edit Partner form
    ========================================================================== */
 
-@media (max-width: 1100px) {
-
-    .ptm-filters__row {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .ptm-table {
-        min-width: 1050px;
-    }
+.ptm-alert {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.ptm-alert--error {
+  border-color: #F3B6BC;
+  background: #FDEBEC;
+  color: #9C2B34;
+}
+.ptm-alert strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.ptm-alert ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.ptm-alert li {
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
+.ptm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
+.ptm-form-card {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 12px;
+  padding: 24px 24px 8px;
+}
+
+.ptm-form-card__header {
+  margin-bottom: 20px;
+}
+.ptm-form-card__header h2 {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+}
+.ptm-form-card__header p {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-neutral-500);
+  margin: 0;
+}
+
+.ptm-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 20px;
+  margin-bottom: 16px;
+}
 @media (max-width: 700px) {
-
-    .ptm-page {
-        padding: 24px 16px;
-    }
-
-    .ptm-filters__row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ptm-filters__top {
-        align-items: stretch;
-    }
-
-    .ptm-filters__search {
-        flex-basis: 100%;
-    }
-
-    .ptm-filters__reset {
-        margin-left: 0;
-    }
-
-    .ptm-toolbar {
-        align-items: flex-start;
-    }
-
-    .ptm-toolbar__right {
-        width: 100%;
-        justify-content: space-between;
-    }
+  .ptm-form-grid { grid-template-columns: 1fr; }
 }
 
-
-@media (max-width: 480px) {
-
-    .ptm-filters__row {
-        grid-template-columns: 1fr;
-    }
-
-    .ptm-page__head {
-        flex-direction: column;
-    }
-
-    .ptm-page__btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .ptm-toolbar__right {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .ptm-toolbar__sort {
-        justify-content: space-between;
-    }
-
-    .ptm-toolbar__view {
-        width: 100%;
-    }
-
-    .ptm-toolbar__view button {
-        flex: 1;
-        justify-content: center;
-    }
-
-    .ptm-pagination {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+.ptm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ptm-form-field--full {
+  grid-column: 1 / -1;
 }
 
-
-/* RTL
-   ========================================================================== */
-
-[dir="rtl"] .ptm-page {
-    text-align: right;
+.ptm-form-field label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.ptm-form-field label span {
+  color: #C0392B;
+  margin-left: 2px;
 }
 
-[dir="rtl"] .ptm-page__back svg {
-    transform: rotate(180deg);
+.ptm-form-field input[type="text"],
+.ptm-form-field input[type="url"],
+.ptm-form-field input[type="date"],
+.ptm-form-field input[type="file"],
+.ptm-form-field select,
+.ptm-form-field textarea {
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: var(--color-text-primary);
+  background: var(--color-white);
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+.ptm-form-field input:hover,
+.ptm-form-field select:hover,
+.ptm-form-field textarea:hover {
+  border-color: var(--color-neutral-500);
+}
+.ptm-form-field input:focus,
+.ptm-form-field select:focus,
+.ptm-form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-cerulean);
+  box-shadow: 0 0 0 3px rgba(0, 123, 191, 0.15);
 }
 
-[dir="rtl"] .ptm-filters__reset {
-    margin-left: 0;
-    margin-right: auto;
+.ptm-form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 9l6 6 6-6' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 15px;
+  padding-right: 36px;
+  cursor: pointer;
 }
 
-[dir="rtl"] .ptm-table th {
-    text-align: right;
+.ptm-form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: var(--font-body);
 }
 
-[dir="rtl"] .ptm-table td {
-    text-align: right;
+.ptm-form-field input[type="file"] {
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
-[dir="rtl"] .ptm-table__partner,
-[dir="rtl"] .ptm-table__location {
-    flex-direction: row;
+.ptm-form-help {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-neutral-500);
 }
 
-[dir="rtl"] .ptm-toolbar__right {
-    direction: rtl;
+.ptm-form-error {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #C0392B;
+}
+
+.ptm-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 4px 0 20px;
 }

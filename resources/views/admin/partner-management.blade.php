@@ -1,20 +1,16 @@
 @extends('layouts.admin')
 
-@section('title', __('Partner Management'))
+@section('title', 'Partner Management')
 
 @section('content')
+
 <div class="ptm-page">
 
-    {{-- Back --}}
-    <a href="{{ route('admin.partners') }}" class="ptm-page__back">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M15 6l-6 6 6 6"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"/>
+    <a href="{{ route('admin.dashboard') }}" class="ptm-page__back">
+        <svg viewBox="0 0 24 24" fill="none">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        {{ __('Back to Partners') }}
+        Back to Dashboard
     </a>
 
     {{-- Header --}}
@@ -24,79 +20,39 @@
             <p>{{ __('Manage partner institutions, contacts and collaboration status.') }}</p>
         </div>
 
-        <a href="{{ route('admin.partners') }}" class="ptm-page__btn">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 5v14M5 12h14"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"/>
+        <a href="{{ route('admin.partner-management.create') }}" class="ptm-page__btn">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
-            {{ __('Add Partner') }}
+            Add Partner
         </a>
     </div>
 
-    {{-- Filters --}}
-    <section class="ptm-filters">
-
+    {{-- FILTERS --}}
+    <form method="GET" action="{{ route('admin.partner-management') }}" class="ptm-filters">
         <div class="ptm-filters__top">
 
             <div class="ptm-filters__search">
-                <svg viewBox="0 0 24 24" fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
-                    <circle cx="11" cy="11" r="7"
-                            stroke="currentColor"
-                            stroke-width="2"/>
-                    <path d="M21 21l-4.3-4.3"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"/>
+                <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-
-                <input
-                    type="search"
-                    id="partnerSearch"
-                    placeholder="{{ __('Search partners...') }}"
-                    aria-label="{{ __('Search partners') }}"
-                >
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Search partners...">
             </div>
 
-            <button type="button" class="ptm-filters__reset" id="resetPartnerFilters">
-                <svg viewBox="0 0 24 24" fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
-                    <path d="M3 12a9 9 0 1 0 3-6.7"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          stroke-linecap="round"/>
-                    <path d="M3 5v5h5"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
+            <a href="{{ route('admin.partner-management') }}" class="ptm-filters__reset">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 12a9 9 0 1 1 3 6.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M3 8v5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                {{ __('Reset All') }}
-            </button>
+                Reset Filters
+            </a>
 
-            <button type="button" class="ptm-filters__export">
-                <svg viewBox="0 0 24 24" fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
-                    <path d="M12 3v11"
-                          stroke="currentColor"
-                          stroke-width="1.7"
-                          stroke-linecap="round"/>
-                    <path d="M8 10l4 4 4-4"
-                          stroke="currentColor"
-                          stroke-width="1.7"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                    <path d="M5 21h14"
-                          stroke="currentColor"
-                          stroke-width="1.7"
-                          stroke-linecap="round"/>
+            <button type="button" class="ptm-filters__export" onclick="window.print()">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                {{ __('Export') }}
+                Export
             </button>
 
         </div>
@@ -112,163 +68,91 @@
         @endphp
 
         <div class="ptm-filters__row">
+            <label class="ptm-filters__field">
+                <span>Country / Region</span>
+                <select name="country" class="ptm-filters__select">
+                    <option value="">All Countries</option>
+                    @foreach(($countries ?? []) as $country)
+                        <option value="{{ $country }}" @selected(request('country') == $country)>{{ $country }}</option>
+                    @endforeach
+                </select>
+            </label>
 
-            @foreach($filters as $label => $default)
-                <label class="ptm-filters__field">
-                    <span>{{ __($label) }}</span>
+            <label class="ptm-filters__field">
+                <span>Type of Institution</span>
+                <select name="establishmentType" class="ptm-filters__select">
+                    <option value="">All Types</option>
+                    @foreach(($establishmentTypes ?? []) as $type)
+                        <option value="{{ $type }}" @selected(request('establishmentType') == $type)>{{ $type }}</option>
+                    @endforeach
+                </select>
+            </label>
 
-                    <div class="ptm-filters__select">
-                        <span>{{ $default }}</span>
+            <label class="ptm-filters__field">
+                <span>Domain of Cooperation</span>
+                <select name="domain" class="ptm-filters__select">
+                    <option value="">All Domains</option>
+                    @foreach(($domains ?? []) as $domain)
+                        @php
+                            $domainValue = is_object($domain) ? ($domain->areaName ?? '') : $domain;
+                        @endphp
+                        @if($domainValue !== '')
+                            <option value="{{ $domainValue }}" @selected(request('domain') == $domainValue)>{{ $domainValue }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </label>
 
-                        <svg viewBox="0 0 24 24" fill="none"
-                             xmlns="http://www.w3.org/2000/svg"
-                             aria-hidden="true">
-                            <path d="M6 9l6 6 6-6"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </label>
-            @endforeach
+            <label class="ptm-filters__field">
+                <span>Partnership Type</span>
+                <select name="partnershipType" class="ptm-filters__select">
+                    <option value="">All Types</option>
+                    @foreach(($partnershipTypes ?? []) as $type)
+                        <option value="{{ $type }}" @selected(request('partnershipType') == $type)>{{ $type }}</option>
+                    @endforeach
+                </select>
+            </label>
 
+            <label class="ptm-filters__field">
+                <span>Partnership Status</span>
+                <select name="partnershipStatus" class="ptm-filters__select">
+                    <option value="">All Statuses</option>
+                    @foreach(($partnershipStatuses ?? []) as $status)
+                        <option value="{{ $status }}" @selected(request('partnershipStatus') == $status)>{{ ucfirst($status) }}</option>
+                    @endforeach
+                </select>
+            </label>
         </div>
 
-    </section>
+        <div class="ptm-filters__actions">
+            <button type="submit" class="ptm-page__btn">Apply Filters</button>
+        </div>
+    </form>
 
-    {{-- Toolbar --}}
+    {{-- TOOLBAR --}}
     <div class="ptm-toolbar">
-
-        @php
-            $partners = [
-                [
-                    'name' => 'University of Bologna',
-                    'short' => 'UNIBO',
-                    'country' => 'Italy',
-                    'country_code' => 'it',
-                    'type' => 'University',
-                    'programme' => 'Erasmus+',
-                    'project' => 'International Mobility',
-                    'status' => 'Active',
-                ],
-                [
-                    'name' => 'University of Barcelona',
-                    'short' => 'UB',
-                    'country' => 'Spain',
-                    'country_code' => 'es',
-                    'type' => 'University',
-                    'programme' => 'Erasmus+',
-                    'project' => 'Student Exchange',
-                    'status' => 'Active',
-                ],
-                [
-                    'name' => 'University of Porto',
-                    'short' => 'UP',
-                    'country' => 'Portugal',
-                    'country_code' => 'pt',
-                    'type' => 'University',
-                    'programme' => 'Erasmus+',
-                    'project' => 'Academic Cooperation',
-                    'status' => 'Active',
-                ],
-                [
-                    'name' => 'University of Lyon',
-                    'short' => 'UL',
-                    'country' => 'France',
-                    'country_code' => 'fr',
-                    'type' => 'University',
-                    'programme' => 'Horizon Europe',
-                    'project' => 'Research Cooperation',
-                    'status' => 'Pending',
-                ],
-                [
-                    'name' => 'Cairo University',
-                    'short' => 'CU',
-                    'country' => 'Egypt',
-                    'country_code' => 'eg',
-                    'type' => 'University',
-                    'programme' => 'Erasmus+',
-                    'project' => 'International Mobility',
-                    'status' => 'Active',
-                ],
-                [
-                    'name' => 'University of Tunis',
-                    'short' => 'UT',
-                    'country' => 'Tunisia',
-                    'country_code' => 'tn',
-                    'type' => 'University',
-                    'programme' => 'Erasmus+',
-                    'project' => 'Student Exchange',
-                    'status' => 'Pending',
-                ],
-            ];
-        @endphp
-
-        <span class="ptm-toolbar__count">
-            {{ count($partners) }} {{ __('partners') }}
-        </span>
+        <span class="ptm-toolbar__count">{{ $partners->total() ?? $partners->count() }} Partners found</span>
 
         <div class="ptm-toolbar__right">
+            <form method="GET" action="{{ route('admin.partner-management') }}" class="ptm-toolbar__sort">
+                <input type="hidden" name="search" value="{{ request('search') }}">
+                <input type="hidden" name="country" value="{{ request('country') }}">
+                <input type="hidden" name="establishmentType" value="{{ request('establishmentType') }}">
+                <input type="hidden" name="domain" value="{{ request('domain') }}">
+                <input type="hidden" name="partnershipType" value="{{ request('partnershipType') }}">
+                <input type="hidden" name="partnershipStatus" value="{{ request('partnershipStatus') }}">
 
-            <div class="ptm-toolbar__sort">
-                <span>{{ __('Sort by') }}</span>
-
-                <div class="ptm-toolbar__select">
-                    <span>{{ __('Recently added') }}</span>
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg"
-                         aria-hidden="true">
-                        <path d="M6 9l6 6 6-6"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="ptm-toolbar__view">
-
-                <button type="button" class="is-active">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg"
-                         aria-hidden="true">
-                        <path d="M4 5h16M4 12h16M4 19h16"
-                              stroke="currentColor"
-                              stroke-width="1.8"
-                              stroke-linecap="round"/>
-                    </svg>
-                    {{ __('List') }}
-                </button>
-
-                <button type="button">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg"
-                         aria-hidden="true">
-                        <rect x="4" y="4" width="6" height="6"
-                              stroke="currentColor"
-                              stroke-width="1.6"/>
-                        <rect x="14" y="4" width="6" height="6"
-                              stroke="currentColor"
-                              stroke-width="1.6"/>
-                        <rect x="4" y="14" width="6" height="6"
-                              stroke="currentColor"
-                              stroke-width="1.6"/>
-                        <rect x="14" y="14" width="6" height="6"
-                              stroke="currentColor"
-                              stroke-width="1.6"/>
-                    </svg>
-                    {{ __('Grid') }}
-                </button>
-
-            </div>
-
+                <span>Sort by:</span>
+                <select name="sort" class="ptm-toolbar__select" onchange="this.form.submit()">
+                    <option value="name_asc" @selected(request('sort', 'name_asc') === 'name_asc')>Name A-Z</option>
+                    <option value="name_desc" @selected(request('sort') === 'name_desc')>Name Z-A</option>
+                    <option value="status" @selected(request('sort') === 'status')>Status</option>
+                </select>
+            </form>
         </div>
     </div>
 
-    {{-- Table --}}
+    {{-- TABLE --}}
     <div class="ptm-table-wrap">
 
         <table class="ptm-table">
@@ -286,223 +170,118 @@
             </thead>
 
             <tbody>
-
-                @foreach($partners as $index => $partner)
-
-                    <tr class="ptm-partner-row">
-
-                        {{-- Partner --}}
+                @forelse($partners as $partner)
+                    <tr>
                         <td>
                             <div class="ptm-table__partner">
-
-                                <img
-                                    class="ptm-table__logo"
-                                    src="{{ asset('images/erasmus-badge.webp') }}"
-                                    alt=""
-                                >
+                                @if(!empty($partner->logo))
+                                    <img src="{{ asset($partner->logo) }}" alt="{{ $partner->partnerName ?? 'Partner' }}" class="ptm-table__logo">
+                                @else
+                                    <div class="ptm-table__logo ptm-table__logo--placeholder">
+                                        {{ strtoupper(substr($partner->partnerName ?? 'P', 0, 1)) }}
+                                    </div>
+                                @endif
 
                                 <div>
-                                    <strong>{{ $partner['name'] }}</strong>
-                                    <span>{{ $partner['short'] }}</span>
+                                    <strong>{{ $partner->partnerName ?? 'Unnamed Partner' }}</strong>
+                                    <span>{{ $partner->presentation ?? '' }}</span>
                                 </div>
-
                             </div>
                         </td>
 
-                        {{-- Location --}}
                         <td>
                             <div class="ptm-table__location">
-
-                                <img
-                                    class="ptm-table__flag"
-                                    src="https://flagcdn.com/w40/{{ $partner['country_code'] }}.png"
-                                    alt="{{ $partner['country'] }}"
-                                >
-
                                 <div>
-                                    <strong>{{ $partner['country'] }}</strong>
-                                    <span>{{ __('International Partner') }}</span>
+                                    <strong>{{ $partner->countryName ?? 'Unknown country' }}</strong>
+                                    <span>{{ $partner->city ?? '—' }}</span>
                                 </div>
-
                             </div>
                         </td>
 
-                        {{-- Type --}}
+                        <td>{{ $partner->establishmentType ?? '—' }}</td>
+
                         <td>
-                            <span class="ptm-table__tag">
-                                {{ __($partner['type']) }}
-                            </span>
+                            @if(!empty($partner->domains))
+                                @php
+                                    $partnerDomains = is_string($partner->domains) ? explode(',', $partner->domains) : [];
+                                @endphp
+                                @foreach($partnerDomains as $domain)
+                                    <span class="ptm-table__tag">{{ trim($domain) }}</span>
+                                @endforeach
+                            @else
+                                <span>—</span>
+                            @endif
                         </td>
 
-                        {{-- Programme --}}
+                        <td>{{ $partner->partnershipType ?? '—' }}</td>
+
                         <td>
-                            {{ $partner['programme'] }}
+                            @php
+                                $status = $partner->partnershipStatus ?? 'Unknown';
+                                $statusClass = \Illuminate\Support\Str::slug($status);
+                            @endphp
+                            <span class="ptm-table__status ptm-table__status--{{ $statusClass }}">{{ ucfirst($status) }}</span>
                         </td>
 
-                        {{-- Project --}}
-                        <td>
-                            {{ $partner['project'] }}
-                        </td>
-
-                        {{-- Status --}}
-                        <td>
-                            <span class="ptm-table__status
-                                {{ $partner['status'] === 'Active'
-                                    ? 'ptm-table__status--active'
-                                    : 'ptm-table__status--pending' }}">
-                                {{ __($partner['status']) }}
-                            </span>
-                        </td>
-
-                        {{-- Actions --}}
                         <td>
                             <div class="ptm-table__actions">
+                                {{-- VIEW --}}
+                                @if(Route::has('admin.partner-management.show'))
+                                    <a href="{{ route('admin.partner-management.show', $partner->partnerID) }}" aria-label="View partner" title="View">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+                                        </svg>
+                                    </a>
+                                @endif
 
-                                <a
-                                    href="{{ route('admin.partners', ['project' => $index + 1]) }}"
-                                    title="{{ __('View') }}"
-                                    aria-label="{{ __('View') }}"
-                                >
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
-                                              stroke="currentColor"
-                                              stroke-width="1.7"/>
-                                        <circle cx="12" cy="12" r="2.5"
-                                                stroke="currentColor"
-                                                stroke-width="1.7"/>
-                                    </svg>
-                                </a>
-
-                                <a
-                                    href="{{ route('admin.partners', ['project' => $index + 1]) }}"
-                                    title="{{ __('Edit') }}"
-                                    aria-label="{{ __('Edit') }}"
-                                >
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4 20h4l10.5-10.5a2.12 2.12 0 0 0-3-3L5 17v3Z"
-                                              stroke="currentColor"
-                                              stroke-width="1.7"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                        <path d="M14.5 7.5l2 2"
-                                              stroke="currentColor"
-                                              stroke-width="1.7"
-                                              stroke-linecap="round"/>
-                                    </svg>
-                                </a>
-
-                                <button
-                                    type="button"
-                                    title="{{ __('Delete') }}"
-                                    aria-label="{{ __('Delete') }}"
-                                    onclick="return confirm('{{ __('Are you sure you want to delete this partner?') }}')"
-                                >
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4 7h16"
-                                              stroke="currentColor"
-                                              stroke-width="1.7"
-                                              stroke-linecap="round"/>
-                                        <path d="M9 7V4h6v3M7 7l1 13h8l1-13"
-                                              stroke="currentColor"
-                                              stroke-width="1.7"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                    </svg>
-                                </button>
-
+                                {{-- DELETE --}}
+                                @if(Route::has('admin.partner-management.destroy'))
+                                    <form method="POST" action="{{ route('admin.partner-management.destroy', $partner->partnerID) }}" onsubmit="return confirm('Are you sure you want to delete this partner?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" aria-label="Delete partner" title="Delete">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M4 7h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M9 7V4h6v3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                                <path d="M7 7l1 13h8l1-13" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
-
                     </tr>
-
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="7" class="ptm-table__empty">
+                            <div>
+                                <strong>No partners found</strong>
+                                <span>Try changing your filters or add a new partner.</span>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
 
         </table>
 
-        {{-- Pagination --}}
-        <div class="ptm-pagination">
-
-            <span>
-                {{ __('Showing') }} 1–{{ count($partners) }}
-                {{ __('of') }} {{ count($partners) }}
-                {{ __('partners') }}
-            </span>
-
-            <div class="ptm-pagination__buttons">
-
-                <button type="button" disabled aria-label="{{ __('Previous page') }}">
-                    ‹
-                </button>
-
-                <button type="button" class="is-active">
-                    1
-                </button>
-
-                <button type="button">
-                    2
-                </button>
-
-                <button type="button">
-                    3
-                </button>
-
-                <span>…</span>
-
-                <button type="button">
-                    8
-                </button>
-
-                <button type="button" aria-label="{{ __('Next page') }}">
-                    ›
-                </button>
-
+        @if(method_exists($partners, 'links'))
+            <div class="ptm-pagination">
+                <div class="ptm-pagination__info">
+                    Showing {{ $partners->firstItem() ?? 0 }} to {{ $partners->lastItem() ?? 0 }} of {{ $partners->total() }} partners
+                </div>
+                <div class="ptm-pagination__buttons">
+                    {{ $partners->withQueryString()->links() }}
+                </div>
             </div>
-
-        </div>
-
+        @else
+            <div class="ptm-pagination">
+                <span>Showing {{ $partners->count() }} partners</span>
+            </div>
+        @endif
     </div>
 
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const searchInput = document.getElementById('partnerSearch');
-    const resetButton = document.getElementById('resetPartnerFilters');
-
-    if (searchInput) {
-        searchInput.addEventListener('input', function () {
-
-            const query = this.value.toLowerCase().trim();
-            const rows = document.querySelectorAll('.ptm-partner-row');
-
-            rows.forEach(function (row) {
-                const text = row.textContent.toLowerCase();
-
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
-        });
-    }
-
-    if (resetButton) {
-        resetButton.addEventListener('click', function () {
-
-            if (searchInput) {
-                searchInput.value = '';
-            }
-
-            document.querySelectorAll('.ptm-partner-row').forEach(function (row) {
-                row.style.display = '';
-            });
-        });
-    }
-
-});
-</script>
 
 @endsection

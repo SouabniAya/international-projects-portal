@@ -25,14 +25,13 @@
       <a href="{{ route('lang.switch', 'ar') }}" aria-current="{{ app()->getLocale() === 'ar' ? 'true' : 'false' }}">AR</a>
     </div>
 
-    <button type="button" class="admin-header__icon-btn" aria-label="{{ __('Notifications') }}">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 3a5 5 0 0 0-5 5v3.2c0 .6-.2 1.2-.6 1.7L5 15h14l-1.4-2.1a2.8 2.8 0 0 1-.6-1.7V8a5 5 0 0 0-5-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M9.5 18a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      {{-- swap the static badge for @if($unreadNotifications > 0) once Notification is wired up --}}
-      <span class="admin-header__badge"></span>
-    </button>
+    <a href="{{ route('admin.notifications') }}" class="admin-header__icon-btn" aria-label="{{ __('Notifications') }}">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M12 3a5 5 0 0 0-5 5v3.2c0 .6-.2 1.2-.6 1.7L5 15h14l-1.4-2.1a2.8 2.8 0 0 1-.6-1.7V8a5 5 0 0 0-5-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M9.5 18a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>
+  <span class="admin-header__badge"></span>
+</a>
 
     <button type="button" class="admin-header__icon-btn" aria-label="{{ __('Help') }}">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -89,9 +88,10 @@
           {{ __('Settings') }}
         </a>
         <div class="dropdown-menu__divider"></div>
-        <form method="POST" action="{{ url('/logout') }}" data-demo-submit="{{ __('Signed out (demo — connect real auth logout once the backend exists).') }}">
-          @csrf
-          <button type="submit" class="dropdown-menu__item dropdown-menu__item--danger">
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="dropdown-menu__item dropdown-menu__item--danger">
+      
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             {{ __('Sign Out') }}
           </button>

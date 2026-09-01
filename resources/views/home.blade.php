@@ -40,9 +40,7 @@
 
         <div class="diaporama__track">
 
-
-
-            {{-- Slide 3 — School Presentation --}}
+            {{-- Slide — School Presentation (static) --}}
             <div class="diaporama__slide">
 
                 <div
@@ -72,12 +70,13 @@
 
             </div>
 
-            {{-- Slide 1 — News --}}
-            <div class="diaporama__slide is-active">
+            {{-- News slides — dynamic from database --}}
+            @foreach ($newsItems as $i => $item)
+            <div class="diaporama__slide @if($i === 0) is-active @endif">
 
                 <div
                     class="diaporama__image"
-                    style="background-image: url('{{ asset('images/news/agreement.jpg') }}');">
+                    style="background-image: url('{{ $item['image'] ? asset($item['image']) : asset('images/news/default.jpg') }}');">
                 </div>
 
                 <div class="diaporama__content">
@@ -86,52 +85,21 @@
                     </span>
 
                     <h3 class="diaporama__title">
-                        New Agreement Signed with Tech University Munich
+                        {{ $item['title'] }}
                     </h3>
 
                     <p class="diaporama__text">
-                        ESI Algiers expands its European network with a comprehensive
-                        agreement covering student exchange and joint research initiatives.
+                        {{ \Illuminate\Support\Str::limit($item['excerpt'], 160) }}
                     </p>
 
-                    <a href="{{ url('/news/agreement-tu-munich') }}"
+                    <a href="{{ url('/news') }}"
                        class="btn btn--outline btn--sm">
                         {{ __('Read more →') }}
                     </a>
                 </div>
 
             </div>
-
-
-            {{-- Slide 2 — News --}}
-            <div class="diaporama__slide">
-
-                <div
-                    class="diaporama__image"
-                    style="background-image: url('{{ asset('images/news/erasmus.jpg') }}');">
-                </div>
-
-                <div class="diaporama__content">
-                    <span class="card__eyebrow">
-                        {{ __('News') }}
-                    </span>
-
-                    <h3 class="diaporama__title">
-                        Erasmus+ Call for Applications Spring 2025
-                    </h3>
-
-                    <p class="diaporama__text">
-                        The International Relations Office announces the opening
-                        of the new Erasmus+ mobility window for engineering students.
-                    </p>
-
-                    <a href="{{ url('/news/erasmus-spring-2025') }}"
-                       class="btn btn--outline btn--sm">
-                        {{ __('Read more →') }}
-                    </a>
-                </div>
-
-            </div>
+            @endforeach
 
         </div>
 
@@ -287,28 +255,21 @@ document.addEventListener('DOMContentLoaded', function () {
             <a href="{{ url('/news') }}" class="btn btn--outline btn--sm">View all →</a>
         </div>
         <div class="card-grid card-grid--2col">
-            <a href="{{ url('/news/agreement-tu-munich') }}" class="card__link">
+            @forelse ($newsItems->take(2) as $item)
+            <a href="{{ url('/news') }}" class="card__link">
                 <div class="card">
                     <div class="card__image" style="background:linear-gradient(135deg, var(--color-cerulean), var(--color-deep-space-blue));"></div>
                     <div class="card__body">
-                        <span class="card__eyebrow">Agreement</span>
-                        <h3 class="card__title">New Agreement Signed with Tech University Munich</h3>
-                        <p class="card__text">ESI Algiers expands its European network with a comprehensive agreement covering student exchange and joint research initiatives.</p>
-                        <div class="card__meta">October 12, 2024</div>
+                        <span class="card__eyebrow">{{ __('News') }}</span>
+                        <h3 class="card__title">{{ $item['title'] }}</h3>
+                        <p class="card__text">{{ \Illuminate\Support\Str::limit($item['excerpt'], 150) }}</p>
+                        <div class="card__meta">{{ $item['date'] }}</div>
                     </div>
                 </div>
             </a>
-            <a href="{{ url('/news/erasmus-spring-2025') }}" class="card__link">
-                <div class="card">
-                    <div class="card__image" style="background:linear-gradient(135deg, var(--color-fresh-sky), var(--color-cerulean));"></div>
-                    <div class="card__body">
-                        <span class="card__eyebrow">Mobility</span>
-                        <h3 class="card__title">Erasmus+ Call for Applications Spring 2025</h3>
-                        <p class="card__text">The International Relations Office announces the opening of the new Erasmus+ mobility window for engineering students.</p>
-                        <div class="card__meta">October 05, 2024</div>
-                    </div>
-                </div>
-            </a>
+            @empty
+            <p style="color:var(--color-neutral-500); font-family:var(--font-body);">{{ __('No news at the moment.') }}</p>
+            @endforelse
         </div>
     </div>
 
@@ -317,36 +278,20 @@ document.addEventListener('DOMContentLoaded', function () {
             <h2>Upcoming Events</h2>
             <a href="{{ url('/events') }}" class="btn btn--outline btn--sm">View all →</a>
         </div>
-        <a href="{{ url('/events/horizon-europe-info-session') }}" class="event-row" style="text-decoration:none; color:inherit;">
-            <div class="event-row__date"><div class="event-row__day">15</div><div class="event-row__month">NOV</div></div>
+        @forelse ($eventItems as $item)
+        <a href="{{ url('/events') }}" class="event-row" style="text-decoration:none; color:inherit;">
+            <div class="event-row__date"><div class="event-row__day">{{ $item['day'] }}</div><div class="event-row__month">{{ $item['month'] }}</div></div>
             <div>
-                <p class="event-row__title">Horizon Europe Info Session</p>
+                <p class="event-row__title">{{ $item['title'] }}</p>
                 <span class="event-row__location">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/></svg>
-                    Amphitheater A
+                    {{ $item['location'] }}
                 </span>
             </div>
         </a>
-        <a href="{{ url('/events/international-student-welcome-day') }}" class="event-row" style="text-decoration:none; color:inherit;">
-            <div class="event-row__date"><div class="event-row__day">22</div><div class="event-row__month">NOV</div></div>
-            <div>
-                <p class="event-row__title">International Student Welcome Day</p>
-                <span class="event-row__location">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/></svg>
-                    Main Auditorium
-                </span>
-            </div>
-        </a>
-        <a href="{{ url('/events/partner-delegation-visit-insa-lyon') }}" class="event-row" style="text-decoration:none; color:inherit;">
-            <div class="event-row__date"><div class="event-row__day">29</div><div class="event-row__month">NOV</div></div>
-            <div>
-                <p class="event-row__title">Partner Delegation Visit — INSA Lyon</p>
-                <span class="event-row__location">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/></svg>
-                    Meeting Room 3
-                </span>
-            </div>
-        </a>
+        @empty
+        <p style="color:var(--color-neutral-500); font-family:var(--font-body);">{{ __('No upcoming events.') }}</p>
+        @endforelse
     </div>
 </section>
 
