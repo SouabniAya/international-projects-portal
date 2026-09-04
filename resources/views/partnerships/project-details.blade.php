@@ -62,7 +62,7 @@
                 <div class="project-info-item"><span class="project-info-item__label">{{ __('Coordinator') }}</span><strong>{{ $project['coordinator'] }}</strong></div>
                 <div class="project-info-item"><span class="project-info-item__label">{{ __('Country') }}</span><strong>{{ $project['countries'] }}</strong></div>
                 <div class="project-info-item"><span class="project-info-item__label">{{ __('Partners') }}</span><strong>{{ $project['partners'] }}</strong></div>
-                <div class="project-info-item"><span class="project-info-item__label">{{ __('Estimated Budget') }}</span><strong>{{ $project['budget'] }}</strong></div>
+                
             </div>
             @if($project['website'])<a href="{{ $project['website'] }}" target="_blank" rel="noopener" class="btn btn--primary" style="width:100%;margin-top:16px;">{{ __('Official project website') }} ↗</a>@endif
         </aside>

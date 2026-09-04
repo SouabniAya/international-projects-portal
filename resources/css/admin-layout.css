@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden; /* safety net: no child can ever push the whole page sideways */
 }
 .admin-layout__body {
   display: flex;
@@ -14,12 +15,19 @@
 }
 .admin-layout__content {
   flex: 1;
+  min-width: 0;   /* critical fix: without this, a wide child (e.g. a table) stretches
+                     this column past its share, pushing the sidebar out of view */
   padding: 32px;
   background: var(--color-neutral-50);
+  overflow-x: auto; /* if a page's content is still too wide, it scrolls here,
+                        not the whole layout */
 }
 
 @media (max-width: 900px) {
   .admin-layout__body {
     flex-direction: column;
+  }
+  .admin-layout__content {
+    min-width: 100%;
   }
 }

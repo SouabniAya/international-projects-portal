@@ -167,46 +167,44 @@ class ProjectController extends Controller
     ));
 }
 
-    public function show(int $id): View
-    {
-        $locale = app()->getLocale();
+  public function show(int $id): View
+{
+    $locale = app()->getLocale();
 
-        $project = Project::published()->with([
-            'translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
-            'fundingProgramme.translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
-            'country.translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
-            'partners.translations',
-            'documents',
-        ])->findOrFail($id);
+    $project = Project::published()->with([
+        'translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
+        'fundingProgramme.translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
+        'country.translations' => fn ($q) => $q->whereIn('languageCode', [$locale, 'en']),
+        'partners.translations',
+        'documents',
+    ])->findOrFail($id);
 
-        $translation = $project->translation($locale);
-        $programme = $project->fundingProgramme?->translation($locale);
-        $country = $project->country?->translation($locale);
+    $translation = $project->translation($locale);
+    $programme = $project->fundingProgramme?->translation($locale);
+    $country = $project->country?->translation($locale);
 
-        $objectives = collect(preg_split('/\r\n|\r|\n/', (string) ($translation?->objectives ?? '')))
-            ->map(fn ($item) => trim($item))
-            ->filter()
-            ->values()
-            ->all();
+    $objectives = collect(preg_split('/\r\n|\r|\n/', (string) ($translation?->objectives ?? '')))
+        ->map(fn ($item) => trim($item))
+        ->filter()
+        ->values()
+        ->all();
 
-        return view('partnerships.project-details', [
-            'project' => [
-                'id' => $project->projectID,
-                'title' => $translation?->title ?? $project->acronym ?? __('Untitled project'),
-                'desc' => $translation?->abstract ?? '',
-                'overview' => $translation?->abstract ?? '',
-                'objectives' => $objectives,
-                'programme' => $programme?->programName ?? __('Unclassified'),
-                'status' => $project->status_label,
-                'thematic_area' => null,
-                'duration' => ($project->startDate?->format('Y') ?? '—') . ' – ' . ($project->endDate?->format('Y') ?? '—'),
-                'coordinator' => $project->coordinator,
-                'countries' => $country?->countryName ?? $project->countryCode,
-                'partners' => $project->partners->count(),
-                'budget' => $project->budget !== null ? '€' . number_format((float) $project->budget, 0, ',', ',') : '—',
-                'website' => $project->website,
-                'project' => $project,
-            ],
-        ]);
-    }
+    return view('partnerships.project-details', [
+        'project' => [
+            'id' => $project->projectID,
+            'title' => $translation?->title ?? $project->acronym ?? __('Untitled project'),
+            'desc' => $translation?->abstract ?? '',
+            'overview' => $translation?->abstract ?? '',
+            'objectives' => $objectives,
+            'programme' => $programme?->programName ?? __('Unclassified'),
+            'status' => $project->status_label,
+            'duration' => ($project->startDate?->format('Y') ?? '—') . ' – ' . ($project->endDate?->format('Y') ?? '—'),
+            'coordinator' => $project->coordinator,
+            'countries' => $country?->countryName ?? $project->countryCode,
+            'partners' => $project->partners->count(),
+            'website' => $project->website,
+            'project' => $project,
+        ],
+    ]);
+}
 }

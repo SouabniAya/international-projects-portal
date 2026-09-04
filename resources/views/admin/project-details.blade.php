@@ -152,7 +152,7 @@
                 <span>{{ __('Status') }}</span>
 
                 <strong class="project-summary__status">
-                    {{ $project->status_label }}
+                    {{ __($project->status_label) }}
                 </strong>
 
             </div>
@@ -347,15 +347,6 @@
                     {{ __('Call Information') }}
                 </h3>
 
-                {{--
-                    Only rows backed by a real Project column/relation are
-                    shown. Pillar / Cluster / Destination / EU Funding Rate /
-                    Consortium / Type of Action have no equivalent anywhere
-                    on Project (they read as Call-for-Proposal metadata, not
-                    project metadata) — rather than show fabricated values,
-                    they're omitted. Let me know if you'd rather these live
-                    on the related Call/Agreement instead of here.
-                --}}
                 @php
                 $callInfo = collect([
                     ['label' => 'Programme', 'value' => $project->fundingProgramme?->translation()?->programName],
@@ -387,13 +378,6 @@
                         {{ __('No call information recorded for this project yet.') }}
                     </p>
                     @endforelse
-
-                    {{--
-                        The original static "Reference" and "Keywords" rows
-                        that lived here have been removed: Reference is
-                        already included in the $callInfo loop above, and
-                        Keywords has no backing column anywhere in the schema.
-                    --}}
 
                 </dl>
 
@@ -449,13 +433,6 @@
                     {{ __('At a Glance') }}
                 </h3>
 
-                {{--
-                    "Projects to be funded", "EU Contribution per project",
-                    "Funding Rate" and "TRLs" are Call-level aggregate
-                    concepts, not attributes of a single Project — they
-                    don't make sense here even if the schema had them.
-                    Only Budget and Geographical Scope map to real columns.
-                --}}
                 @php
                 $glance = collect([
                     ['label' => 'Budget', 'value' => $project->budget !== null ? '€' . number_format((float) $project->budget, 0, ',', ',') : null],
@@ -496,4 +473,3 @@
 
 </div>
 @endsection
-</div>

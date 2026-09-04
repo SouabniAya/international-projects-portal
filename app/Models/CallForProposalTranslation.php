@@ -8,21 +8,49 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CallForProposalTranslation extends Model
 {
     protected $table = 'CallForProposalTranslation';
+
     protected $primaryKey = 'translationID';
+
     public $timestamps = false;
 
+
+    // ------------------------------------------------------------
+    // Mass assignable fields
+    // ------------------------------------------------------------
+
     protected $fillable = [
-        'proposalID', 'languageCode', 'title', 'description',
-        'objectives', 'eligibleBeneficiaries',
+        'proposalID',
+        'languageCode',
+        'title',
+        'description',
+        'objectives',
+        'eligibleBeneficiaries',
+        'financingOrganism',
+        'actionType',
+        'fundingType',
     ];
+
+
+    // ------------------------------------------------------------
+    // Relationships
+    // ------------------------------------------------------------
 
     public function call(): BelongsTo
     {
-        return $this->belongsTo(CallForProposal::class, 'proposalID', 'proposalID');
+        return $this->belongsTo(
+            CallForProposal::class,
+            'proposalID',
+            'proposalID'
+        );
     }
+
 
     public function language(): BelongsTo
     {
-        return $this->belongsTo(Language::class, 'languageCode', 'languageCode');
+        return $this->belongsTo(
+            Language::class,
+            'languageCode',
+            'languageCode'
+        );
     }
 }

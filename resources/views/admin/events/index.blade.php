@@ -6,10 +6,10 @@
 @section('content')
 <div class="section__header section__header--row" style="margin-bottom:18px;">
     <div>
-        <h2 style="margin:0;">Events Management</h2>
-        <p style="margin:4px 0 0;">Manage published, scheduled, and draft international events.</p>
+        <h2 style="margin:0;">{{ __('Events Management') }}</h2>
+        <p style="margin:4px 0 0;">{{ __('Manage published, scheduled, and draft international events.') }}</p>
     </div>
-    <a href="{{ route('admin.events.create') }}" class="btn btn--primary btn--sm">+ New Event</a>
+    <a href="{{ route('admin.events.create') }}" class="btn btn--primary btn--sm">+ {{ __('New Event') }}</a>
 </div>
 
 @if(session('success'))
@@ -22,9 +22,9 @@
             <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
             <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <input type="search" name="search" value="{{ request('search') }}" placeholder="Search title, type or location...">
+        <input type="search" name="search" value="{{ request('search') }}" placeholder="{{ __('Search title, type or location...') }}">
     </div>
-    <button type="submit" class="btn btn--secondary btn--sm">Apply</button>
+    <button type="submit" class="btn btn--secondary btn--sm">{{ __('Apply') }}</button>
 </form>
 
 <div class="card">
@@ -32,31 +32,31 @@
         <table class="data-table" style="width:100%;">
             <thead>
                 <tr>
-                    <th>Event</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>{{ __('Event') }}</th>
+                    <th>{{ __('Type') }}</th>
+                    <th>{{ __('Date') }}</th>
+                    <th>{{ __('Location') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
             @forelse($events as $event)
-                @php($title = $event->translation(app()->getLocale())?->title ?? $event->translation('en')?->title ?? 'Untitled event')
+                @php($title = $event->translation(app()->getLocale())?->title ?? $event->translation('en')?->title ?? __('Untitled event'))
                 <tr>
                     <td><strong>{{ $title }}</strong></td>
-                    <td>{{ $event->eventType ?: '—' }}</td>
+                    <td>{{ $event->eventType ? __($event->eventType) : '—' }}</td>
                     <td>{{ $event->startDate?->format('d M Y H:i') ?: '—' }}</td>
                     <td>{{ $event->location ?: '—' }}</td>
-                    <td>{{ ucfirst($event->publicationStatus) }}</td>
+                    <td>{{ __(ucfirst($event->publicationStatus)) }}</td>
                     <td style="white-space:nowrap;">
-                        <a href="{{ route('admin.events.show', $event->eventID) }}" class="btn btn--outline btn--sm">View</a>
-                        <a href="{{ route('admin.events.edit', $event->eventID) }}" class="btn btn--outline btn--sm">Edit</a>
+                        <a href="{{ route('admin.events.show', $event->eventID) }}" class="btn btn--outline btn--sm">{{ __('View') }}</a>
+                        <a href="{{ route('admin.events.edit', $event->eventID) }}" class="btn btn--outline btn--sm">{{ __('Edit') }}</a>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="padding:30px; text-align:center; color:var(--color-neutral-500);">No events found.</td>
+                    <td colspan="6" style="padding:30px; text-align:center; color:var(--color-neutral-500);">{{ __('No events found.') }}</td>
                 </tr>
             @endforelse
             </tbody>

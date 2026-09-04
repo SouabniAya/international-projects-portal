@@ -6,10 +6,10 @@
 @section('content')
 <div class="section__header section__header--row" style="margin-bottom:18px;">
     <div>
-        <h2 style="margin:0;">News Management</h2>
-        <p style="margin:4px 0 0;">Review and manage public news articles.</p>
+        <h2 style="margin:0;">{{ __('News Management') }}</h2>
+        <p style="margin:4px 0 0;">{{ __('Review and manage public news articles.') }}</p>
     </div>
-    <a href="{{ route('admin.news.create') }}" class="btn btn--primary btn--sm">+ New News</a>
+    <a href="{{ route('admin.news.create') }}" class="btn btn--primary btn--sm">+ {{ __('New News') }}</a>
 </div>
 
 @if(session('success'))
@@ -22,9 +22,9 @@
             <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
             <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <input type="search" name="search" value="{{ request('search') }}" placeholder="Search title or content...">
+        <input type="search" name="search" value="{{ request('search') }}" placeholder="{{ __('Search title or content...') }}">
     </div>
-    <button type="submit" class="btn btn--secondary btn--sm">Apply</button>
+    <button type="submit" class="btn btn--secondary btn--sm">{{ __('Apply') }}</button>
 </form>
 
 <div class="card">
@@ -32,32 +32,32 @@
         <table class="data-table" style="width:100%;">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>{{ __('Title') }}</th>
+                    <th>{{ __('Date') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($news as $item)
                     @php($translation = $item->translation(app()->getLocale()) ?? $item->translation('en') ?? $item->translations->first())
                     <tr>
-                        <td><strong>{{ $translation?->title ?? 'Untitled news' }}</strong></td>
+                        <td><strong>{{ $translation?->title ?? __('Untitled news') }}</strong></td>
                         <td>{{ $item->publicationDate?->format('d M Y') ?? '—' }}</td>
-                        <td>{{ ucfirst($item->publicationStatus) }}</td>
+                        <td>{{ __(ucfirst($item->publicationStatus)) }}</td>
                         <td style="white-space:nowrap;">
-                            <a href="{{ route('admin.news.show', $item->newsID) }}" class="btn btn--outline btn--sm">View</a>
-                            <a href="{{ route('admin.news.edit', $item->newsID) }}" class="btn btn--outline btn--sm">Edit</a>
-                            <form action="{{ route('admin.news.destroy', $item->newsID) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this news item?');">
+                            <a href="{{ route('admin.news.show', $item->newsID) }}" class="btn btn--outline btn--sm">{{ __('View') }}</a>
+                            <a href="{{ route('admin.news.edit', $item->newsID) }}" class="btn btn--outline btn--sm">{{ __('Edit') }}</a>
+                            <form action="{{ route('admin.news.destroy', $item->newsID) }}" method="POST" style="display:inline;" data-confirm-form>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn--ghost btn--sm">Delete</button>
+                                <button type="submit" class="btn btn--ghost btn--sm" data-confirm="{{ __('Delete this news item?') }}">{{ __('Delete') }}</button>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" style="padding:30px; text-align:center; color:var(--color-neutral-500);">No news found.</td>
+                        <td colspan="4" style="padding:30px; text-align:center; color:var(--color-neutral-500);">{{ __('No news found.') }}</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -68,4 +68,16 @@
 @if($news->hasPages())
     <div style="margin-top:18px;">{{ $news->links() }}</div>
 @endif
+
+<script>
+document.querySelectorAll('form[data-confirm-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+        var btn = form.querySelector('[data-confirm]');
+        var message = btn ? btn.getAttribute('data-confirm') : 'Are you sure?';
+        if (!confirm(message)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
 @endsection

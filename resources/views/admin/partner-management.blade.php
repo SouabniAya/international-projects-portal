@@ -10,10 +10,9 @@
         <svg viewBox="0 0 24 24" fill="none">
             <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Back to Dashboard
+        {{ __('Back to Dashboard') }}
     </a>
 
-    {{-- Header --}}
     <div class="ptm-page__head">
         <div>
             <h1>{{ __('Partner Management') }}</h1>
@@ -24,11 +23,10 @@
             <svg viewBox="0 0 24 24" fill="none">
                 <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
-            Add Partner
+            {{ __('Add Partner') }}
         </a>
     </div>
 
-    {{-- FILTERS --}}
     <form method="GET" action="{{ route('admin.partner-management') }}" class="ptm-filters">
         <div class="ptm-filters__top">
 
@@ -37,7 +35,7 @@
                     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
                     <path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                <input type="search" name="search" value="{{ request('search') }}" placeholder="Search partners...">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="{{ __('Search partners...') }}">
             </div>
 
             <a href="{{ route('admin.partner-management') }}" class="ptm-filters__reset">
@@ -45,33 +43,23 @@
                     <path d="M3 12a9 9 0 1 1 3 6.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
                     <path d="M3 8v5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Reset Filters
+                {{ __('Reset Filters') }}
             </a>
 
             <button type="button" class="ptm-filters__export" onclick="window.print()">
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Export
+                {{ __('Export') }}
             </button>
 
         </div>
 
-        @php
-            $filters = [
-                'Country' => __('All countries'),
-                'Type' => __('All types'),
-                'Status' => __('All statuses'),
-                'Programme' => __('All programmes'),
-                'Project' => __('All projects'),
-            ];
-        @endphp
-
         <div class="ptm-filters__row">
             <label class="ptm-filters__field">
-                <span>Country / Region</span>
+                <span>{{ __('Country / Region') }}</span>
                 <select name="country" class="ptm-filters__select">
-                    <option value="">All Countries</option>
+                    <option value="">{{ __('All Countries') }}</option>
                     @foreach(($countries ?? []) as $country)
                         <option value="{{ $country }}" @selected(request('country') == $country)>{{ $country }}</option>
                     @endforeach
@@ -79,19 +67,19 @@
             </label>
 
             <label class="ptm-filters__field">
-                <span>Type of Institution</span>
+                <span>{{ __('Type of Institution') }}</span>
                 <select name="establishmentType" class="ptm-filters__select">
-                    <option value="">All Types</option>
+                    <option value="">{{ __('All Types') }}</option>
                     @foreach(($establishmentTypes ?? []) as $type)
-                        <option value="{{ $type }}" @selected(request('establishmentType') == $type)>{{ $type }}</option>
+                        <option value="{{ $type }}" @selected(request('establishmentType') == $type)>{{ __($type) }}</option>
                     @endforeach
                 </select>
             </label>
 
             <label class="ptm-filters__field">
-                <span>Domain of Cooperation</span>
+                <span>{{ __('Domain of Cooperation') }}</span>
                 <select name="domain" class="ptm-filters__select">
-                    <option value="">All Domains</option>
+                    <option value="">{{ __('All Domains') }}</option>
                     @foreach(($domains ?? []) as $domain)
                         @php
                             $domainValue = is_object($domain) ? ($domain->areaName ?? '') : $domain;
@@ -104,34 +92,33 @@
             </label>
 
             <label class="ptm-filters__field">
-                <span>Partnership Type</span>
+                <span>{{ __('Partnership Type') }}</span>
                 <select name="partnershipType" class="ptm-filters__select">
-                    <option value="">All Types</option>
+                    <option value="">{{ __('All Types') }}</option>
                     @foreach(($partnershipTypes ?? []) as $type)
-                        <option value="{{ $type }}" @selected(request('partnershipType') == $type)>{{ $type }}</option>
+                        <option value="{{ $type }}" @selected(request('partnershipType') == $type)>{{ __($type) }}</option>
                     @endforeach
                 </select>
             </label>
 
             <label class="ptm-filters__field">
-                <span>Partnership Status</span>
+                <span>{{ __('Partnership Status') }}</span>
                 <select name="partnershipStatus" class="ptm-filters__select">
-                    <option value="">All Statuses</option>
+                    <option value="">{{ __('All Statuses') }}</option>
                     @foreach(($partnershipStatuses ?? []) as $status)
-                        <option value="{{ $status }}" @selected(request('partnershipStatus') == $status)>{{ ucfirst($status) }}</option>
+                        <option value="{{ $status }}" @selected(request('partnershipStatus') == $status)>{{ __(ucfirst($status)) }}</option>
                     @endforeach
                 </select>
             </label>
         </div>
 
         <div class="ptm-filters__actions">
-            <button type="submit" class="ptm-page__btn">Apply Filters</button>
+            <button type="submit" class="ptm-page__btn">{{ __('Apply Filters') }}</button>
         </div>
     </form>
 
-    {{-- TOOLBAR --}}
     <div class="ptm-toolbar">
-        <span class="ptm-toolbar__count">{{ $partners->total() ?? $partners->count() }} Partners found</span>
+        <span class="ptm-toolbar__count">{{ __(':count Partners found', ['count' => $partners->total() ?? $partners->count()]) }}</span>
 
         <div class="ptm-toolbar__right">
             <form method="GET" action="{{ route('admin.partner-management') }}" class="ptm-toolbar__sort">
@@ -142,17 +129,16 @@
                 <input type="hidden" name="partnershipType" value="{{ request('partnershipType') }}">
                 <input type="hidden" name="partnershipStatus" value="{{ request('partnershipStatus') }}">
 
-                <span>Sort by:</span>
+                <span>{{ __('Sort by:') }}</span>
                 <select name="sort" class="ptm-toolbar__select" onchange="this.form.submit()">
-                    <option value="name_asc" @selected(request('sort', 'name_asc') === 'name_asc')>Name A-Z</option>
-                    <option value="name_desc" @selected(request('sort') === 'name_desc')>Name Z-A</option>
-                    <option value="status" @selected(request('sort') === 'status')>Status</option>
+                    <option value="name_asc" @selected(request('sort', 'name_asc') === 'name_asc')>{{ __('Name A-Z') }}</option>
+                    <option value="name_desc" @selected(request('sort') === 'name_desc')>{{ __('Name Z-A') }}</option>
+                    <option value="status" @selected(request('sort') === 'status')>{{ __('Status') }}</option>
                 </select>
             </form>
         </div>
     </div>
 
-    {{-- TABLE --}}
     <div class="ptm-table-wrap">
 
         <table class="ptm-table">
@@ -175,7 +161,7 @@
                         <td>
                             <div class="ptm-table__partner">
                                 @if(!empty($partner->logo))
-                                    <img src="{{ asset($partner->logo) }}" alt="{{ $partner->partnerName ?? 'Partner' }}" class="ptm-table__logo">
+                                    <img src="{{ asset($partner->logo) }}" alt="{{ $partner->partnerName ?? __('Partner') }}" class="ptm-table__logo">
                                 @else
                                     <div class="ptm-table__logo ptm-table__logo--placeholder">
                                         {{ strtoupper(substr($partner->partnerName ?? 'P', 0, 1)) }}
@@ -183,7 +169,7 @@
                                 @endif
 
                                 <div>
-                                    <strong>{{ $partner->partnerName ?? 'Unnamed Partner' }}</strong>
+                                    <strong>{{ $partner->partnerName ?? __('Unnamed Partner') }}</strong>
                                     <span>{{ $partner->presentation ?? '' }}</span>
                                 </div>
                             </div>
@@ -192,13 +178,13 @@
                         <td>
                             <div class="ptm-table__location">
                                 <div>
-                                    <strong>{{ $partner->countryName ?? 'Unknown country' }}</strong>
+                                    <strong>{{ $partner->countryName ?? __('Unknown country') }}</strong>
                                     <span>{{ $partner->city ?? '—' }}</span>
                                 </div>
                             </div>
                         </td>
 
-                        <td>{{ $partner->establishmentType ?? '—' }}</td>
+                        <td>{{ $partner->establishmentType ? __($partner->establishmentType) : '—' }}</td>
 
                         <td>
                             @if(!empty($partner->domains))
@@ -213,21 +199,20 @@
                             @endif
                         </td>
 
-                        <td>{{ $partner->partnershipType ?? '—' }}</td>
+                        <td>{{ $partner->partnershipType ? __($partner->partnershipType) : '—' }}</td>
 
                         <td>
                             @php
                                 $status = $partner->partnershipStatus ?? 'Unknown';
                                 $statusClass = \Illuminate\Support\Str::slug($status);
                             @endphp
-                            <span class="ptm-table__status ptm-table__status--{{ $statusClass }}">{{ ucfirst($status) }}</span>
+                            <span class="ptm-table__status ptm-table__status--{{ $statusClass }}">{{ __(ucfirst($status)) }}</span>
                         </td>
 
                         <td>
                             <div class="ptm-table__actions">
-                                {{-- VIEW --}}
                                 @if(Route::has('admin.partner-management.show'))
-                                    <a href="{{ route('admin.partner-management.show', $partner->partnerID) }}" aria-label="View partner" title="View">
+                                    <a href="{{ route('admin.partner-management.show', $partner->partnerID) }}" aria-label="{{ __('View partner') }}" title="{{ __('View') }}">
                                         <svg viewBox="0 0 24 24" fill="none">
                                             <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7-10.5-7-10.5-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
                                             <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
@@ -235,12 +220,11 @@
                                     </a>
                                 @endif
 
-                                {{-- DELETE --}}
                                 @if(Route::has('admin.partner-management.destroy'))
-                                    <form method="POST" action="{{ route('admin.partner-management.destroy', $partner->partnerID) }}" onsubmit="return confirm('Are you sure you want to delete this partner?');">
+                                    <form method="POST" action="{{ route('admin.partner-management.destroy', $partner->partnerID) }}" data-confirm-form>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" aria-label="Delete partner" title="Delete">
+                                        <button type="submit" aria-label="{{ __('Delete partner') }}" title="{{ __('Delete') }}" data-confirm="{{ __('Are you sure you want to delete this partner?') }}">
                                             <svg viewBox="0 0 24 24" fill="none">
                                                 <path d="M4 7h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M9 7V4h6v3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
@@ -256,8 +240,8 @@
                     <tr>
                         <td colspan="7" class="ptm-table__empty">
                             <div>
-                                <strong>No partners found</strong>
-                                <span>Try changing your filters or add a new partner.</span>
+                                <strong>{{ __('No partners found') }}</strong>
+                                <span>{{ __('Try changing your filters or add a new partner.') }}</span>
                             </div>
                         </td>
                     </tr>
@@ -269,7 +253,7 @@
         @if(method_exists($partners, 'links'))
             <div class="ptm-pagination">
                 <div class="ptm-pagination__info">
-                    Showing {{ $partners->firstItem() ?? 0 }} to {{ $partners->lastItem() ?? 0 }} of {{ $partners->total() }} partners
+                    {{ __('Showing :from to :to of :total partners', ['from' => $partners->firstItem() ?? 0, 'to' => $partners->lastItem() ?? 0, 'total' => $partners->total()]) }}
                 </div>
                 <div class="ptm-pagination__buttons">
                     {{ $partners->withQueryString()->links() }}
@@ -277,11 +261,21 @@
             </div>
         @else
             <div class="ptm-pagination">
-                <span>Showing {{ $partners->count() }} partners</span>
+                <span>{{ __(':count partners shown', ['count' => $partners->count()]) }}</span>
             </div>
         @endif
     </div>
 
 </div>
+
+<script>
+document.querySelectorAll('form[data-confirm-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+        var btn = form.querySelector('[data-confirm]');
+        var message = btn ? btn.getAttribute('data-confirm') : 'Are you sure?';
+        if (!confirm(message)) e.preventDefault();
+    });
+});
+</script>
 
 @endsection

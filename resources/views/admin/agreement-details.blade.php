@@ -7,17 +7,27 @@
     <div class="card p-4 mt-3">
         <h1>{{ $agreement->translation()?->title ?? __('Untitled agreement') }}</h1>
         <p><strong>{{ __('Partner') }}:</strong> {{ $agreement->partner?->partnerName ?? '—' }}</p>
-        <p><strong>{{ __('Type') }}:</strong> {{ $agreement->agreementType ?? '—' }}</p>
-        <p><strong>{{ __('Status') }}:</strong> {{ $agreement->status_label }}</p>
-        <p><strong>{{ __('Signature') }}:</strong> {{ $agreement->signatureDate?->format('M j, Y') ?? '—' }}</p>
-        <p><strong>{{ __('Period') }}:</strong> {{ $agreement->startDate?->format('M j, Y') }} — {{ $agreement->endDate?->format('M j, Y') }}</p>
+        <p><strong>{{ __('Type') }}:</strong> {{ $agreement->agreementType ? __($agreement->agreementType) : '—' }}</p>
+        <p><strong>{{ __('Status') }}:</strong> {{ __($agreement->status_label) }}</p>
+        <p><strong>{{ __('Signature') }}:</strong> {{ $agreement->signatureDate?->translatedFormat('d M Y') ?? '—' }}</p>
+        <p><strong>{{ __('Period') }}:</strong> {{ $agreement->startDate?->translatedFormat('d M Y') }} — {{ $agreement->endDate?->translatedFormat('d M Y') }}</p>
         <div class="mt-3">
             <a class="btn btn-primary" href="{{ route('admin.agreements.edit', $agreement->agreementID) }}">{{ __('Edit') }}</a>
-            <form method="POST" action="{{ route('admin.agreements.destroy', $agreement->agreementID) }}" style="display:inline" onsubmit="return confirm('{{ __('Delete this agreement?') }}')">
+            <form method="POST" action="{{ route('admin.agreements.destroy', $agreement->agreementID) }}" style="display:inline" data-confirm-form>
                 @csrf @method('DELETE')
-                <button class="btn btn-danger" type="submit">{{ __('Delete') }}</button>
+                <button class="btn btn-danger" type="submit" data-confirm="{{ __('Delete this agreement?') }}">{{ __('Delete') }}</button>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('form[data-confirm-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+        var btn = form.querySelector('[data-confirm]');
+        var message = btn ? btn.getAttribute('data-confirm') : 'Are you sure?';
+        if (!confirm(message)) e.preventDefault();
+    });
+});
+</script>
 @endsection

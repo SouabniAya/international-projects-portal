@@ -4,6 +4,15 @@
 
 .pm-page {
   padding: 28px 40px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden; /* prevents this page from blowing out the global layout */
+}
+
+.pm-page *,
+.pm-page *::before,
+.pm-page *::after {
+  box-sizing: border-box;
 }
 
 .pm-page__back {
@@ -17,7 +26,7 @@
   text-decoration: none;
   margin-bottom: 16px;
 }
-.pm-page__back svg { width: 18px; height: 18px; }
+.pm-page__back svg { width: 18px; height: 18px; flex-shrink: 0; }
 
 .pm-page__head {
   display: flex;
@@ -52,8 +61,10 @@
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.pm-page__btn svg { width: 16px; height: 16px; }
+.pm-page__btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
 /* Filters ------------------------------------------------------------ */
 .pm-filters {
@@ -61,6 +72,7 @@
   border-radius: 12px;
   padding: 18px 20px;
   margin-bottom: 20px;
+  max-width: 100%;
 }
 .pm-filters__top {
   display: flex;
@@ -70,6 +82,7 @@
 }
 .pm-filters__search {
   flex: 1 1 240px;
+  min-width: 0; /* lets it shrink below its content width instead of forcing overflow */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -77,8 +90,16 @@
   border-radius: 8px;
   padding: 10px 14px;
 }
-.pm-filters__search svg { width: 16px; height: 16px; color: var(--color-neutral-500); }
-.pm-filters__search input { border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 14px; width: 100%; }
+.pm-filters__search svg { width: 16px; height: 16px; color: var(--color-neutral-500); flex-shrink: 0; }
+.pm-filters__search input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 100%;
+  min-width: 0;
+}
 
 .pm-filters__select {
   display: flex;
@@ -88,9 +109,10 @@
   border-radius: 8px;
   padding: 9px 14px;
   cursor: pointer;
+  flex-shrink: 0;
 }
-.pm-filters__select span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-text-primary); }
-.pm-filters__select svg { width: 14px; height: 14px; color: var(--color-neutral-500); }
+.pm-filters__select span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-text-primary); white-space: nowrap; }
+.pm-filters__select svg { width: 14px; height: 14px; color: var(--color-neutral-500); flex-shrink: 0; }
 
 .pm-filters__reset {
   display: inline-flex;
@@ -105,8 +127,9 @@
   cursor: pointer;
   white-space: nowrap;
   margin-left: auto;
+  flex-shrink: 0;
 }
-.pm-filters__reset svg { width: 15px; height: 15px; }
+.pm-filters__reset svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 .pm-filters__export {
   display: inline-flex;
@@ -121,8 +144,10 @@
   font-weight: 600;
   font-size: 13.5px;
   color: var(--color-text-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.pm-filters__export svg { width: 15px; height: 15px; }
+.pm-filters__export svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 /* Toolbar ------------------------------------------------------------ */
 .pm-toolbar {
@@ -133,41 +158,54 @@
   gap: 16px;
   margin-bottom: 20px;
 }
-.pm-toolbar__count { font-family: var(--font-body); font-weight: 700; font-size: 16px; color: var(--color-text-primary); }
-.pm-toolbar__right { display: flex; align-items: center; gap: 20px; }
+.pm-toolbar__count { font-family: var(--font-body); font-weight: 700; font-size: 16px; color: var(--color-text-primary); white-space: nowrap; }
+.pm-toolbar__right { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .pm-toolbar__sort { display: flex; align-items: center; gap: 10px; }
-.pm-toolbar__sort span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
+.pm-toolbar__sort span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); white-space: nowrap; }
 .pm-toolbar__select {
   display: flex; align-items: center; gap: 8px;
   border: 1px solid var(--color-neutral-300); border-radius: 8px; padding: 8px 12px; cursor: pointer;
 }
-.pm-toolbar__select span { font-family: var(--font-body); font-size: 13.5px; }
-.pm-toolbar__select svg { width: 13px; height: 13px; color: var(--color-neutral-500); }
-.pm-toolbar__view { display: flex; border: 1px solid var(--color-neutral-300); border-radius: 8px; overflow: hidden; }
+.pm-toolbar__select span { font-family: var(--font-body); font-size: 13.5px; white-space: nowrap; }
+.pm-toolbar__select svg { width: 13px; height: 13px; color: var(--color-neutral-500); flex-shrink: 0; }
+.pm-toolbar__view { display: flex; border: 1px solid var(--color-neutral-300); border-radius: 8px; overflow: hidden; flex-shrink: 0; }
 .pm-toolbar__view button {
   display: flex; align-items: center; gap: 6px; border: 0; background: var(--color-white);
   padding: 8px 14px; font-family: var(--font-body); font-size: 13.5px; font-weight: 600; color: var(--color-text-primary); cursor: pointer;
+  white-space: nowrap;
 }
-.pm-toolbar__view svg { width: 15px; height: 15px; }
+.pm-toolbar__view svg { width: 15px; height: 15px; flex-shrink: 0; }
 .pm-toolbar__view button.is-active { background: var(--color-cerulean); color: var(--color-white); }
 
 /* Layout ------------------------------------------------------------ */
 .pm-layout {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) 300px; /* minmax(0, 1fr) stops the table from stretching this column past viewport width */
   gap: 24px;
   align-items: start;
+  max-width: 100%;
 }
-@media (max-width: 1050px) { .pm-layout { grid-template-columns: 1fr; } }
+.pm-layout > * {
+  min-width: 0; /* critical: without this, grid items default to min-width:auto and inherit their content's intrinsic width, blowing out the page */
+}
+@media (max-width: 1050px) {
+  .pm-layout { grid-template-columns: 1fr; }
+}
 
 /* Table ------------------------------------------------------------ */
 .pm-table-wrap {
   border: 1px solid var(--color-neutral-300);
   border-radius: 12px;
   padding: 8px 0;
-  overflow-x: auto;
+  overflow-x: auto; /* scroll happens HERE, inside the bordered box, not on the whole page */
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
-.pm-table { width: 100%; border-collapse: collapse; }
+.pm-table {
+  width: 100%;
+  min-width: 720px; /* forces internal scroll instead of column/page blowout once content needs more room */
+  border-collapse: collapse;
+}
 .pm-table th {
   text-align: left;
   font-family: var(--font-body);
@@ -203,7 +241,7 @@
   object-fit: cover;
   flex-shrink: 0;
 }
-.pm-table__project div { display: flex; flex-direction: column; gap: 2px; }
+.pm-table__project div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .pm-table__project strong { font-weight: 700; font-size: 13.5px; }
 .pm-table__project span { font-size: 11.5px; color: var(--color-neutral-500); }
 
@@ -215,6 +253,7 @@
   border-radius: 6px;
   background: #E8F3FA;
   color: var(--color-cerulean);
+  white-space: nowrap;
 }
 
 .pm-table__status {
@@ -223,6 +262,7 @@
   font-weight: 600;
   padding: 4px 12px;
   border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 .pm-table__status--active { background: #E6F4EA; color: #1E7E34; }
 .pm-table__status--in-progress { background: #E8F3FA; color: var(--color-cerulean); }
@@ -244,7 +284,7 @@
   color: var(--color-text-primary);
   padding: 0;
 }
-.pm-table__actions svg { width: 18px; height: 18px; }
+.pm-table__actions svg { width: 18px; height: 18px; flex-shrink: 0; }
 
 /* Pagination ------------------------------------------------------------ */
 .pm-pagination {
@@ -256,7 +296,7 @@
   padding: 18px 16px 8px;
 }
 .pm-pagination > span { font-family: var(--font-body); font-size: 13.5px; color: var(--color-neutral-500); }
-.pm-pagination__buttons { display: flex; align-items: center; gap: 8px; }
+.pm-pagination__buttons { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .pm-pagination__buttons button {
   min-width: 34px;
   height: 34px;
@@ -279,6 +319,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 0;
 }
 .pm-sidebar__panel {
   border: 1px solid var(--color-neutral-300);
@@ -332,6 +373,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 .pm-sidebar__deadline-meta span {
   font-family: var(--font-body);
@@ -378,6 +420,7 @@
 }
 .pm-sidebar__actions a:hover { color: var(--color-cerulean); }
 .pm-sidebar__actions svg { width: 16px; height: 16px; color: var(--color-neutral-500); flex-shrink: 0; }
+
 /* Fix: native <select> was drawing its own arrow inside .pm-filters__select /
    .pm-toolbar__select on top of the custom SVG chevron already placed next
    to it in the blade — this suppresses the native one so only the custom
@@ -396,4 +439,12 @@
   cursor: pointer;
   flex: 1;
   min-width: 0;
+}
+
+/* Responsive tweaks --------------------------------------------------- */
+@media (max-width: 640px) {
+  .pm-page { padding: 20px 16px; }
+  .pm-filters__top { flex-direction: column; align-items: stretch; }
+  .pm-filters__reset { margin-left: 0; }
+  .pm-toolbar { flex-direction: column; align-items: flex-start; }
 }

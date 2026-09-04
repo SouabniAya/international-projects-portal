@@ -51,4 +51,12 @@ class Partner extends Model
     {
         return $query->where('partnershipStatus', 'active')->where('publicationStatus', 'published');
     }
+    public function translation(?string $locale = null): ?PartnerTranslation
+{
+    $locale ??= app()->getLocale();
+
+    return $this->translations->firstWhere('languageCode', $locale)
+        ?? $this->translations->firstWhere('languageCode', 'en')
+        ?? $this->translations->first();
+}
 }
